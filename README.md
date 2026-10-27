@@ -20,7 +20,7 @@ Mở [`web/index.html`](web/index.html) bằng trình duyệt (một file duy nh
 - **Tổng quan** — số liệu chính, phổ điểm xét tuyển / Môn luận / KTTH, phân vị, ngưỡng Top N, Top 20.
 - **Tra cứu** — tìm theo SBD, mã đăng ký hoặc họ tên (gõ không dấu được); hạng toàn khóa, trong ngành, trong phòng thi; kết quả xét tuyển dự kiến.
 - **Xếp hạng** — lọc theo ngành, chuyên ngành, giới tính, nơi sinh, phòng thi…; sắp xếp mọi cột, tên sắp theo chuẩn tiếng Việt (Tên → Họ → Đệm); tải CSV.
-- **Trúng tuyển (dự kiến)** — mô phỏng theo chỉ tiêu 624 của 14 ngành; chỉnh được điểm sàn, cách xử lý đồng điểm và cách gán chuyên ngành → ngành. *Chỉ mang tính tham khảo, không phải kết quả chính thức.*
+- **Trúng tuyển (dự kiến)** — mô phỏng theo chỉ tiêu 624 của 14 ngành; loại thí sinh bị điểm liệt (có môn dưới 5); chỉnh được cách xử lý đồng điểm và cách gán chuyên ngành → ngành. *Chỉ mang tính tham khảo, không phải kết quả chính thức.*
 - **Chuyên ngành**, **Phân tích**, **Phòng thi** — thống kê chi tiết theo từng nhóm.
 
 Tạo lại trang khi dữ liệu thay đổi:

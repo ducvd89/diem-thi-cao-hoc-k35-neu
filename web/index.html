@@ -320,7 +320,7 @@ footer { color: var(--muted); font-size: 12px; padding: 24px 0; border-top: 1px 
         <select id="rkGender"><option value="">Giới tính</option><option value="1">Nữ</option><option value="0">Nam</option></select>
         <select id="rkPlace"><option value="">Tất cả nơi sinh</option></select>
         <select id="rkRoom"><option value="">Tất cả phòng</option></select>
-        <select id="rkMisc"><option value="">Tất cả</option><option value="prio">Diện ưu tiên</option><option value="full">Có đủ điểm</option><option value="absent">Vắng/thiếu điểm</option></select>
+        <select id="rkMisc"><option value="">Tất cả</option><option value="prio">Diện ưu tiên</option><option value="full">Có đủ điểm</option><option value="absent">Vắng/thiếu điểm</option><option value="liet">Bị điểm liệt</option><option value="noliet">Không bị điểm liệt</option></select>
         <select id="rkMin" title="Điểm XT tối thiểu"><option value="">Điểm XT ≥ …</option></select>
         <button class="btn" id="rkReset" type="button">Xóa lọc</button>
         <button class="btn" id="rkExport" type="button">Tải CSV</button>
@@ -345,14 +345,13 @@ footer { color: var(--muted); font-size: 12px; padding: 24px 0; border-top: 1px 
     <div class="card notice" style="margin-bottom:16px">
       Chỉ tiêu theo thông báo tuyển sinh thạc sĩ K35 đợt 2/2026 của ĐH Kinh tế Quốc dân (tổng 624). Chỉ tiêu tính theo <b>ngành</b>, còn danh sách điểm ghi theo <b>chuyên ngành</b>, nên mỗi chuyên ngành được gán vào một ngành (xem và sửa ở mục “Gán chuyên ngành → ngành” bên dưới).
       Trong mỗi ngành, thí sinh đủ điều kiện được xếp theo điểm xét tuyển từ cao xuống thấp cho đến hết chỉ tiêu.
+      Thí sinh vắng thi hoặc bị <b>điểm liệt</b> (có môn dưới 5 điểm) không được xét tuyển.
       Điểm công bố đã cộng điểm ưu tiên (1 điểm môn cơ bản) và trừ điểm vi phạm quy chế.
     </div>
     <div class="card" style="margin-bottom:16px">
       <h2>Điều kiện xét tuyển</h2>
       <p class="desc">Thay đổi để xem kết quả theo các giả định khác nhau; lựa chọn được lưu trên trình duyệt này</p>
       <div class="filters" style="margin-bottom:0">
-        <label class="t2">Điểm sàn mỗi môn
-          <select id="admFloor"><option value="">Không áp dụng</option><option value="5">≥ 5,0</option><option value="4">≥ 4,0</option><option value="1">≥ 1,0 (không bị điểm liệt)</option></select></label>
         <label class="t2">Đồng điểm ở cuối danh sách
           <select id="admTie"><option value="all">Lấy hết (có thể vượt chỉ tiêu)</option><option value="ktth">Ưu tiên KTTH, rồi Môn luận</option><option value="cut">Không lấy nhóm đồng điểm (không vượt)</option></select></label>
         <label class="t2" title="Điểm công bố đã cộng điểm ưu tiên (1 điểm môn cơ bản); chỉ chọn nếu muốn thử cộng thêm">Cộng thêm cho diện ưu tiên
@@ -485,6 +484,7 @@ function viKey(str) {
 }
 const cmpKey = (a, b) => viColl.compare(a.base, b.base) || (a.tones < b.tones ? -1 : a.tones > b.tones ? 1 : 0) ||
   (a.base < b.base ? -1 : a.base > b.base ? 1 : 0); // cùng chữ khác hoa/thường
+const LIET = 5; // điểm liệt: có môn dưới 5 điểm
 const S = RAW.rows.map(r => {
   const name = r[2].normalize('NFC').trim().replace(/\s+/g, ' ');
   const parts = name.split(' ');
@@ -493,6 +493,7 @@ const S = RAW.rows.map(r => {
     sbd: r[0], mdk: r[1], name, female: r[3], dob: r[4], year: yr ? +yr[1] : NaN,
     place: r[5], major: r[6], room: r[7], mien: r[8], luan: r[9], ktth: r[10], xt: r[11], prio: r[12],
     full: r[10] !== null,
+    liet: r[10] !== null && (r[9] < LIET || r[10] < LIET), // có môn dưới 5 điểm
     ten: parts[parts.length - 1], ho: parts[0], dem: parts.slice(1, -1).join(' '),
     kTen: viKey(parts[parts.length - 1]), kHo: viKey(parts.length > 1 ? parts[0] : ''), kDem: viKey(parts.slice(1, -1).join(' ')),
     key: strip(r[0] + ' ' + r[1] + ' ' + name),
@@ -656,7 +657,7 @@ const DEFAULT_MAP = {
   'Tài chính - Ngân hàng': 'Tài chính - Ngân hàng', 'Kế toán, kiểm toán và phân tích': 'Kế toán', 'Quản trị nhân lực': 'Quản trị nhân lực',
   'Hệ thống thông tin quản lý': 'Hệ thống thông tin quản lý', 'Luật kinh tế': 'Luật kinh tế', 'Quản trị kinh doanh nông nghiệp': 'Kinh tế Nông nghiệp',
 };
-const ADM_DEFAULT = { floor: '5', tie: 'all', bonus: '0' };
+const ADM_DEFAULT = { tie: 'all', bonus: '0' };
 const ADM = { ...ADM_DEFAULT, map: MAJORS.map(m => Math.max(0, NGANH.findIndex(n => n[0] === DEFAULT_MAP[m]))), quota: NGANH.map(n => n[1]) };
 try {
   const sv = JSON.parse(localStorage.getItem('adm-k35') || 'null');
@@ -668,19 +669,18 @@ try {
 } catch (e) {}
 function saveAdm() {
   try {
-    localStorage.setItem('adm-k35', JSON.stringify({ floor: ADM.floor, tie: ADM.tie, bonus: ADM.bonus,
+    localStorage.setItem('adm-k35', JSON.stringify({ tie: ADM.tie, bonus: ADM.bonus,
       map: Object.fromEntries(MAJORS.map((m, i) => [m, NGANH[ADM.map[i]][0]])), quota: Object.fromEntries(NGANH.map((n, i) => [n[0], ADM.quota[i]])) }));
   } catch (e) {}
 }
 let NG = [];
 const admScore = s => s.xt + (s.prio ? +ADM.bonus : 0);
 function predict() {
-  const floor = ADM.floor === '' ? null : +ADM.floor;
   NG = NGANH.map((n, i) => ({ i, name: n[0], q: ADM.quota[i], reg: [], elig: [], adm: [], cutoff: null }));
   for (const s of S) {
     s.ng = ADM.map[s.major]; s.adm = false; s.rNg = null; s.need = null; s.score = admScore(s);
     s.why = !s.full ? 'Vắng/thiếu điểm KTTH'
-      : floor != null && (s.luan < floor || s.ktth < floor) ? `Có môn dưới điểm sàn ${f1(floor)}` : '';
+      : s.liet ? 'Bị điểm liệt (có môn dưới 5 điểm)' : '';
     NG[s.ng].reg.push(s);
     if (!s.why) NG[s.ng].elig.push(s);
   }
@@ -733,6 +733,7 @@ function renderOverview() {
     ['Đạt từ 8 điểm', pct(ge8, P.length), `${fi(ge8)} thí sinh`],
     ['Dưới 5 điểm', pct(lt5, P.length), `${fi(lt5)} thí sinh`],
     ['Nữ / Nam', `${pct(fem, P.length)}`, `${fi(fem)} nữ · ${fi(P.length - fem)} nam`],
+    ['Bị điểm liệt', fi(FULL.filter(s => s.liet).length), `${pct(FULL.filter(s => s.liet).length, FULL.length)} TS đủ điểm có môn dưới 5`],
     ['Diện ưu tiên', fi(prio.length), `${pct(prio.length, P.length)} · điểm XT TB ${f2(mean(prio.map(s => s.xt)))}`],
   ];
   $('#kpis').innerHTML = kp.map(k => `<div class="card kpi"><div class="lbl">${k[0]}</div><div class="val">${k[1]}</div><div class="note">${k[2]}</div></div>`).join('');
@@ -869,7 +870,7 @@ function openProfile(s) {
   CUR = s;
   const G = NG[s.ng];
   const res = s.adm ? ['yes', '✓', 'Dự kiến TRÚNG TUYỂN', `Hạng xét tuyển ${fi(s.rNg)} trong ngành ${esc(G.name)} (chỉ tiêu ${fi(G.q)}) · điểm xét ${f2(s.score)} ≥ điểm chuẩn dự kiến ${f2(G.cutoff)}`]
-    : s.why ? ['inel', '!', 'Không đủ điều kiện xét tuyển', esc(s.why) + ' (theo điều kiện đang chọn ở tab Trúng tuyển)']
+    : s.why ? ['inel', '!', 'Không đủ điều kiện xét tuyển', esc(s.why)]
     : ['no', '✕', 'Dự kiến không trúng tuyển', `Hạng xét tuyển ${fi(s.rNg)} / chỉ tiêu ${fi(G.q)} ngành ${esc(G.name)}` + (s.need != null ? ` · thiếu <b>${f2(s.need)}</b> điểm so với điểm chuẩn dự kiến ${f2(G.cutoff)}` : '')];
   const admCard = `<div class="card" style="margin-top:16px"><h2>Xét tuyển theo chỉ tiêu (dự kiến)</h2><p class="desc">Mô phỏng theo chỉ tiêu ngành và điều kiện đang chọn</p>
     <div class="disclaimer" style="margin-bottom:12px">Kết quả trúng tuyển trên trang này chỉ là <b>dự đoán dựa trên chỉ tiêu</b>, <b>không phải thông báo chính thức</b> của nhà trường. Kết quả chính thức xem tại thông báo của ĐH Kinh tế Quốc dân.</div>
@@ -899,7 +900,7 @@ function openProfile(s) {
       <div class="avatar">${esc(initials)}</div>
       <div style="flex:1;min-width:200px">
         <h2>${esc(s.name)}</h2>
-        <div class="t2">SBD <b>${s.sbd}</b> · Mã ĐK ${s.mdk} ${s.prio ? '<span class="badge acc">Diện ưu tiên</span>' : ''} ${s.full ? '' : '<span class="badge bad">Vắng/thiếu điểm KTTH</span>'}</div>
+        <div class="t2">SBD <b>${s.sbd}</b> · Mã ĐK ${s.mdk} ${s.prio ? '<span class="badge acc">Diện ưu tiên</span>' : ''} ${s.full ? '' : '<span class="badge bad">Vắng/thiếu điểm KTTH</span>'} ${s.liet ? '<span class="badge bad">Điểm liệt</span>' : ''}</div>
       </div>
       <button class="btn" type="button" onclick="navigator.clipboard && navigator.clipboard.writeText(location.href); this.textContent='Đã chép liên kết'">Chép liên kết</button>
     </div>
@@ -961,7 +962,7 @@ function filteredRanking() {
     (v('rkGender') === '' || s.female === +v('rkGender')) &&
     (v('rkPlace') === '' || s.place === +v('rkPlace')) &&
     (v('rkRoom') === '' || s.room === +v('rkRoom')) &&
-    (misc !== 'prio' || s.prio) && (misc !== 'full' || s.full) && (misc !== 'absent' || !s.full) &&
+    (misc !== 'prio' || s.prio) && (misc !== 'full' || s.full) && (misc !== 'absent' || !s.full) && (misc !== 'liet' || s.liet) && (misc !== 'noliet' || (s.full && !s.liet)) &&
     (min === '' || (s.full && s.xt >= +min)));
   // Hạng trong nhóm lọc
   const fr = rows.filter(s => s.full).sort((a, b) => b.xt - a.xt);
@@ -1009,7 +1010,7 @@ function gotoRanking(filters) {
 /* ---------- Trúng tuyển dự kiến ---------- */
 const openNg = new Set();
 function initAdmit() {
-  const ids = { admFloor: 'floor', admTie: 'tie', admBonus: 'bonus' };
+  const ids = { admTie: 'tie', admBonus: 'bonus' };
   for (const [id, k] of Object.entries(ids)) { $('#' + id).value = ADM[k]; $('#' + id).onchange = () => { ADM[k] = $('#' + id).value; admChanged(); }; }
   $('#admReset').onclick = () => {
     Object.assign(ADM, ADM_DEFAULT, { map: MAJORS.map(m => Math.max(0, NGANH.findIndex(n => n[0] === DEFAULT_MAP[m]))), quota: NGANH.map(n => n[1]) });
@@ -1210,7 +1211,7 @@ function renderAnalysis() {
   }, { initial: { col: 1, dir: -1 }, onRow: r => gotoRanking({ rkPlace: r.i }) });
 
   const grp = [
-    ['Tất cả', S], ['Có đủ điểm', FULL], ['Diện ưu tiên', P.filter(s => s.prio)], ['Không ưu tiên', P.filter(s => !s.prio)],
+    ['Tất cả', S], ['Có đủ điểm', FULL], ['Không bị điểm liệt', FULL.filter(s => !s.liet)], ['Bị điểm liệt', FULL.filter(s => s.liet)], ['Diện ưu tiên', P.filter(s => s.prio)], ['Không ưu tiên', P.filter(s => !s.prio)],
     ['Vắng/thiếu điểm KTTH', S.filter(s => !s.full)],
   ];
   $('#groupTable').innerHTML = `<div class="tbl-wrap"><table>${table([
