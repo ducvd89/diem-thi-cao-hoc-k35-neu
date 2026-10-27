@@ -423,9 +423,10 @@ footer { color: var(--muted); font-size: 12px; padding: 24px 0; border-top: 1px 
         <div id="genderCmp"></div>
       </div>
       <div class="card">
-        <h2>Theo tình trạng ngoại ngữ</h2>
-        <p class="desc">Miễn NN so với thí sinh phải thi và đã thi đạt NN (tỷ lệ % trong mỗi nhóm)</p>
-        <div id="nnCmp"></div>
+        <h2>Theo năm sinh</h2>
+        <p class="desc">Số thí sinh theo năm sinh (di chuột để xem điểm TB)</p>
+        <div id="yearChart"></div>
+        <div id="ageTable" style="margin-top:12px"></div>
       </div>
       <div class="card">
         <h2>Tương quan Môn luận × KTTH</h2>
@@ -433,21 +434,15 @@ footer { color: var(--muted); font-size: 12px; padding: 24px 0; border-top: 1px 
         <div id="heat"></div>
       </div>
       <div class="card">
-        <h2>Theo năm sinh</h2>
-        <p class="desc">Số thí sinh theo năm sinh (di chuột để xem điểm TB)</p>
-        <div id="yearChart"></div>
-        <div id="ageTable" style="margin-top:12px"></div>
+        <h2>Nhóm đặc biệt</h2>
+        <p class="desc">So sánh các nhóm thí sinh</p>
+        <div id="groupTable"></div>
       </div>
     </div>
     <div class="card" style="margin-top:16px">
       <h2>Theo nơi sinh</h2>
       <p class="desc">Nhấn tiêu đề cột để sắp xếp · nhấn một dòng để xem danh sách</p>
       <div class="tbl-wrap"><table id="placeTable"></table></div>
-    </div>
-    <div class="card" style="margin-top:16px">
-      <h2>Nhóm đặc biệt</h2>
-      <p class="desc">So sánh các nhóm thí sinh</p>
-      <div id="groupTable"></div>
     </div>
   </section>
 
@@ -729,7 +724,7 @@ function renderOverview() {
   const P = pool();
   const absent = S.length - FULL.length;
   const st = stats(P.map(s => s.xt));
-  const fem = P.filter(s => s.female).length, mien = P.filter(s => s.mien).length;
+  const fem = P.filter(s => s.female).length, prio = P.filter(s => s.prio);
   const ge7 = P.filter(s => s.xt >= 7).length, ge8 = P.filter(s => s.xt >= 8).length, lt5 = P.filter(s => s.xt < 5).length;
   const kp = [
     ['Tổng số thí sinh', fi(S.length), `${fi(FULL.length)} đủ điểm · ${fi(absent)} vắng/thiếu`],
@@ -739,7 +734,7 @@ function renderOverview() {
     ['Đạt từ 8 điểm', pct(ge8, P.length), `${fi(ge8)} thí sinh`],
     ['Dưới 5 điểm', pct(lt5, P.length), `${fi(lt5)} thí sinh`],
     ['Nữ / Nam', `${pct(fem, P.length)}`, `${fi(fem)} nữ · ${fi(P.length - fem)} nam`],
-    ['Miễn ngoại ngữ', pct(mien, P.length), `${fi(mien)} thí sinh · ${fi(P.filter(s => s.prio).length)} diện ưu tiên`],
+    ['Diện ưu tiên', fi(prio.length), `${pct(prio.length, P.length)} · điểm XT TB ${f2(mean(prio.map(s => s.xt)))}`],
   ];
   $('#kpis').innerHTML = kp.map(k => `<div class="card kpi"><div class="lbl">${k[0]}</div><div class="val">${k[1]}</div><div class="note">${k[2]}</div></div>`).join('');
 
@@ -1105,7 +1100,7 @@ function renderAdmit() {
 function majorStats() {
   return MAJORS.map((m, i) => {
     const all = S.filter(s => s.major === i), P = pool(all), st = stats(P.map(s => s.xt));
-    return { i, name: m, total: all.length, full: all.filter(s => s.full).length, female: all.filter(s => s.female).length, mien: all.filter(s => s.mien).length,
+    return { i, name: m, total: all.length, full: all.filter(s => s.full).length, female: all.filter(s => s.female).length,
       ge7: P.filter(s => s.xt >= 7).length, ge8: P.filter(s => s.xt >= 8).length, n: P.length, luan: mean(P.map(s => s.luan)), ktth: mean(all.filter(s => s.full).map(s => s.ktth)), ...st };
   });
 }
@@ -1144,7 +1139,6 @@ function renderMajors() {
     { h: 'Số TS', num: 1, v: m => fi(m.total), sort: byNum(m => m.total), defDir: -1 },
     { h: 'Đủ điểm', num: 1, v: m => fi(m.full), sort: byNum(m => m.full), defDir: -1 },
     { h: 'Nữ', num: 1, cls: 'hide-sm', v: m => pct(m.female, m.total), sort: byNum(m => m.female / m.total), defDir: -1 },
-    { h: 'Miễn NN', num: 1, cls: 'hide-sm', v: m => pct(m.mien, m.total), sort: byNum(m => m.mien / m.total), defDir: -1 },
     { h: 'TB Luận', num: 1, cls: 'hide-sm', v: m => f2(m.luan), sort: byNum(m => m.luan), defDir: -1 },
     { h: 'TB KTTH', num: 1, cls: 'hide-sm', v: m => f2(m.ktth), sort: byNum(m => m.ktth), defDir: -1 },
     { h: 'TB XT', num: 1, v: m => `<b>${f2(m.mean)}</b>`, sort: byNum(m => m.mean), defDir: -1 },
@@ -1174,7 +1168,6 @@ let drawPlaceTable;
 function renderAnalysis() {
   const P = pool();
   $('#genderCmp').innerHTML = compareGroups([{ name: 'Nữ', color: 'var(--s1)', P: P.filter(s => s.female) }, { name: 'Nam', color: 'var(--s2)', P: P.filter(s => !s.female) }]);
-  $('#nnCmp').innerHTML = compareGroups([{ name: 'Miễn NN', color: 'var(--s1)', P: P.filter(s => s.mien) }, { name: 'Thi đạt NN', color: 'var(--s2)', P: P.filter(s => !s.mien) }]);
 
   // Heatmap: cột = Môn luận, hàng = KTTH (giảm dần)
   const F = FULL;
@@ -1222,7 +1215,7 @@ function renderAnalysis() {
 
   const grp = [
     ['Tất cả', S], ['Có đủ điểm', FULL], ['Diện ưu tiên', P.filter(s => s.prio)], ['Không ưu tiên', P.filter(s => !s.prio)],
-    ['Miễn NN', P.filter(s => s.mien)], ['Thi đạt NN', P.filter(s => !s.mien)], ['Vắng/thiếu điểm KTTH', S.filter(s => !s.full)],
+    ['Vắng/thiếu điểm KTTH', S.filter(s => !s.full)],
   ];
   $('#groupTable').innerHTML = `<div class="tbl-wrap"><table>${table([
     { h: 'Nhóm', v: r => r[0] }, { h: 'Số TS', num: 1, v: r => fi(r[1].length) },
