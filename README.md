@@ -8,3 +8,19 @@ Dữ liệu tổng hợp từ cổng tra cứu [tuyensinhsdh.neu.edu.vn](https:/
 | `ThongKe_CaoHoc_K35.csv` | Thống kê tổng hợp theo điểm, giới tính, ngành |
 
 *Điểm công bố đã cộng điểm ưu tiên (1đ môn cơ bản) và trừ điểm vi phạm quy chế.*
+
+## Trang web thống kê, tra cứu & xếp hạng
+
+Mở [`web/index.html`](web/index.html) bằng trình duyệt (một file duy nhất, chạy không cần mạng). Trang có các tab:
+
+- **Tổng quan** — số liệu chính, phổ điểm xét tuyển / Môn luận / KTTH, phân vị, ngưỡng Top N, Top 20.
+- **Tra cứu** — tìm theo SBD, mã đăng ký hoặc họ tên (gõ không dấu được); hạng toàn khóa, trong ngành, trong phòng thi; kết quả xét tuyển dự kiến.
+- **Xếp hạng** — lọc theo ngành, chuyên ngành, giới tính, nơi sinh, phòng thi…; sắp xếp mọi cột, tên sắp theo chuẩn tiếng Việt (Tên → Họ → Đệm); tải CSV.
+- **Trúng tuyển (dự kiến)** — mô phỏng theo chỉ tiêu 624 của 14 ngành; chỉnh được điểm sàn, cách xử lý đồng điểm và cách gán chuyên ngành → ngành. *Chỉ mang tính tham khảo, không phải kết quả chính thức.*
+- **Chuyên ngành**, **Phân tích**, **Phòng thi** — thống kê chi tiết theo từng nhóm.
+
+Tạo lại trang khi dữ liệu thay đổi:
+
+```bash
+python3 web/build/build.py DiemThi_CaoHoc_K35.csv web/build/template.html web/index.html
+```

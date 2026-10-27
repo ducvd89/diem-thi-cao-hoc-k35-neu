@@ -1,0 +1,1288 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Điểm thi Cao học K35</title>
+<style>
+:root {
+  color-scheme: light;
+  --bg: #f4f3ef;
+  --surface: #fcfcfb;
+  --surface-2: #f0efea;
+  --border: #e2e0d8;
+  --text: #0b0b0b;
+  --text-2: #52514e;
+  --muted: #8a8880;
+  --accent: #2a78d6;
+  --accent-soft: #e3eefb;
+  --s1: #2a78d6;
+  --s2: #eb6834;
+  --grid: #e6e4dc;
+  --good: #1a7f37;
+  --bad: #c62828;
+  --warn: #9a6700;
+  --seq-0: #f0efea;
+  --seq-1: #cde2fb; --seq-2: #9ec5f4; --seq-3: #6da7ec; --seq-4: #3987e5; --seq-5: #256abf; --seq-6: #184f95; --seq-7: #0d366b;
+  --shadow: 0 1px 2px rgba(0,0,0,.05), 0 2px 8px rgba(0,0,0,.04);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #121211; --surface: #1a1a19; --surface-2: #232321; --border: #2f2f2c;
+    --text: #f0efec; --text-2: #c3c2b7; --muted: #8d8c84;
+    --accent: #3987e5; --accent-soft: #1b2d44; --s1: #3987e5; --s2: #d95926; --grid: #2b2b28;
+    --good: #4ac26b; --bad: #f47067; --warn: #d4a72c;
+    --seq-0: #232321; --seq-1: #104281; --seq-2: #184f95; --seq-3: #1c5cab; --seq-4: #256abf; --seq-5: #3987e5; --seq-6: #6da7ec; --seq-7: #b7d3f6;
+    --shadow: none;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #121211; --surface: #1a1a19; --surface-2: #232321; --border: #2f2f2c;
+  --text: #f0efec; --text-2: #c3c2b7; --muted: #8d8c84;
+  --accent: #3987e5; --accent-soft: #1b2d44; --s1: #3987e5; --s2: #d95926; --grid: #2b2b28;
+  --good: #4ac26b; --bad: #f47067; --warn: #d4a72c;
+  --seq-0: #232321; --seq-1: #104281; --seq-2: #184f95; --seq-3: #1c5cab; --seq-4: #256abf; --seq-5: #3987e5; --seq-6: #6da7ec; --seq-7: #b7d3f6;
+  --shadow: none;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--bg); color: var(--text);
+  font: 14px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+a { color: var(--accent); }
+button, input, select { font: inherit; color: inherit; }
+.wrap { max-width: 1240px; margin: 0 auto; padding: 0 16px; }
+header.top { background: var(--surface); border-bottom: 1px solid var(--border); z-index: 20; }
+@media (min-width: 900px) and (min-height: 600px) { header.top { position: sticky; top: 0; } }
+.top-row { display: flex; align-items: center; gap: 12px; padding: 12px 0 6px; flex-wrap: wrap; }
+.top-row h1 { font-size: 18px; margin: 0; letter-spacing: -.01em; }
+.top-row .sub { color: var(--text-2); font-size: 13px; }
+.top-row .spacer { flex: 1; }
+nav.tabs { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; }
+nav.tabs button {
+  border: 0; background: none; padding: 9px 14px; cursor: pointer; color: var(--text-2);
+  border-bottom: 2px solid transparent; white-space: nowrap; font-weight: 500;
+}
+nav.tabs button:hover { color: var(--text); }
+nav.tabs button[aria-selected="true"] { color: var(--accent); border-bottom-color: var(--accent); }
+.btn {
+  border: 1px solid var(--border); background: var(--surface); border-radius: 8px; padding: 6px 12px; cursor: pointer;
+}
+.btn:hover { background: var(--surface-2); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.toggle { display: inline-flex; align-items: center; gap: 6px; color: var(--text-2); font-size: 13px; cursor: pointer; user-select: none; }
+main { padding: 20px 0 48px; }
+section.tab { display: none; }
+section.tab.active { display: block; }
+.grid { display: grid; gap: 16px; }
+.g2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.g3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.kpis { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); margin-bottom: 16px; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; box-shadow: var(--shadow); min-width: 0; }
+.card h2 { font-size: 15px; margin: 0 0 2px; }
+.card .desc { color: var(--text-2); font-size: 12.5px; margin: 0 0 12px; }
+.kpi .lbl { color: var(--text-2); font-size: 12.5px; }
+.kpi .val { font-size: 26px; font-weight: 650; letter-spacing: -.02em; line-height: 1.2; margin-top: 2px; }
+.kpi .note { color: var(--muted); font-size: 12px; }
+.muted { color: var(--muted); }
+.t2 { color: var(--text-2); }
+.num { text-align: right; }
+table { border-collapse: collapse; width: 100%; }
+th, td { padding: 7px 8px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: middle; }
+th { font-weight: 600; font-size: 12.5px; color: var(--text-2); background: var(--surface); position: sticky; top: 0; z-index: 1; white-space: nowrap; }
+th.sortable { cursor: pointer; user-select: none; }
+th.sortable:hover { color: var(--text); }
+th .arr { color: var(--accent); font-size: 10px; margin-left: 3px; }
+tbody tr:hover { background: var(--surface-2); }
+tr.clickable { cursor: pointer; }
+.tbl-wrap { overflow: auto; max-width: 100%; border: 1px solid var(--border); border-radius: 10px; }
+.tbl-wrap table th:first-child, .tbl-wrap table td:first-child { padding-left: 12px; }
+.badge { display: inline-block; font-size: 11.5px; padding: 1px 7px; border-radius: 99px; background: var(--surface-2); color: var(--text-2); white-space: nowrap; border: 1px solid var(--border); }
+.badge.acc { background: var(--accent-soft); color: var(--accent); border-color: transparent; }
+.badge.bad { color: var(--bad); }
+.badge.good { color: var(--good); }
+.medal { display: inline-grid; place-items: center; min-width: 26px; height: 22px; border-radius: 6px; font-weight: 650; padding: 0 5px; }
+.medal.r1 { background: #f5c542; color: #3d2c00; }
+.medal.r2 { background: #cfd4da; color: #24292f; }
+.medal.r3 { background: #e0a370; color: #3b1d00; }
+.filters { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 12px; }
+.filters input[type=search], .filters select {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 6px 10px; min-width: 0;
+}
+.filters input[type=search] { flex: 1 1 220px; }
+.filters select { flex: 0 1 auto; max-width: 260px; }
+.pager { display: flex; gap: 6px; align-items: center; justify-content: space-between; margin-top: 10px; flex-wrap: wrap; }
+.pager .pg { display: flex; gap: 4px; align-items: center; }
+.chart { width: 100%; display: block; }
+.chart text { fill: var(--text-2); font-size: 11px; }
+.chart .ax { stroke: var(--border); }
+.chart .gl { stroke: var(--grid); }
+.chart .bar { fill: var(--s1); }
+.chart .bar:hover, .chart .hit:hover + .bar { opacity: .8; }
+.chart .hl { fill: var(--s2); }
+.legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12.5px; color: var(--text-2); margin-bottom: 8px; }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; }
+.hbars { display: grid; gap: 6px; }
+.hbar { display: grid; grid-template-columns: minmax(90px, 210px) 1fr 70px; gap: 10px; align-items: center; font-size: 13px; }
+.hbar .nm, .box-row .nm { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; line-height: 1.25; color: var(--text-2); }
+.hbar .tr { height: 14px; background: var(--surface-2); border-radius: 4px; position: relative; overflow: hidden; }
+.hbar .fl { position: absolute; inset: 0 auto 0 0; background: var(--s1); border-radius: 0 4px 4px 0; }
+.hbar .v { text-align: right; }
+.inbar { position: relative; height: 8px; background: var(--surface-2); border-radius: 4px; min-width: 60px; }
+.inbar > span { position: absolute; inset: 0 auto 0 0; background: var(--s1); border-radius: 4px; }
+.box-rows { display: grid; gap: 4px; }
+.box-row { display: grid; grid-template-columns: minmax(110px, 260px) 1fr; gap: 12px; align-items: center; font-size: 13px; cursor: pointer; padding: 2px 4px; border-radius: 6px; }
+.box-row:hover { background: var(--surface-2); }
+.box-row .nm b { color: var(--text); font-weight: 500; }
+.box { position: relative; height: 22px; }
+.box .wh { position: absolute; top: 10px; height: 2px; background: var(--muted); }
+.box .bx { position: absolute; top: 4px; height: 14px; background: var(--accent-soft); border: 1.5px solid var(--s1); border-radius: 3px; }
+.box .md { position: absolute; top: 3px; width: 2px; height: 16px; background: var(--s1); }
+.box .mn { position: absolute; top: 7px; width: 8px; height: 8px; margin-left: -4px; border-radius: 50%; background: var(--s2); box-shadow: 0 0 0 2px var(--surface); }
+.box-axis { display: grid; grid-template-columns: minmax(110px, 260px) 1fr; gap: 12px; font-size: 11px; color: var(--muted); padding: 0 4px; }
+.box-axis .ticks { position: relative; height: 16px; }
+.box-axis .ticks span { position: absolute; transform: translateX(-50%); }
+.heat { display: grid; gap: 2px; font-size: 10.5px; }
+.heat .c { aspect-ratio: 1.6; border-radius: 2px; background: var(--seq-0); min-width: 0; }
+.heat .lab { color: var(--muted); display: flex; align-items: center; justify-content: center; }
+.search-big { display: flex; gap: 8px; margin-bottom: 8px; position: relative; }
+.search-big input { flex: 1; font-size: 16px; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface); }
+.search-big input:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+.sugg { position: absolute; top: 100%; left: 0; right: 0; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; margin-top: 4px; box-shadow: 0 8px 24px rgba(0,0,0,.12); z-index: 10; max-height: 380px; overflow: auto; display: none; }
+.sugg.open { display: block; }
+.sugg div { padding: 8px 12px; cursor: pointer; display: flex; gap: 10px; justify-content: space-between; border-bottom: 1px solid var(--border); }
+.sugg div:last-child { border-bottom: 0; }
+.sugg div.on, .sugg div:hover { background: var(--accent-soft); }
+.profile-head { display: flex; gap: 16px; align-items: flex-start; flex-wrap: wrap; }
+.avatar { width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; font-size: 22px; font-weight: 650; background: var(--accent-soft); color: var(--accent); flex: none; }
+.profile-head h2 { font-size: 22px; margin: 0; }
+.info-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px 20px; margin-top: 14px; }
+.info-grid .k { font-size: 12px; color: var(--muted); }
+.score-tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.score-tile { background: var(--surface-2); border-radius: 10px; padding: 12px 14px; }
+.score-tile .val { font-size: 30px; font-weight: 700; letter-spacing: -.02em; }
+.score-tile.main { background: var(--accent-soft); }
+.score-tile.main .val { color: var(--accent); }
+.rank-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; }
+.rank-tile { border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; }
+.rank-tile .val { font-size: 22px; font-weight: 650; }
+.rank-tile .val small { font-size: 13px; color: var(--muted); font-weight: 400; }
+.cmp { display: grid; gap: 8px; }
+.cmp-row { display: grid; grid-template-columns: 130px 1fr 48px; gap: 10px; align-items: center; font-size: 13px; }
+.cmp-row .tr { height: 12px; background: var(--surface-2); border-radius: 4px; position: relative; }
+.cmp-row .fl { position: absolute; inset: 0 auto 0 0; border-radius: 4px; background: var(--muted); opacity: .55; }
+.cmp-row .fl.me { background: var(--s1); opacity: 1; }
+.delta-up { color: var(--good); }
+.delta-down { color: var(--bad); }
+.empty { padding: 40px 16px; text-align: center; color: var(--muted); }
+#tip {
+  position: fixed; pointer-events: none; z-index: 100; background: var(--text); color: var(--surface);
+  padding: 6px 9px; border-radius: 6px; font-size: 12px; line-height: 1.4; max-width: 280px; opacity: 0; transition: opacity .08s;
+}
+#tip.on { opacity: 1; }
+.range-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
+.range-row input[type=range] { flex: 1 1 200px; accent-color: var(--accent); }
+.range-row .big { font-size: 22px; font-weight: 700; color: var(--accent); min-width: 50px; }
+.notice { background: var(--accent-soft); border-color: transparent; line-height: 1.6; }
+.filters label { display: inline-flex; flex-direction: column; gap: 2px; font-size: 12px; }
+details.card > summary { cursor: pointer; }
+.adm-yes { color: var(--good); border-color: currentColor; background: transparent; }
+.adm-no { color: var(--bad); border-color: currentColor; background: transparent; }
+.adm-inel { color: var(--muted); }
+.result-banner { display: flex; gap: 14px; align-items: center; padding: 14px 16px; border-radius: 10px; border: 1px solid var(--border); margin-bottom: 12px; }
+.result-banner .ic { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; color: #fff; flex: none; }
+.result-banner.yes .ic { background: var(--good); }
+.result-banner.no .ic { background: var(--bad); }
+.result-banner.inel .ic { background: var(--muted); }
+.result-banner .big { font-size: 17px; font-weight: 650; }
+tr.sub td { background: var(--surface-2); font-size: 13px; }
+#admTable td:first-child { min-width: 190px; }
+tr.sub td:first-child { padding-left: 28px; }
+footer { color: var(--muted); font-size: 12px; padding: 24px 0; border-top: 1px solid var(--border); }
+.hide-sm {}
+@media (max-width: 900px) {
+  .g2, .g3 { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .hide-sm { display: none; }
+  .score-tiles { grid-template-columns: 1fr 1fr; }
+  .score-tile.main { grid-column: 1 / -1; }
+  .hbar { grid-template-columns: 100px 1fr 56px; }
+  .box-row, .box-axis { grid-template-columns: 100px 1fr; }
+  .cmp-row { grid-template-columns: 96px 1fr 40px; }
+  .kpi .val { font-size: 22px; }
+}
+@media print {
+  header.top { position: static; }
+  nav.tabs, .filters, .pager, #themeBtn { display: none; }
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="top-row">
+      <div>
+        <h1>Kết quả thi Cao học Khóa 35</h1>
+        <div class="sub">Đợt 2/2026 · Điểm xét tuyển = 0,4 × Môn luận + 0,6 × KTTH</div>
+      </div>
+      <div class="spacer"></div>
+      <label class="toggle" title="Thí sinh vắng thi hoặc không có điểm KTTH (---)"><input type="checkbox" id="exclAbsent" checked> Bỏ qua TS vắng/thiếu điểm khi thống kê</label>
+      <button class="btn" id="themeBtn" type="button" aria-label="Đổi giao diện sáng/tối">◐</button>
+    </div>
+    <nav class="tabs" role="tablist">
+      <button role="tab" data-tab="overview" aria-selected="true">Tổng quan</button>
+      <button role="tab" data-tab="lookup">Tra cứu</button>
+      <button role="tab" data-tab="ranking">Xếp hạng</button>
+      <button role="tab" data-tab="admit">Trúng tuyển (dự kiến)</button>
+      <button role="tab" data-tab="majors">Chuyên ngành</button>
+      <button role="tab" data-tab="analysis">Phân tích</button>
+      <button role="tab" data-tab="rooms">Phòng thi</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- TỔNG QUAN -->
+  <section class="tab active" id="tab-overview">
+    <div class="kpis" id="kpis"></div>
+    <div class="grid g2">
+      <div class="card">
+        <h2>Phân bố điểm xét tuyển</h2>
+        <p class="desc">Số thí sinh theo khoảng 0,5 điểm</p>
+        <div id="histXT"></div>
+      </div>
+      <div class="card">
+        <h2>Phổ điểm theo mức</h2>
+        <p class="desc">Tỷ lệ thí sinh theo khoảng điểm xét tuyển</p>
+        <div id="bandTable"></div>
+      </div>
+      <div class="card">
+        <h2>Phổ điểm Môn luận</h2>
+        <p class="desc">Số thí sinh ở từng mức điểm (bước 0,5)</p>
+        <div id="histLuan"></div>
+      </div>
+      <div class="card">
+        <h2>Phổ điểm Kiến thức tổng hợp (KTTH)</h2>
+        <p class="desc">Số thí sinh ở từng mức điểm (bước 0,25)</p>
+        <div id="histKTTH"></div>
+      </div>
+    </div>
+    <div class="grid g2" style="margin-top:16px">
+      <div class="card">
+        <h2>Chỉ số thống kê từng môn</h2>
+        <p class="desc">Tính trên các thí sinh có điểm</p>
+        <div id="statTable"></div>
+      </div>
+      <div class="card">
+        <h2>Ngưỡng điểm & phân vị</h2>
+        <p class="desc">Điểm xét tuyển tối thiểu để lọt vào nhóm đầu</p>
+        <div id="pctTable"></div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <h2>Top 20 thí sinh điểm xét tuyển cao nhất</h2>
+      <p class="desc">Nhấn vào một dòng để xem chi tiết thí sinh</p>
+      <div id="top20"></div>
+    </div>
+  </section>
+
+  <!-- TRA CỨU -->
+  <section class="tab" id="tab-lookup">
+    <div class="card" style="margin-bottom:16px">
+      <h2>Tra cứu điểm thí sinh</h2>
+      <p class="desc">Nhập số báo danh (VD: CH0516), mã đăng ký hoặc họ tên — có thể gõ không dấu</p>
+      <div class="search-big">
+        <input type="search" id="lookupInput" placeholder="Số báo danh, mã đăng ký hoặc họ tên…" autocomplete="off">
+        <div class="sugg" id="sugg"></div>
+      </div>
+    </div>
+    <div id="profile"><div class="card empty">Nhập thông tin để tra cứu. Kết quả gồm điểm từng môn, thứ hạng toàn khóa, trong chuyên ngành, phòng thi và so sánh với mặt bằng chung.</div></div>
+  </section>
+
+  <!-- XẾP HẠNG -->
+  <section class="tab" id="tab-ranking">
+    <div class="card">
+      <h2>Bảng xếp hạng</h2>
+      <p class="desc">Xếp hạng theo điểm xét tuyển, đồng điểm thì đồng hạng. “Hạng lọc” là thứ hạng trong nhóm đang lọc. Nhấn tiêu đề cột để sắp xếp; cột Họ tên sắp theo chuẩn tiếng Việt (Tên → Họ → Đệm).</p>
+      <div class="filters">
+        <input type="search" id="rkSearch" placeholder="Tìm SBD, mã ĐK, họ tên…">
+        <select id="rkNganh"><option value="">Tất cả ngành (chỉ tiêu)</option></select>
+        <select id="rkMajor"><option value="">Tất cả chuyên ngành</option></select>
+        <select id="rkAdm"><option value="">Kết quả dự kiến</option><option value="yes">Trúng tuyển</option><option value="no">Không trúng tuyển</option><option value="inel">Không đủ điều kiện</option></select>
+        <select id="rkGender"><option value="">Giới tính</option><option value="1">Nữ</option><option value="0">Nam</option></select>
+        <select id="rkNN"><option value="">Ngoại ngữ</option><option value="1">Miễn NN</option><option value="0">Thi đạt NN</option></select>
+        <select id="rkPlace"><option value="">Tất cả nơi sinh</option></select>
+        <select id="rkRoom"><option value="">Tất cả phòng</option></select>
+        <select id="rkMisc"><option value="">Tất cả</option><option value="prio">Diện ưu tiên</option><option value="full">Có đủ điểm</option><option value="absent">Vắng/thiếu điểm</option></select>
+        <select id="rkMin" title="Điểm XT tối thiểu"><option value="">Điểm XT ≥ …</option></select>
+        <button class="btn" id="rkReset" type="button">Xóa lọc</button>
+        <button class="btn" id="rkExport" type="button">Tải CSV</button>
+      </div>
+      <div class="t2" id="rkSummary" style="margin-bottom:8px;font-size:13px"></div>
+      <div class="tbl-wrap"><table id="rkTable"></table></div>
+      <div class="pager">
+        <div class="t2" id="rkPageInfo"></div>
+        <div class="pg">
+          <select id="rkPageSize" class="btn"><option>25</option><option selected>50</option><option>100</option><option value="10000">Tất cả</option></select>
+          <button class="btn" id="rkPrev" type="button">‹ Trước</button>
+          <span id="rkPageNo" class="t2"></span>
+          <button class="btn" id="rkNext" type="button">Sau ›</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRÚNG TUYỂN DỰ KIẾN -->
+  <section class="tab" id="tab-admit">
+    <div class="card notice" style="margin-bottom:16px">
+      <b>Đây là kết quả mô phỏng, không phải kết quả chính thức.</b>
+      Chỉ tiêu theo thông báo tuyển sinh thạc sĩ K35 đợt 2/2026 của ĐH Kinh tế Quốc dân (tổng 624). Chỉ tiêu tính theo <b>ngành</b>, còn danh sách điểm ghi theo <b>chuyên ngành</b>, nên mỗi chuyên ngành được gán vào một ngành (xem và sửa ở mục “Gán chuyên ngành → ngành” bên dưới).
+      Trong mỗi ngành, thí sinh đủ điều kiện được xếp theo điểm xét tuyển từ cao xuống thấp cho đến hết chỉ tiêu.
+      Điểm công bố đã cộng điểm ưu tiên (1 điểm môn cơ bản) và trừ điểm vi phạm quy chế.
+    </div>
+    <div class="card" style="margin-bottom:16px">
+      <h2>Điều kiện xét tuyển</h2>
+      <p class="desc">Thay đổi để xem kết quả theo các giả định khác nhau; lựa chọn được lưu trên trình duyệt này</p>
+      <div class="filters" style="margin-bottom:0">
+        <label class="t2">Điểm sàn mỗi môn
+          <select id="admFloor"><option value="">Không áp dụng</option><option value="5">≥ 5,0</option><option value="4">≥ 4,0</option><option value="1">≥ 1,0 (không bị điểm liệt)</option></select></label>
+        <label class="t2">Đồng điểm ở cuối danh sách
+          <select id="admTie"><option value="all">Lấy hết (có thể vượt chỉ tiêu)</option><option value="ktth">Ưu tiên KTTH, rồi Môn luận</option><option value="cut">Không lấy nhóm đồng điểm (không vượt)</option></select></label>
+        <label class="t2" title="Điểm công bố đã cộng điểm ưu tiên (1 điểm môn cơ bản); chỉ chọn nếu muốn thử cộng thêm">Cộng thêm cho diện ưu tiên
+          <select id="admBonus"><option value="0">Không (đã cộng sẵn)</option><option value="0.5">+0,5</option><option value="1">+1,0</option></select></label>
+        <button class="btn" id="admReset" type="button">Khôi phục mặc định</button>
+      </div>
+    </div>
+    <div class="kpis" id="admKpis"></div>
+    <div class="card" style="margin-bottom:16px">
+      <h2>Điểm chuẩn dự kiến theo ngành</h2>
+      <p class="desc">Nhấn một dòng để xem chi tiết từng chuyên ngành; nhấn “Danh sách” để mở bảng xếp hạng của ngành</p>
+      <div class="tbl-wrap"><table id="admTable"></table></div>
+    </div>
+    <div class="grid g2" style="margin-bottom:16px">
+      <div class="card">
+        <h2>Điểm chuẩn dự kiến</h2>
+        <p class="desc">Thang 0–10 · ngành chưa đủ thí sinh để lấp chỉ tiêu thì điểm chuẩn là điểm thấp nhất của thí sinh đủ điều kiện</p>
+        <div id="admCutChart"></div>
+      </div>
+      <div class="card">
+        <h2>Chỉ tiêu và số trúng tuyển dự kiến</h2>
+        <p class="desc">Phần tô màu là số trúng tuyển dự kiến trên tổng chỉ tiêu</p>
+        <div id="admFillChart"></div>
+      </div>
+    </div>
+    <details class="card" id="admMapBox">
+      <summary><b>Gán chuyên ngành → ngành &amp; chỉ tiêu</b> <span class="t2">— sửa nếu cách gán mặc định chưa đúng</span></summary>
+      <div class="grid g2" style="margin-top:12px">
+        <div><div class="tbl-wrap"><table id="admMapTable"></table></div></div>
+        <div><div class="tbl-wrap"><table id="admQuotaTable"></table></div></div>
+      </div>
+    </details>
+  </section>
+
+  <!-- CHUYÊN NGÀNH -->
+  <section class="tab" id="tab-majors">
+    <div class="card" style="margin-bottom:16px">
+      <h2>Phân bố điểm xét tuyển theo chuyên ngành</h2>
+      <p class="desc">Hộp = khoảng tứ phân vị (25%–75%), vạch = trung vị, chấm cam = trung bình, râu = thấp nhất–cao nhất. Nhấn một ngành để mở bảng xếp hạng của ngành.</p>
+      <div class="legend"><span><i style="background:var(--accent-soft);border:1.5px solid var(--s1)"></i>Khoảng 25%–75%</span><span><i style="background:var(--s1);width:3px"></i>Trung vị</span><span><i style="background:var(--s2);border-radius:50%"></i>Trung bình</span></div>
+      <div id="boxplot"></div>
+    </div>
+    <div class="card" style="margin-bottom:16px">
+      <h2>Mô phỏng điểm chuẩn</h2>
+      <p class="desc">Kéo để đặt ngưỡng điểm xét tuyển — xem mỗi ngành có bao nhiêu thí sinh đạt ngưỡng (chỉ mang tính tham khảo, không phải điểm chuẩn chính thức).</p>
+      <div class="range-row">
+        <span class="t2">Ngưỡng</span>
+        <input type="range" id="cutoff" min="0" max="9" step="0.05" value="7">
+        <span class="big" id="cutoffVal">7,00</span>
+        <span class="t2" id="cutoffSum"></span>
+      </div>
+      <div id="cutoffBars"></div>
+    </div>
+    <div class="card">
+      <h2>Bảng thống kê chi tiết theo chuyên ngành</h2>
+      <p class="desc">Nhấn tiêu đề cột để sắp xếp</p>
+      <div class="tbl-wrap"><table id="majorTable"></table></div>
+    </div>
+  </section>
+
+  <!-- PHÂN TÍCH -->
+  <section class="tab" id="tab-analysis">
+    <div class="grid g2">
+      <div class="card">
+        <h2>Theo giới tính</h2>
+        <p class="desc">So sánh phân bố điểm xét tuyển (tỷ lệ % trong mỗi nhóm)</p>
+        <div id="genderCmp"></div>
+      </div>
+      <div class="card">
+        <h2>Theo tình trạng ngoại ngữ</h2>
+        <p class="desc">Miễn NN so với thí sinh phải thi và đã thi đạt NN (tỷ lệ % trong mỗi nhóm)</p>
+        <div id="nnCmp"></div>
+      </div>
+      <div class="card">
+        <h2>Tương quan Môn luận × KTTH</h2>
+        <p class="desc">Mỗi ô là số thí sinh có cùng cặp điểm; màu càng đậm càng nhiều</p>
+        <div id="heat"></div>
+      </div>
+      <div class="card">
+        <h2>Theo năm sinh</h2>
+        <p class="desc">Số thí sinh theo năm sinh (di chuột để xem điểm TB)</p>
+        <div id="yearChart"></div>
+        <div id="ageTable" style="margin-top:12px"></div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <h2>Theo nơi sinh</h2>
+      <p class="desc">Nhấn tiêu đề cột để sắp xếp · nhấn một dòng để xem danh sách</p>
+      <div class="tbl-wrap"><table id="placeTable"></table></div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <h2>Nhóm đặc biệt</h2>
+      <p class="desc">So sánh các nhóm thí sinh</p>
+      <div id="groupTable"></div>
+    </div>
+  </section>
+
+  <!-- PHÒNG THI -->
+  <section class="tab" id="tab-rooms">
+    <div class="card" style="margin-bottom:16px">
+      <h2>Điểm trung bình theo phòng thi</h2>
+      <p class="desc">Di chuột để xem chi tiết · đường ngang là trung bình chung</p>
+      <div id="roomChart"></div>
+    </div>
+    <div class="card">
+      <h2>Bảng thống kê phòng thi</h2>
+      <p class="desc">Nhấn tiêu đề cột để sắp xếp · nhấn một dòng để xem danh sách phòng</p>
+      <div class="tbl-wrap"><table id="roomTable"></table></div>
+    </div>
+  </section>
+</main>
+<footer><div class="wrap">Nguồn: DiemThi_CaoHoc_K35.csv (1.316 thí sinh). Trang chạy hoàn toàn trên máy, không gửi dữ liệu đi đâu.</div></footer>
+<div id="tip"></div>
+
+<script>
+const RAW = {"places":["Thành phố Hà Nội","Tỉnh Nghệ An","Tỉnh Sơn La","Tỉnh Quảng Ninh","Tỉnh Phú Thọ","Tỉnh Thanh Hóa","Tỉnh Hưng Yên","Tỉnh Lào Cai","Tỉnh Ninh Bình","Tỉnh Lai Châu","Tỉnh Bắc Ninh","Tỉnh Hà Tĩnh","Thành phố Hải Phòng","Tỉnh Thái Nguyên","Tỉnh Lạng Sơn","Tỉnh Tuyên Quang","Cộng hoà Séc","Tỉnh Quảng Trị","Hà Nội","Tỉnh Cao Bằng","Tỉnh Đắk Lắk","Tỉnh Khánh Hòa","Thành phố Huế","Tỉnh Lâm Đồng","Tỉnh Điện Biên","Ninh Bình","Thành phố Bắc Ninh","Thành phố Đà Nẵng","Thành phố Hồ Chí Minh","Tỉnh Gia Lai","Thanh Hóa","Liên Bang Nga","Tỉnh Quảng Ngãi"],"majors":["Quản trị kinh doanh","Hệ thống thông tin quản lý","Quản lý kinh tế và chính sách","Quản trị kinh doanh quốc tế","Quản lý công","Logistics","Quản trị kinh doanh thương mại","Quản trị nhân lực","Tài chính - Ngân hàng","Kế toán, kiểm toán và phân tích","Quản trị kinh doanh du lịch và khách sạn","Marketing","Quản trị kinh doanh bất động sản","Kinh tế bảo hiểm","Kinh tế đầu tư","Kinh tế quốc tế","Kinh tế và quản lý thương mại","Toán Kinh tế - Tài chính","Quản trị kinh doanh (Viện)","Luật kinh tế","Thống kê kinh tế","Kinh tế phát triển","Kế hoạch phát triển","Kinh tế học","Kinh tế chính trị","Kinh tế và quản lý môi trường","Kinh tế và quản lý địa chính","Quản trị kinh doanh nông nghiệp"],"rooms":["01-(C301)","02-(C302)","03-(C303)","04-(C304)","05-(C305)","06-(C306)","07-(C307)","08-(C308)","09-(C208)","10-(C207)","11-(C206)","12-(C205)","13-(C204)","14-(C203)","15-(C202)","16-(C201)","17-(C101)","18-(C102)","19-(C103)","20-(C104)","21-(C106)","22-(C107)","23-(D502)","24-(D503)","25-(D504)","26-(D505)","27-(D506)","28-(D407)","29-(D406)","30-(D405)","31-(D404)","32-(D403)","33-(D402)","34-(D401)","35-(D301)","36-(D302)","37-(D303)","38-(D304)","39-(D305)","40-(D306)","41-(D307)","42-(D207)","43-(D206)","44-(D205)","45-(D204)","46-(D203)","47-(D202)","48-(D201)","49-(D105)","50-(D106)"],"rows":[["CH0001","DK26211992","Lã Thiên An",1,"30/10/2003",0,0,0,1,7.5,5.75,6.45,0],["CH0002","DK26212295","Phạm Thị Hoài An",1,"07/10/1992",1,1,0,1,7.5,8.0,7.8,0],["CH0003","DK26212428","Nguyễn Đỗ An",1,"22/02/1998",2,2,0,0,7.5,5.5,6.3,0],["CH0004","DK26212539","Lò Đinh Phương An",1,"10/03/2004",1,3,0,0,7.5,8.5,8.1,0],["CH0005","DK26212595","Nguyễn Trịnh Việt An",0,"16/11/2003",3,0,0,0,6.5,5.0,5.6,0],["CH0006","DK26212611","Trần Đoàn An",0,"14/02/2004",4,4,0,0,7.5,8.25,7.95,0],["CH0007","DK26212782","Trần Văn An",0,"06/06/1995",5,2,0,0,7.0,6.75,6.85,0],["CH0008","DK26212853","Trần Thị Thu An",1,"20/10/2000",0,5,0,1,7.0,8.0,7.6,0],["CH0009","DK26213125","Nguyễn Trường An",0,"10/10/2004",4,6,0,0,0.0,null,0.0,0],["CH0010","DK26213194","Đào Thùy An",1,"12/08/1995",0,7,0,1,6.0,7.75,7.05,0],["CH0011","DK26213414","Đặng Vinh An",0,"26/10/2002",6,8,0,1,6.0,6.5,6.3,0],["CH0012","DK26213527","Nguyễn Thanh An",1,"26/01/2003",0,1,0,1,8.0,7.5,7.7,0],["CH0013","DK26213530","Nguyễn Hoàng Phương Anh",1,"15/09/2004",1,2,0,1,7.0,6.25,6.55,0],["CH0014","DK26213535","Trần Thị Hải Anh",1,"28/02/2004",0,9,0,1,3.0,5.0,4.2,0],["CH0015","DK26213541","Nguyễn Bảo Trâm Anh",1,"04/10/2004",0,8,0,0,6.0,6.75,6.45,0],["CH0016","DK26213544","Đào Châu Anh",1,"05/09/2003",0,8,0,0,5.0,7.5,6.5,0],["CH0017","DK26213501","Lê Tấn Anh",0,"27/06/2001",0,10,0,1,0.0,null,0.0,0],["CH0018","DK26213564","Đàm Tuấn Anh",0,"14/05/1987",6,2,0,0,8.0,6.5,7.1,1],["CH0019","DK26213572","Nguyễn Phương Anh",1,"29/08/2002",6,8,0,1,7.0,8.5,7.9,0],["CH0020","DK26213593","Lê Thị Lan Anh",1,"28/06/2002",0,0,0,0,7.0,6.0,6.4,0],["CH0021","DK26213431","Đỗ Quế Anh",1,"23/08/2004",6,11,0,0,5.5,7.25,6.55,0],["CH0022","DK26213433","Lê Nhật Anh",0,"02/03/2004",0,12,0,0,6.5,8.25,7.55,0],["CH0023","DK26213434","Tạ Thị Kim Anh",1,"03/04/2002",4,5,0,0,6.5,6.5,6.5,0],["CH0024","DK26213477","Trần Đức Anh",0,"01/03/2004",0,11,0,0,7.0,8.25,7.75,0],["CH0025","DK26213629","Nguyễn Phương Anh",1,"19/01/2003",6,11,0,0,8.0,6.25,6.95,0],["CH0026","DK26213203","Lê Phương Anh",1,"03/08/2003",0,13,0,0,6.0,7.25,6.75,0],["CH0027","DK26213183","Trần Thảo Anh",1,"11/08/2002",7,7,0,1,7.5,6.75,7.05,0],["CH0028","DK26213168","Nguyễn Phương Anh",1,"16/12/2002",6,5,1,0,7.5,8.75,8.25,0],["CH0029","DK26213174","Phạm Thị Tú Anh",1,"10/08/2003",0,0,1,0,7.0,7.75,7.45,0],["CH0030","DK26213176","Khổng Thục Anh",1,"05/04/2004",8,14,1,0,6.5,8.0,7.4,0],["CH0031","DK26213239","Trần Phương Anh",1,"19/05/2003",6,15,1,1,0.0,null,0.0,0],["CH0032","DK26213102","Nguyễn Phương Anh",1,"19/08/2001",0,8,1,0,6.5,7.5,7.1,0],["CH0033","DK26213259","Nguyễn Phi Anh",1,"12/07/2004",0,11,1,0,7.5,7.75,7.65,0],["CH0034","DK26213269","Nguyễn Lê Phương Anh",1,"22/12/2001",9,2,1,0,6.5,5.0,5.6,0],["CH0035","DK26213272","Trần Công Đức Anh",0,"12/06/2001",3,11,1,0,7.0,6.25,6.55,0],["CH0036","DK26213273","Đặng Vân Anh",1,"27/12/2000",0,8,1,1,7.5,6.5,6.9,0],["CH0037","DK26213277","Phạm Thị Vân Anh",1,"05/08/2004",10,8,1,0,6.0,8.25,7.35,0],["CH0038","DK26213275","Dương Thị Minh Anh",1,"01/11/1997",0,8,1,0,5.5,8.0,7.0,0],["CH0039","DK26213293","Lê Thị Tú Anh",1,"05/12/2002",6,8,1,0,5.0,7.25,6.35,0],["CH0040","DK26213311","Nguyễn Mỹ Anh",1,"17/12/1999",5,8,1,1,2.5,4.5,3.7,0],["CH0041","DK26213318","Hoàng Thị Vân Anh",1,"10/07/2003",11,16,1,0,6.5,8.5,7.7,0],["CH0042","DK26213360","Nguyễn Ngọc Minh Anh",1,"10/03/2004",12,7,1,1,4.0,7.75,6.25,0],["CH0043","DK26213369","Ngô Kiều Anh",1,"15/09/2000",8,8,1,0,5.0,7.5,6.5,0],["CH0044","DK26213412","Nguyễn Hoàng Tùng Anh",1,"06/06/2000",0,6,1,1,5.5,5.5,5.5,0],["CH0045","DK26212856","Lê Phương Anh",1,"16/01/2004",0,17,1,0,6.0,6.0,6.0,0],["CH0046","DK26212775","Đào Quỳnh Anh",1,"28/10/2003",0,7,1,1,5.5,5.5,5.5,0],["CH0047","DK26212799","Nguyễn Phương Anh",1,"25/06/2002",12,7,1,1,7.5,6.75,7.05,0],["CH0048","DK26212815","Đặng Phương Anh",1,"22/07/2003",0,9,1,1,3.5,6.25,5.15,0],["CH0049","DK26212674","Nguyễn Ngọc Anh",1,"23/04/2002",0,0,1,1,7.5,5.5,6.3,0],["CH0050","DK26212683","Nguyễn Thi Việt Anh",1,"01/02/2001",12,6,1,1,8.0,6.0,6.8,0],["CH0051","DK26212685","Đào Minh Anh",1,"08/07/1998",3,4,1,1,7.0,5.5,6.1,0],["CH0052","DK26212692","Hoàng Thị Ngọc Anh",1,"23/11/2002",12,15,1,1,7.0,8.5,7.9,0],["CH0053","DK26212867","Lê Hoài Anh",1,"27/06/2002",0,0,1,0,8.0,6.25,6.95,0],["CH0054","DK26212880","Nguyễn Mai Anh",1,"09/03/2004",0,0,1,1,6.0,6.25,6.15,0],["CH0055","DK26212889","Dương Vũ Nguyệt Anh",1,"02/07/2004",6,8,2,1,1.5,7.25,4.95,0],["CH0056","DK26212905","Nguyễn Thị Kim Anh",1,"09/04/2003",8,6,2,1,6.5,7.5,7.1,0],["CH0057","DK26212916","Nguyễn Hải Anh",1,"01/11/2004",6,8,2,1,8.5,6.75,7.45,0],["CH0058","DK26212919","Trần Ngọc Anh",1,"23/10/1996",8,0,2,0,8.5,6.75,7.45,0],["CH0059","DK26212956","Lê Thị Phương Anh",1,"09/03/2000",5,11,2,1,7.5,8.25,7.95,0],["CH0060","DK26212960","Nguyễn Phạm Phương Anh",1,"22/09/2000",0,0,2,0,8.0,7.0,7.4,0],["CH0061","DK26212958","Mai Phương Anh",1,"22/02/1991",0,2,2,1,9.0,8.25,8.55,0],["CH0062","DK26212975","Nguyễn Đức Nhật Anh",0,"09/12/2004",0,8,2,0,4.0,8.5,6.7,0],["CH0063","DK26212992","Lê Đức Anh",0,"03/04/2004",0,2,2,1,2.0,8.0,5.6,0],["CH0064","DK26213018","Đỗ Thị Kiều Anh",1,"08/08/2002",4,18,2,0,5.0,7.75,6.65,0],["CH0065","DK26213039","Đinh Phan Anh",0,"16/02/2004",0,2,2,0,8.0,8.5,8.3,0],["CH0066","DK26213054","Trần Phương Anh",1,"16/12/2004",13,0,2,0,6.0,6.5,6.3,0],["CH0067","DK26213055","Dương Thị Ngọc Anh",1,"12/06/2002",5,8,2,0,8.0,7.0,7.4,0],["CH0068","DK26213059","Trần Thị Minh Anh",1,"25/08/2000",6,8,2,0,7.5,7.25,7.35,0],["CH0069","DK26212615","Hà Ngọc Anh",1,"10/05/1993",0,16,2,0,6.0,6.0,6.0,0],["CH0070","DK26212603","Hoàng Thị Vân Anh",1,"13/06/1996",5,0,2,1,8.0,7.0,7.4,0],["CH0071","DK26212607","Nguyễn Thục Anh",1,"12/03/2004",0,8,2,0,8.0,7.75,7.85,0],["CH0072","DK26212596","Lưu Thị Quỳnh Anh",1,"12/10/2002",8,0,2,1,8.0,7.75,7.85,0],["CH0073","DK26212594","Nguyễn Thị Minh Anh",1,"19/09/1999",0,0,2,0,8.0,7.75,7.85,0],["CH0074","DK26212589","Dương Nguyễn Hoàng Anh",0,"03/07/2004",0,4,2,0,9.0,8.0,8.4,0],["CH0075","DK26212633","Trần Đức Anh",0,"27/08/2003",0,8,2,1,8.0,7.5,7.7,0],["CH0076","DK26212638","Nguyễn Thị Lan Anh",1,"26/03/2001",0,5,2,1,8.0,7.5,7.7,0],["CH0077","DK26212645","Trần Minh Anh",1,"10/10/2004",12,11,2,0,7.0,6.5,6.7,0],["CH0078","DK26212646","Vũ Tùng Anh",0,"12/10/2002",0,6,2,0,7.5,8.5,8.1,0],["CH0079","DK26212654","Nguyễn Châu Anh",1,"12/07/2002",0,8,2,0,7.5,7.5,7.5,0],["CH0080","DK26212659","Nguyễn Đoàn Hà Anh",1,"13/11/2004",0,0,2,1,8.5,7.5,7.9,0],["CH0081","DK26212543","Lê Nguyễn Quang Anh",0,"07/10/2004",0,8,2,0,6.5,8.0,7.4,0],["CH0082","DK26212544","Đinh Thị Trang Anh",1,"03/11/2000",10,5,3,1,7.0,8.25,7.75,0],["CH0083","DK26212547","Nguyễn Tú Anh",1,"10/01/2000",0,11,3,1,8.0,5.75,6.65,0],["CH0084","DK26212476","Nông Thị Lan Anh",1,"06/08/1994",14,0,3,0,9.0,6.75,7.65,1],["CH0085","DK26212438","Nguyễn Thị Lan Anh",1,"24/10/2002",10,10,3,0,6.0,7.5,6.9,0],["CH0086","DK26212445","Đinh Hà Anh",1,"21/11/2003",4,8,3,0,7.5,8.0,7.8,0],["CH0087","DK26212453","Nguyễn Ngọc Anh",1,"30/12/2001",0,18,3,1,7.0,7.25,7.15,0],["CH0088","DK26212459","Hoàng Quỳnh Anh",1,"20/03/2004",0,8,3,1,9.0,8.5,8.7,0],["CH0089","DK26212463","Trần Phạm Châu Anh",1,"14/11/2003",0,0,3,0,8.5,6.5,7.3,0],["CH0090","DK26212481","Nguyễn Thị Minh Anh",1,"24/06/2002",12,15,3,1,6.0,5.25,5.55,0],["CH0091","DK26212314","Phạm Châu Anh",1,"28/11/2003",0,5,3,0,6.5,7.5,7.1,0],["CH0092","DK26212317","Nguyễn Thị Phương Anh",1,"23/12/2002",0,2,3,0,6.0,8.0,7.2,0],["CH0093","DK26212330","Bùi Thuỷ Anh",1,"07/10/2001",8,2,3,0,7.5,6.5,6.9,0],["CH0094","DK26212351","Ngô Hoàng Anh",0,"07/12/2002",5,11,3,0,8.5,8.5,8.5,0],["CH0095","DK26212358","Nguyễn Thị Mai Anh",1,"26/01/2003",10,16,3,0,7.0,7.0,7.0,0],["CH0096","DK26212367","Bùi Thảo Anh",1,"25/02/1996",6,1,3,0,7.5,8.5,8.1,0],["CH0097","DK26212370","Nguyễn Ngọc Anh",1,"11/01/2004",3,16,3,0,8.0,7.0,7.4,0],["CH0098","DK26212392","Trần Minh Anh",1,"19/08/2004",0,0,3,0,8.0,7.75,7.85,0],["CH0099","DK26212286","Dương Quỳnh Anh",1,"31/03/2003",12,2,3,1,8.5,7.75,8.05,0],["CH0100","DK26212266","Hoàng Mai Anh",1,"30/01/2004",4,0,3,0,8.0,7.25,7.55,0],["CH0101","DK26212210","Phan Nguyễn Quang Anh",0,"03/06/2002",0,5,3,1,7.5,7.75,7.65,0],["CH0102","DK26212214","Trương Vân Anh",1,"23/02/2004",3,14,3,0,7.5,7.0,7.2,0],["CH0103","DK26212224","Vũ Nguyễn Ngọc Anh",1,"02/08/2004",15,9,3,1,7.0,3.25,4.75,0],["CH0104","DK26212238","Nguyễn Phương Anh",1,"08/09/2003",0,11,3,1,8.5,6.75,7.45,0],["CH0105","DK26212244","Đỗ Thị Phương Anh",1,"19/12/2000",12,0,3,0,7.0,5.0,5.8,0],["CH0106","DK26212123","Chu Việt Anh",0,"03/11/2004",0,1,3,0,7.0,5.5,6.1,0],["CH0107","DK26212156","Vũ Hoàng Anh",1,"11/04/2002",15,19,3,1,8.0,6.5,7.1,0],["CH0108","DK26212163","Cao Phương Anh",1,"09/11/2003",8,14,3,0,8.0,7.25,7.55,0],["CH0109","DK26212176","Nguyễn Lâm Anh",1,"25/09/2002",10,14,4,1,8.0,7.0,7.4,0],["CH0110","DK26212186","Lê Quỳnh Anh",1,"10/02/2003",9,9,4,0,7.5,7.5,7.5,0],["CH0111","DK26212183","Nguyễn Phan Anh",0,"21/11/2003",0,1,4,0,8.0,8.0,8.0,0],["CH0112","DK26212196","Đặng Thuỳ Anh",1,"11/07/2002",16,0,4,0,8.0,7.25,7.55,0],["CH0113","DK26211957","Lê Văn Tuấn Anh",0,"12/08/2002",0,0,4,0,7.5,8.25,7.95,0],["CH0114","DK26112019","Trần Thị Kim Anh",1,"18/01/2002",6,8,4,1,8.0,6.25,6.95,0],["CH0115","DK26211699","Lê Thị Mai Anh",1,"02/03/1999",17,8,4,1,6.5,7.25,6.95,0],["CH0116","DK26111761","Dư Nguyễn Duy Anh",0,"09/10/2004",5,8,4,0,8.0,8.75,8.45,0],["CH0117","DK26211883","Nguyễn Phương Anh",1,"05/08/2003",0,8,4,0,7.5,7.25,7.35,0],["CH0118","DK26110465","Nguyễn Hoàng Anh",1,"16/10/2002",2,11,4,0,9.0,7.0,7.8,1],["CH0119","DK26210507","Nguyễn Hiền Anh",1,"14/02/2003",0,3,4,1,8.0,7.75,7.85,0],["CH0120","DK26110079","Lê Hà Anh",1,"24/10/2003",18,0,4,1,5.5,7.75,6.85,0],["CH0121","DK26210762","Vũ Việt Anh",0,"07/03/1999",0,14,4,1,0.0,null,0.0,0],["CH0122","DK26211148","Nguyễn Thị Lan Anh",1,"14/02/2002",10,1,4,0,6.0,7.5,6.9,0],["CH0123","DK26212004","Lại Hữu Việt Anh",0,"07/08/2003",10,2,4,0,3.5,6.75,5.45,0],["CH0124","DK26212061","Lê Châu Anh",1,"09/09/2003",4,8,4,0,6.0,6.75,6.45,0],["CH0125","DK26212078","Nguyễn Thị Lan Anh",1,"14/05/2003",8,8,4,0,8.5,7.75,8.05,0],["CH0126","DK26212079","Nguyễn Minh Lan Anh",1,"06/03/2004",10,8,4,1,6.0,6.75,6.45,0],["CH0127","DK26212091","Nguyễn Hoàng Quân Anh",0,"16/06/1999",3,11,4,1,7.5,7.75,7.65,0],["CH0128","DK26212101","Trần Thị Anh",1,"20/02/1999",11,8,4,0,8.0,8.25,8.15,0],["CH0129","DK26212083","Đoàn Thị Ngọc Ánh",1,"28/02/2001",12,9,4,0,8.0,8.25,8.15,0],["CH0130","DK26212048","Nguyễn Ngọc Ánh",1,"03/08/2003",12,9,4,0,5.0,6.75,6.05,0],["CH0131","DK26212939","Ngô Ngọc Ánh",1,"22/11/2003",4,8,4,0,6.5,8.5,7.7,0],["CH0132","DK26212913","Nguyễn Ngọc Ánh",1,"17/03/1999",0,2,4,0,6.5,8.0,7.4,0],["CH0133","DK26213409","Lê Ngọc Ánh",1,"20/11/2001",0,20,4,0,7.0,7.0,7.0,0],["CH0134","DK26213264","Nông Hà Nguyệt Ánh",1,"17/12/2001",19,8,4,1,8.5,6.0,7.0,1],["CH0135","DK26213087","Lê Thị Ngọc Ánh",1,"01/05/1986",4,14,4,0,7.5,8.0,7.8,0],["CH0136","DK26213078","Đặng Ngọc Ánh",1,"04/10/2004",15,2,5,0,5.5,7.75,6.85,0],["CH0137","DK26213146","Bùi Ngọc Ánh",1,"17/08/2001",0,0,5,0,7.0,7.25,7.15,0],["CH0138","DK26213487","Nguyễn Đức Ánh",0,"23/03/1992",10,0,5,0,6.5,7.5,7.1,0],["CH0139","DK26213423","Nguyễn Thị Nguyệt Ánh",1,"19/08/2001",10,8,5,0,7.5,7.75,7.65,0],["CH0140","DK26212917","Phạm Đức Bảo",0,"12/10/1992",0,0,5,0,3.5,8.5,6.5,0],["CH0141","DK26212933","Nguyễn Văn Bảo",0,"21/02/2003",11,5,5,1,8.5,6.5,7.3,0],["CH0142","DK26212715","Phạm Ngọc Bảo",0,"10/11/1995",4,4,5,1,6.5,6.75,6.65,0],["CH0143","DK26212807","Nguyễn Thị Thái Bảo",1,"04/02/1999",1,8,5,0,7.5,8.25,7.95,0],["CH0144","DK26212293","Nguyễn Đình Gia Bảo",0,"13/08/2003",0,8,5,1,7.0,7.75,7.45,0],["CH0145","DK26212371","Trần Ngọc Bảo",1,"07/04/2000",13,1,5,0,0.0,null,0.0,0],["CH0146","DK26213022","Nguyễn Hữu Bách",0,"06/04/2003",3,8,5,1,7.0,6.75,6.85,0],["CH0147","DK26213447","Lê Trần Bách",0,"07/12/2003",10,6,5,1,8.5,8.75,8.65,0],["CH0148","DK26213624","Đỗ Trường Bách",0,"02/12/2002",0,11,5,1,0.0,null,0.0,0],["CH0149","DK26213454","Cao Hồ Thái An Bình",1,"27/06/2004",0,8,5,0,6.5,7.5,7.1,0],["CH0150","DK26213526","Phạm Thanh Bình",0,"19/09/2000",8,2,5,0,6.5,7.5,7.1,0],["CH0151","DK26212792","Nguyễn Phương Bình",0,"23/07/2004",4,2,5,0,4.0,4.25,4.15,1],["CH0152","DK26213121","Từ Đức Bình",0,"02/12/2000",0,0,5,1,6.0,6.5,6.3,0],["CH0153","DK26212601","Nguyễn Thanh Bình",1,"24/05/2003",6,5,5,0,8.5,8.75,8.65,0],["CH0154","DK26212070","Phạm Thị Bình",1,"26/10/2000",8,11,5,1,7.0,7.75,7.45,0],["CH0155","DK26212263","Đoàn Thị Bích",1,"02/10/2001",1,0,5,0,7.5,7.75,7.65,0],["CH0156","DK26213310","Hoàng Hữu Bích",1,"07/02/2002",12,7,5,0,7.5,5.75,6.45,0],["CH0157","DK26212063","Hoàng Thị Mai Chang",1,"25/04/2001",3,11,5,0,8.5,6.5,7.3,0],["CH0158","DK26211491","Trần Minh Châu",1,"05/11/2002",0,0,5,1,8.0,8.25,8.15,0],["CH0159","DK26213325","Nguyễn Thị Minh Châu",1,"07/08/2001",6,8,5,1,8.0,7.75,7.85,0],["CH0160","DK26213252","Phạm Minh Châu",1,"25/06/2003",12,7,5,0,7.5,7.0,7.2,0],["CH0161","DK26213335","Phạm Lê Minh Châu",1,"03/02/2003",13,0,5,0,8.0,7.5,7.7,0],["CH0162","DK26213217","Nguyễn Minh Châu",1,"12/06/2003",0,8,5,1,7.5,7.75,7.65,0],["CH0163","DK26212680","Nguyễn Minh Châu",1,"19/10/2004",10,3,6,0,0.0,null,0.0,0],["CH0164","DK26212721","Trịnh Bảo Châu",1,"01/01/2002",5,0,6,0,8.0,5.75,6.65,0],["CH0165","DK26213620","Lưu Minh Châu",0,"01/07/2002",0,8,6,1,7.0,5.5,6.1,0],["CH0166","DK26213551","Trần Thị Bảo Chi",1,"20/02/2003",19,0,6,0,6.5,8.0,7.4,0],["CH0167","DK26213449","Nguyễn Phương Chi",1,"22/09/2003",0,12,6,0,7.0,8.5,7.9,0],["CH0168","DK26212684","Trần Mai Chi",1,"30/08/2004",0,11,6,1,8.0,7.5,7.7,0],["CH0169","DK26212688","Ngô Quế Chi",1,"08/07/2004",0,0,6,1,4.5,6.25,5.55,0],["CH0170","DK26212714","Nguyễn Linh Chi",1,"14/11/2003",1,0,6,1,7.0,8.25,7.75,0],["CH0171","DK26212787","Nguyễn Thị Linh Chi",1,"09/08/2003",0,14,6,0,2.0,6.25,4.55,0],["CH0172","DK26212780","Nguyễn Thị Linh Chi",1,"03/02/2002",12,8,6,1,4.0,6.5,5.5,0],["CH0173","DK26213017","Phạm Thùy Chi",1,"27/12/2004",6,18,6,0,8.0,7.75,7.85,0],["CH0174","DK26212972","Bùi Kiều Chi",1,"24/11/2003",4,3,6,0,8.0,7.5,7.7,0],["CH0175","DK26212882","Nguyễn Quỳnh Chi",1,"16/12/2004",12,16,6,1,7.0,6.0,6.4,0],["CH0176","DK26213209","Nguyễn Quỳnh Chi",1,"02/12/2003",0,0,6,0,4.0,6.5,5.5,0],["CH0177","DK26213187","Nguyễn Linh Chi",1,"12/02/2001",5,8,6,0,7.5,8.0,7.8,0],["CH0178","DK26213363","Nguyễn Quỳnh Chi",1,"02/12/2003",0,8,6,0,7.0,8.25,7.75,0],["CH0179","DK26213402","Sầm Thị Mai Chi",1,"15/09/2004",13,9,6,0,5.5,7.5,6.7,0],["CH0180","DK26213294","Cao Nguyễn Thùy Chi",1,"22/03/2002",5,21,6,1,5.5,7.75,6.85,0],["CH0181","DK26110519","Vũ Quỳnh Chi",1,"03/08/2003",0,8,6,0,6.5,5.25,5.75,0],["CH0182","DK26212099","Nguyễn Thùy Chi",1,"09/12/1999",0,3,6,1,7.5,6.5,6.9,0],["CH0183","DK26212049","Vũ Mai Chi",1,"14/02/2004",8,2,6,0,8.0,7.0,7.4,0],["CH0184","DK26212026","Phùng Nguyễn Linh Chi",1,"26/05/2003",0,11,6,1,7.5,7.5,7.5,0],["CH0185","DK26212283","Đinh Hạnh Chi",1,"22/10/2001",0,8,6,1,7.0,7.75,7.45,0],["CH0186","DK26212182","Thân Thị Quỳnh Chi",1,"03/12/2002",14,0,6,0,9.0,7.5,8.1,1],["CH0187","DK26212172","Nguyễn Lê Huyền Chi",1,"30/08/2004",0,5,6,0,5.0,7.75,6.65,0],["CH0188","DK26212116","Bùi Uyên Chi",1,"27/01/2000",0,0,6,0,7.5,7.5,7.5,0],["CH0189","DK26212616","Phạm Vân Chi",1,"03/09/2004",12,8,6,0,6.0,7.0,6.6,0],["CH0190","DK26212582","Trần Nữ Diệp Chi",1,"18/06/2004",1,5,7,1,6.5,6.25,6.35,0],["CH0191","DK26212662","Hoàng Thị Linh Chi",1,"03/04/2003",5,11,7,0,8.5,7.0,7.6,0],["CH0192","DK26212652","Hồ Trần Cẩm Chi",1,"05/10/2001",1,2,7,0,6.0,5.75,5.85,0],["CH0193","DK26212500","Nguyễn Quỳnh Chi",1,"29/05/2003",8,9,7,1,6.0,7.5,6.9,0],["CH0194","DK26212363","Lê Thị Linh Chi",1,"24/04/2000",5,1,7,0,9.0,8.0,8.4,0],["CH0195","DK26212442","Vũ Thị Tùng Chi",1,"12/12/2003",4,8,7,0,8.5,8.0,8.2,0],["CH0196","DK26212415","Trần Thị Chiêm",1,"04/12/2002",8,11,7,1,8.0,6.5,7.1,0],["CH0197","DK26212205","Nguyễn Văn Chiến",0,"08/10/1989",0,0,7,0,8.0,7.25,7.55,0],["CH0198","DK26212839","Đỗ Thùy Chinh",1,"18/09/2004",8,8,7,0,7.5,8.75,8.25,0],["CH0199","DK26213598","Lê Văn Chuẩn",0,"11/08/1993",12,2,7,0,6.0,6.75,6.45,0],["CH0200","DK26212579","Nguyễn Minh Cương",0,"19/04/1996",12,1,7,1,6.0,7.0,6.6,0],["CH0201","DK26213237","Lê Đức Cường",0,"16/12/1998",10,1,7,1,6.0,7.5,6.9,0],["CH0202","DK26212761","Hoàng Trọng Danh",0,"06/10/1995",13,0,7,0,7.0,6.25,6.55,0],["CH0203","DK26212747","Nguyễn Chất Diện",0,"16/11/2003",4,8,7,1,0.0,null,0.0,0],["CH0204","DK26212914","Vũ Ngọc Diệp",1,"11/08/2002",12,0,7,0,8.0,6.0,6.8,0],["CH0205","DK26212921","Nguyễn Thị Ngọc Diệp",1,"27/05/2002",0,7,7,0,7.0,7.5,7.3,0],["CH0206","DK26212605","Kiều Ngọc Diệp",1,"13/04/2004",8,0,7,0,7.5,8.0,7.8,0],["CH0207","DK26213451","Nguyễn Ngọc Diệp",1,"20/06/2003",2,8,7,1,7.0,6.5,6.7,0],["CH0208","DK26212508","Tạ Xuân Dũng",0,"04/06/2001",12,0,7,0,8.0,7.75,7.85,0],["CH0209","DK26212618","Lương Thị Hương Dung",1,"22/11/2000",12,6,7,0,7.5,8.25,7.95,0],["CH0210","DK26212391","Vũ Thùy Dung",1,"04/03/2001",8,17,7,0,4.0,6.75,5.65,0],["CH0211","DK26212304","Nguyễn Thùy Dung",1,"08/12/2002",0,5,7,0,7.0,7.0,7.0,0],["CH0212","DK26212157","Nguyễn Quỳnh Dung",1,"24/06/1995",0,2,7,1,6.0,7.25,6.75,0],["CH0213","DK26212903","Đào Phương Dung",1,"09/01/2000",12,0,7,0,7.0,6.0,6.4,0],["CH0214","DK26212971","Lê Hoàng Dung",1,"16/02/2004",0,0,7,0,8.5,8.0,8.2,0],["CH0215","DK26212752","Nguyễn Thị Dung",1,"06/05/2002",13,0,7,1,8.0,6.75,7.25,0],["CH0216","DK26213071","Nguyễn Chi Dung",1,"04/09/2003",0,8,7,0,0.0,null,0.0,0],["CH0217","DK26213096","Nguyễn Thị Thùy Dung",1,"09/07/1998",1,9,8,0,7.0,7.25,7.15,0],["CH0218","DK26213432","Đỗ Thùy Dung",1,"21/05/2003",0,18,8,1,9.0,7.25,7.95,0],["CH0219","DK26213295","Lê Dũng Duy",0,"02/05/1999",0,8,8,0,3.0,6.25,4.95,0],["CH0220","DK26213368","Nguyễn Ngọc Duy",0,"19/04/2004",8,22,8,0,8.0,6.25,6.95,0],["CH0221","DK26212892","Nguyễn Khương Duy",0,"29/01/2002",6,0,8,0,8.5,6.75,7.45,0],["CH0222","DK26212169","Lê Hồng Duy",0,"11/09/2002",4,0,8,0,6.5,7.0,6.8,0],["CH0223","DK26212180","Trần Khắc Duy",0,"16/12/2000",12,11,8,0,8.0,7.5,7.7,0],["CH0224","DK26212297","Nghiêm Quang Duy",0,"09/09/1993",0,20,8,0,7.0,8.5,7.9,0],["CH0225","DK26111227","Vũ Nguyễn Anh Duy",0,"07/02/2001",20,2,8,0,8.0,8.0,8.0,0],["CH0226","DK26212218","Phạm Thị An Duyên",1,"26/11/2000",0,8,8,0,7.0,7.25,7.15,0],["CH0227","DK26212623","Trương Mỹ Duyên",1,"15/05/2003",4,9,8,0,8.0,8.5,8.3,0],["CH0228","DK26213471","Lê Văn Dủ",0,"18/08/2004",11,0,8,0,7.0,8.0,7.6,0],["CH0229","DK26213470","Nguyễn Đức Dũng",0,"12/12/1999",6,8,8,1,5.5,7.5,6.7,0],["CH0230","DK26213563","Mai Thái Dũng",0,"30/08/2004",0,5,8,0,0.0,null,0.0,0],["CH0231","DK27110022","Nguyễn Việt Dũng",0,"06/12/2003",0,0,8,0,6.0,8.0,7.2,0],["CH0232","DK26212511","Nguyễn Mai Tuấn Dũng",0,"17/10/2003",21,5,8,1,6.0,6.75,6.45,0],["CH0233","DK26212501","Trần Hùng Dũng",0,"06/10/2003",5,0,8,0,2.5,6.25,4.75,0],["CH0234","DK26212503","Nguyễn Trường Dũng",0,"07/12/2001",10,2,8,0,4.0,4.75,4.45,0],["CH0235","DK26212542","Nguyễn Mạnh Dũng",0,"07/02/2002",10,8,8,0,6.0,7.25,6.75,0],["CH0236","DK26211975","Đỗ Tiến Dũng",0,"22/03/2004",0,1,8,0,6.0,8.0,7.2,0],["CH0237","DK26213015","Nguyễn Tiến Dũng",0,"24/11/2002",8,0,8,0,8.0,7.0,7.4,0],["CH0238","DK26212828","Lê Tấn Dũng",0,"15/09/2003",0,8,8,1,7.0,8.0,7.6,0],["CH0239","DK26213320","Trịnh Anh Dũng",0,"28/04/2003",0,8,8,0,7.5,8.5,8.1,0],["CH0240","DK27110004","Bùi Tiến Dũng",0,"26/06/2004",6,9,8,1,3.0,7.5,5.7,0],["CH0241","DK26213112","Đặng Quang Dũng",0,"09/07/2003",0,16,8,0,6.5,7.25,6.95,0],["CH0242","DK26213165","Phạm Tiến Dũng",0,"03/08/2004",0,9,8,0,3.5,7.25,5.75,0],["CH0243","DK26213188","Đặng Thùy Dương",1,"18/08/2004",1,0,8,0,5.5,7.75,6.85,0],["CH0244","DK26213243","Lê Thùy Dương",1,"10/07/2004",11,9,9,1,5.0,6.75,6.05,0],["CH0245","DK26213226","Nguyễn Thùy Dương",1,"21/09/2004",0,8,9,1,8.0,8.5,8.3,0],["CH0246","DK26213145","Nguyễn Hà Dương",0,"01/10/2003",8,8,9,0,5.5,7.25,6.55,0],["CH0247","DK26213257","Đặng Thuỳ Dương",1,"24/01/2004",0,11,9,1,6.5,6.5,6.5,0],["CH0248","DK26213378","Trần Nguyễn Việt Dương",0,"19/11/2005",0,14,9,0,4.5,7.5,6.3,0],["CH0249","DK26212707","Đặng Thùy Dương",1,"26/01/2003",0,8,9,0,4.0,8.5,6.7,0],["CH0250","DK26213033","Lê Đại Dương",0,"04/11/2004",0,5,9,0,4.0,7.5,6.1,0],["CH0251","DK26212982","Trần Khánh Dương",1,"04/10/2003",0,2,9,0,8.0,7.5,7.7,0],["CH0252","DK26213006","Lã Lê Đức Dương",0,"03/07/2004",8,8,9,0,8.5,7.75,8.05,0],["CH0253","DK26212032","Ngô Nguyễn Thùy Dương",1,"28/01/2000",0,0,9,1,6.0,7.75,7.05,0],["CH0254","DK26212059","Phạm Hồng Ánh Dương",1,"05/01/2000",0,10,9,1,0.0,null,0.0,0],["CH0255","DK26212090","Hoàng Thùy Dương",1,"11/10/2003",7,14,9,0,7.0,7.5,7.3,0],["CH0256","DK26212299","Nguyễn Minh Dương",0,"09/02/2001",4,1,9,0,7.0,8.25,7.75,0],["CH0257","DK26212302","Chu Thảo Dương",1,"05/12/2002",0,5,9,0,7.0,4.75,5.65,0],["CH0258","DK26212265","Trần Anh Dương",1,"26/11/1999",0,11,9,0,7.5,7.5,7.5,0],["CH0259","DK26212195","Nguyễn Thùy Dương",1,"20/10/2003",0,16,9,1,7.5,8.0,7.8,0],["CH0260","DK26212549","Nguyễn Quỳnh Dương",1,"09/08/2003",8,1,9,0,7.5,8.5,8.1,0],["CH0261","DK26212569","Nguyễn Thùy Dương",1,"05/08/2004",4,8,9,0,7.5,8.5,8.1,0],["CH0262","DK26212491","Nguyễn Đại Dương",0,"16/09/2004",4,2,9,0,7.0,8.5,7.9,0],["CH0263","DK26212590","Đào Thị Thùy Dương",1,"11/03/2003",0,8,9,1,7.0,7.75,7.45,0],["CH0264","DK26212310","Hồ Lê Thuỳ Dương",1,"24/11/2000",11,8,9,0,0.0,null,0.0,0],["CH0265","DK26213600","Mao Ánh Dương",1,"02/10/2003",15,2,9,0,8.0,6.0,6.8,1],["CH0266","DK26213554","Nguyễn Thị Khánh Dương",1,"01/05/2004",5,9,9,1,7.0,7.5,7.3,0],["CH0267","DK26213550","Phan Bá Thái Dương",0,"12/09/2003",13,0,9,0,7.5,7.0,7.2,0],["CH0268","DK26213435","Bùi Hà Đan",1,"01/05/2003",5,14,9,0,7.5,7.75,7.65,0],["CH0269","DK26213430","Cao Yên Đan",1,"19/09/2004",15,3,9,0,7.0,7.25,7.15,1],["CH0270","DK26213444","Phạm Vũ Linh Đan",1,"25/07/2001",0,18,9,1,7.5,7.5,7.5,0],["CH0271","DK26212117","Dương Linh Đan",1,"19/12/2003",0,16,10,0,7.0,7.25,7.15,0],["CH0272","DK26213278","Trần Hoàng Linh Đan",1,"04/11/2000",8,9,10,0,7.5,7.0,7.2,0],["CH0273","DK26213143","Phan Thị Anh Đào",1,"16/12/2002",11,21,10,0,7.0,6.5,6.7,0],["CH0274","DK26212359","Nguyễn Thị Anh Đào",1,"06/09/2004",10,0,10,1,7.5,7.75,7.65,0],["CH0275","DK26212637","Trần Anh Đạt",0,"06/10/2004",13,3,10,1,7.0,6.25,6.55,0],["CH0276","DK26212496","Ngô Tiến Đạt",0,"01/01/2004",22,15,10,1,6.5,7.25,6.95,0],["CH0277","DK26212552","Hoàng Tiến Đạt",0,"12/04/2003",5,1,10,0,7.0,8.75,8.05,0],["CH0278","DK26212122","Nguyễn Văn Đạt",0,"12/02/1994",10,8,10,0,8.5,7.75,8.05,0],["CH0279","DK26212137","Nguyễn Thành Đạt",0,"21/06/2003",0,3,10,0,7.0,6.75,6.85,0],["CH0280","DK26212167","Trần Quốc Đạt",0,"24/10/1994",0,8,10,0,6.5,5.75,6.05,0],["CH0281","DK26212228","Ngô Hoàng Đạt",0,"04/08/2002",12,8,10,0,9.0,7.75,8.25,0],["CH0282","DK26212100","Nguyễn Đăng Thành Đạt",0,"05/12/2001",0,0,10,0,7.5,7.25,7.35,0],["CH0283","DK26111867","Nghiêm Xuân Đạt",0,"11/10/1990",0,0,10,0,7.0,8.25,7.75,0],["CH0284","DK26213158","Vũ Tiến Đạt",0,"01/09/2004",10,8,10,0,7.5,6.5,6.9,0],["CH0285","DK26213329","Quách Tuấn Đạt",0,"01/10/2003",3,0,10,0,6.0,7.0,6.6,0],["CH0286","DK26213603","Bùi Quốc Đạt",0,"03/11/2003",8,2,10,0,5.0,4.25,4.55,0],["CH0287","DK26213618","Trương Quốc Đạt",0,"24/10/2003",11,0,10,0,3.5,7.5,5.9,0],["CH0288","DK27110032","Dương Tuấn Đạt",0,"15/10/2003",0,8,10,1,4.0,8.0,6.4,0],["CH0289","DK26213173","Nguyễn Minh Đăng",0,"06/02/2004",10,13,10,0,8.0,7.5,7.7,0],["CH0290","DK26212259","Nguyễn Văn Hà Đăng",0,"06/11/2002",0,10,10,0,6.5,4.5,5.3,0],["CH0291","DK26211684","Đỗ Đình Đẳng",0,"05/10/1995",10,12,10,0,6.0,7.5,6.9,0],["CH0292","DK26212432","Nguyễn Hoàng Điệp",0,"26/03/2002",0,4,10,0,7.0,7.75,7.45,0],["CH0293","DK26213485","Trần Thị Điệp",1,"20/10/1990",5,2,10,0,0.0,null,0.0,0],["CH0294","DK26212527","Hà Nam Định",0,"28/07/2004",7,0,10,0,6.0,8.0,7.2,0],["CH0295","DK27110038","Trương Công Đô",0,"03/05/1992",5,2,10,0,9.0,6.5,7.5,1],["CH0296","DK26213525","Lê Mạnh Đức",0,"31/12/2004",0,0,10,1,0.0,null,0.0,0],["CH0297","DK26212398","Nguyễn Mạnh Đức",0,"06/03/1993",0,2,10,1,7.5,7.75,7.65,0],["CH0298","DK26212473","Tống Anh Đức",0,"07/06/2003",8,1,11,1,8.5,8.5,8.5,0],["CH0299","DK26212058","Vũ Duy Đức",0,"10/10/1989",6,8,11,0,7.0,9.0,8.2,0],["CH0300","DK26212223","Võ Minh Đức",0,"28/12/2003",0,0,11,1,7.5,8.0,7.8,0],["CH0301","DK26212143","Đặng Việt Đức",0,"19/06/1991",0,8,11,0,5.0,8.25,6.95,0],["CH0302","DK26213167","Nguyễn Ngọc Đức",0,"04/04/2003",7,0,11,0,7.0,8.5,7.9,0],["CH0303","DK26213141","Nguyễn Trung Đức",0,"15/03/1997",0,12,11,1,7.5,7.0,7.2,0],["CH0304","DK26213346","Nguyễn Anh Đức",0,"31/10/2002",14,0,11,1,8.0,8.5,8.3,0],["CH0305","DK26213258","Hoàng Công Đức",0,"31/05/2002",4,0,11,0,8.0,7.5,7.7,0],["CH0306","DK26213248","Nguyễn Hương Giang",1,"13/07/2003",0,9,11,0,5.5,7.5,6.7,0],["CH0307","DK26213357","Phạm Thị Lam Giang",1,"26/05/2002",12,8,11,1,8.5,7.75,8.05,0],["CH0308","DK26213140","Hoàng Hương Giang",1,"30/05/2004",0,14,11,0,8.5,6.25,7.15,0],["CH0309","DK26213135","Vi Thị Hồng Giang",1,"20/04/2004",13,8,11,0,8.0,6.75,7.25,0],["CH0310","DK26213085","Trần Hương Giang",1,"11/09/2001",6,16,11,0,8.0,7.75,7.85,0],["CH0311","DK26213233","Phạm Hương Giang",1,"10/08/2004",10,1,11,0,7.5,7.75,7.65,0],["CH0312","DK26213222","Đào Thị Hồng Giang",1,"07/02/2002",0,9,11,0,7.0,6.75,6.85,0],["CH0313","DK26212926","Hà Thị Hương Giang",1,"20/12/2002",13,0,11,0,9.0,7.5,8.1,1],["CH0314","DK26212937","Lê Thùy Giang",1,"10/02/2002",0,0,11,0,8.5,7.75,8.05,0],["CH0315","DK26212740","Nguyễn Thị Giang",1,"28/08/1998",1,1,11,1,7.5,6.75,7.05,0],["CH0316","DK26212789","Lê Hương Giang",1,"25/05/2003",5,0,11,0,0.0,null,0.0,0],["CH0317","DK26212141","Vũ Trường Giang",0,"24/08/2003",4,5,11,0,7.5,7.5,7.5,0],["CH0318","DK26212154","Tạ Thị Hương Giang",1,"17/07/2002",4,8,11,0,9.0,7.5,8.1,0],["CH0319","DK26212131","Triệu Hương Giang",1,"02/09/1991",8,0,11,1,6.5,8.25,7.55,0],["CH0320","DK26212089","Đặng Đức Giang",0,"24/08/1997",0,2,11,0,6.0,7.25,6.75,0],["CH0321","DK26111589","Lê Thu Giang",1,"13/10/2003",0,8,11,0,0.0,null,0.0,0],["CH0322","DK26212452","Mai Hồng Giang",1,"11/10/2004",8,1,11,0,6.5,8.0,7.4,0],["CH0323","DK26212458","Trịnh Hương Giang",1,"12/03/2004",11,2,11,0,8.0,7.25,7.55,0],["CH0324","DK26212401","Nguyễn Hà Giang",1,"18/10/2002",10,11,11,1,8.5,7.25,7.75,0],["CH0325","DK26212562","Nguyễn Thu Giang",1,"13/08/2002",0,0,12,0,6.5,7.75,7.25,0],["CH0326","DK26212644","Trần Thanh Giang",1,"02/08/2004",1,6,12,1,7.5,6.5,6.9,0],["CH0327","DK26213520","Phùng Thu Giang",1,"27/02/2003",0,23,12,1,7.0,8.75,8.05,0],["CH0328","DK26213562","Nguyễn Thị Hương Giang",1,"03/09/2004",0,11,12,1,7.0,7.25,7.15,0],["CH0329","DK26213460","Vũ Thị Quỳnh Giang",1,"10/04/2003",8,8,12,1,7.5,7.0,7.2,0],["CH0330","DK26213437","Trần Thị Hương Giang",1,"21/03/2000",0,0,12,0,6.5,6.75,6.65,0],["CH0331","DK26213613","Phạm Đức Giang",0,"01/11/1999",8,2,12,0,5.0,5.25,5.15,0],["CH0332","DK26213602","Nguyễn Thị Hương Giang",1,"10/10/2002",17,0,12,1,7.5,7.0,7.2,0],["CH0333","DK26211973","Phan Vũ Kim Giao",0,"27/04/2002",4,24,12,0,5.5,7.5,6.7,0],["CH0334","DK26211405","Vũ Nguyệt Hà",1,"19/09/2003",0,8,12,1,8.0,6.5,7.1,0],["CH0335","DK26212132","Trần Huỳnh Sơn Hà",1,"14/05/2004",23,8,12,0,8.0,7.5,7.7,0],["CH0336","DK26212138","Hoàng Việt Hà",1,"12/01/2003",0,8,12,0,7.0,7.75,7.45,0],["CH0337","DK26212121","Trần Thị Hà",1,"15/08/1997",10,0,12,0,7.5,5.75,6.45,0],["CH0338","DK26212189","Nguyễn Ngọc Mai Hà",1,"28/12/1993",10,0,12,0,6.5,6.0,6.2,0],["CH0339","DK26212185","Đặng Khánh Hà",1,"02/09/2000",0,8,12,0,8.5,7.5,7.9,0],["CH0340","DK26212233","Nguyễn Thu Hà",1,"27/05/2001",0,8,12,0,7.0,7.0,7.0,0],["CH0341","DK26212257","Trần Thị Thu Hà",1,"17/02/1993",0,11,12,1,9.0,8.25,8.55,0],["CH0342","DK26212533","Vũ Thu Hà",1,"12/03/2002",0,3,12,1,8.0,6.25,6.95,0],["CH0343","DK26212530","Nguyễn Thu Hà",1,"05/10/2002",10,3,12,0,7.0,6.0,6.4,0],["CH0344","DK26212514","Lê Việt Hà",1,"14/09/2002",3,11,12,1,8.5,7.25,7.75,0],["CH0345","DK26212406","Doãn Thu Hà",1,"03/04/2003",0,4,12,0,7.0,8.25,7.75,0],["CH0346","DK26212421","Nguyễn Thị Ngân Hà",1,"03/07/2003",12,2,12,1,8.5,6.5,7.3,0],["CH0347","DK26212449","Nguyễn Hải Hà",1,"25/09/1988",12,0,12,0,8.0,7.75,7.85,0],["CH0348","DK26212482","Nguyễn Quang Hà",0,"09/08/2003",4,2,12,0,5.5,6.5,6.1,0],["CH0349","DK26212308","Lê Thị Việt Hà",1,"26/03/2001",5,14,12,1,6.0,6.0,6.0,0],["CH0350","DK26212336","Lê Ngọc Hà",1,"07/07/2004",12,0,12,0,8.0,7.75,7.85,0],["CH0351","DK26212814","Đặng Thị Ngân Hà",1,"18/09/2002",13,2,12,0,6.0,7.0,6.6,0],["CH0352","DK26212834","Lê Nguyễn Hải Hà",1,"08/06/1993",12,8,13,1,5.5,7.75,6.85,0],["CH0353","DK26212837","Lê Ngọc Hà",0,"04/08/1998",13,0,13,1,3.5,6.25,5.15,0],["CH0354","DK26212846","Trần Thu Hà",1,"18/07/2003",0,8,13,0,8.0,8.25,8.15,0],["CH0355","DK26212847","Phạm Thu Hà",1,"01/12/2003",8,8,13,0,7.5,5.0,6.0,0],["CH0356","DK26212855","Hoàng Bích Hà",1,"05/02/1999",0,11,13,0,7.5,5.75,6.45,0],["CH0357","DK26213227","Nguyễn Hồng Hà",0,"31/10/2000",1,8,13,0,6.0,7.75,7.05,0],["CH0358","DK26213238","Lò Hoàng Thái Hà",1,"28/06/2002",2,0,13,0,6.5,6.0,6.2,0],["CH0359","DK26213137","Hoàng Thị Hồng Hà",1,"22/10/2003",13,8,13,0,6.0,6.25,6.15,0],["CH0360","DK26213120","Vũ Thị Thu Hà",1,"21/05/2002",0,7,13,1,6.5,8.5,7.7,0],["CH0361","DK26213393","Nguyễn Thu Hà",1,"20/05/1999",4,7,13,0,7.0,6.25,6.55,0],["CH0362","DK26213321","Tạ Thu Hà",1,"05/03/2003",8,0,13,0,7.5,7.5,7.5,0],["CH0363","DK26213322","Lê Ngọc Hà",1,"21/05/2003",8,0,13,0,6.5,8.0,7.4,0],["CH0364","DK26213297","Nguyễn Hải Hà",0,"01/06/1989",8,2,13,0,6.5,6.0,6.2,0],["CH0365","DK27110041","Vương Phương Hà",1,"27/09/2003",11,2,13,0,4.0,6.25,5.35,0],["CH0366","DK26213427","Nguyễn Bảo Hà",1,"21/08/2003",6,1,13,1,6.0,8.0,7.2,0],["CH0367","DK26213595","Nguyễn Lê Hải",0,"29/09/2000",0,10,13,0,6.5,8.75,7.85,0],["CH0368","DK26213611","Mai Đức Hải",0,"06/10/2003",8,2,13,0,7.0,6.5,6.7,0],["CH0369","DK26213068","Lò Hoàng Hải",0,"01/04/2004",24,8,13,0,6.5,7.25,6.95,1],["CH0370","DK26212717","Đinh Thị Minh Hải",1,"29/07/2002",8,3,13,0,5.5,6.5,6.1,0],["CH0371","DK26212485","Trần Hoàng Hải",0,"13/11/1999",0,2,13,1,7.0,8.25,7.75,0],["CH0372","DK26212407","Dương Phạm Hải",0,"03/07/1999",12,0,13,1,4.0,6.25,5.35,0],["CH0373","DK26212568","Kiều Thái Hải",0,"10/08/2001",0,0,13,0,7.5,8.25,7.95,0],["CH0374","DK26212998","Phạm Lý Trang Hạ",1,"06/10/2004",19,25,13,0,7.5,6.0,6.6,0],["CH0375","DK26212894","Nguyễn Ngọc Hạnh",1,"23/02/2003",15,11,13,0,8.0,7.75,7.85,0],["CH0376","DK26212719","Lương Mỹ Hạnh",1,"14/08/2000",0,2,13,0,4.0,6.25,5.35,0],["CH0377","DK26212797","Nguyễn Thị Hồng Hạnh",1,"01/04/2002",11,3,13,1,8.0,6.5,7.1,0],["CH0378","DK26213072","Nguyễn Thị Hạnh",1,"26/08/2004",0,1,13,0,8.0,7.25,7.55,0],["CH0379","DK26213290","Nguyễn Mỹ Hạnh",1,"28/10/2004",10,8,14,0,3.0,6.75,5.25,0],["CH0380","DK26213407","Ngô Minh Hạnh",1,"16/12/2001",4,0,14,1,8.0,8.25,8.15,0],["CH0381","DK26212512","Nguyễn Thị Hồng Hạnh",1,"12/10/1991",0,7,14,0,8.0,8.5,8.3,0],["CH0382","DK26212426","Lê Thị Hạnh",1,"11/12/1998",10,17,14,0,4.0,7.0,5.8,0],["CH0383","DK26212147","Nguyễn Minh Hạnh",0,"01/01/1991",11,8,14,1,8.5,8.0,8.2,0],["CH0384","DK26212129","Nguyễn Thị Thanh Hằng",1,"22/01/2001",4,14,14,0,7.0,6.5,6.7,0],["CH0385","DK26212175","Nguyễn Thanh Hằng",1,"26/05/2002",0,0,14,1,6.0,7.25,6.75,0],["CH0386","DK26212249","Đinh Thị Thanh Hằng",1,"24/11/2002",12,0,14,0,7.5,7.0,7.2,0],["CH0387","DK26212326","Nguyễn Thị Thúy Hằng",1,"20/09/1998",6,7,14,1,6.0,6.25,6.15,0],["CH0388","DK26212352","Nguyễn Thanh Hằng",1,"20/01/2001",8,8,14,0,8.5,7.25,7.75,0],["CH0389","DK26212373","Cáp Thị Thanh Hằng",1,"15/09/2004",12,11,14,0,7.5,7.75,7.65,0],["CH0390","DK26213355","Trần Thúy Hằng",1,"11/04/2003",0,0,14,1,6.0,8.0,7.2,0],["CH0391","DK26213361","Nguyễn Thanh Hằng",1,"11/12/2004",0,9,14,0,6.0,8.75,7.65,0],["CH0392","DK26213313","Trịnh Minh Hằng",1,"09/01/2002",0,8,14,1,5.0,8.0,6.8,0],["CH0393","DK26213261","Nguyễn Thị Thanh Hằng",1,"06/11/2001",10,8,14,1,3.5,7.5,5.9,0],["CH0394","DK26213178","Nguyễn Thị Minh Hằng",1,"04/03/2003",0,8,14,0,8.0,7.0,7.4,0],["CH0395","DK26213186","Lương Thị Thu Hằng",1,"08/02/1997",17,8,14,0,6.5,7.0,6.8,0],["CH0396","DK26212831","Hoàng Thu Hằng",1,"14/12/2002",12,0,14,0,8.5,8.0,8.2,0],["CH0397","DK26212699","Nguyễn Ngân Hằng",1,"13/04/2002",15,3,14,0,7.5,6.25,6.75,0],["CH0398","DK26213029","Nguyễn Minh Hằng",1,"22/07/2004",13,8,14,0,8.0,7.5,7.7,0],["CH0399","DK26213580","Nguyễn Thị Thu Hằng",1,"22/02/2001",0,0,14,1,7.0,5.25,5.95,0],["CH0400","DK26213537","Phạm Thị Hằng",1,"03/02/1996",6,8,14,1,6.5,6.75,6.65,0],["CH0401","DK26213495","Nguyễn Thúy Hằng",1,"22/09/2002",0,8,14,1,8.0,7.5,7.7,0],["CH0402","DK27113483","Hồ Nguyễn Diễm Hằng",1,"24/08/2004",1,2,14,1,8.0,6.5,7.1,0],["CH0403","DK26212708","Nguyễn Thị Hậu",1,"26/06/1998",6,0,14,1,0.0,null,0.0,0],["CH0404","DK26212497","Nguyễn Quang Hậu",0,"26/05/2002",13,0,14,0,6.0,7.25,6.75,0],["CH0405","DK26213212","Đặng Thị Mai Hiên",1,"18/04/2003",8,6,14,0,7.5,7.75,7.65,0],["CH0406","DK26213170","Nguyễn Thanh Hiền",1,"22/02/1995",0,8,15,0,5.0,5.5,5.3,0],["CH0407","DK26213266","Bùi Thị Thu Hiền",1,"12/10/2004",8,8,15,0,8.0,8.0,8.0,0],["CH0408","DK26213301","Chu Thị Thu Hiền",1,"13/06/1999",5,8,15,1,8.5,6.5,7.3,1],["CH0409","DK26212709","Trần Thu Hiền",1,"28/08/2000",4,8,15,1,5.0,7.5,6.5,0],["CH0410","DK26212679","Trần Thu Hiền",1,"14/12/2000",8,6,15,1,8.5,5.5,6.7,0],["CH0411","DK26212749","Trần Thu Hiền",1,"27/08/2003",3,6,15,0,8.0,8.0,8.0,0],["CH0412","DK26212488","Đỗ Thu Hiền",1,"12/11/1998",0,0,15,1,7.5,7.25,7.35,0],["CH0413","DK26212519","Vũ Thu Hiền",1,"01/08/2003",0,8,15,0,2.0,4.25,3.35,0],["CH0414","DK26212572","Chu Thị Hiền",1,"17/10/2001",8,0,15,0,5.0,6.0,5.6,0],["CH0415","DK26212655","Nguyễn Minh Hiền",1,"19/08/2003",0,0,15,0,7.0,7.0,7.0,0],["CH0416","DK26212399","Nguyễn Minh Hiền",1,"19/10/2004",13,6,15,0,9.0,8.5,8.7,0],["CH0417","DK26212193","Nguyễn Thu Hiền",1,"23/10/2003",0,7,15,0,3.0,6.5,5.1,0],["CH0418","DK25212399","Đinh Thị Thu Hiền",1,"18/10/1985",25,9,15,1,2.0,5.0,3.8,0],["CH0419","DK26212045","Phương Thu Hiền",1,"13/08/1996",0,0,15,0,3.5,7.0,5.6,0],["CH0420","DK26213464","Vũ Thị Thu Hiền",1,"13/03/2001",12,5,15,0,9.0,8.0,8.4,0],["CH0421","DK26213510","Trần Thị Thúy Hiền",1,"05/02/2004",17,15,15,1,7.5,7.25,7.35,0],["CH0422","DK26211276","Nguyễn Hồ Phan Hiển",0,"13/10/2001",0,2,15,0,3.0,6.75,5.25,0],["CH0423","DK26212985","Tạ Hữu Hiển",0,"25/09/1988",1,9,15,0,4.0,8.0,6.4,0],["CH0424","DK26212932","Hoàng Trung Hiếu",0,"19/08/2001",12,8,15,0,6.5,8.25,7.55,0],["CH0425","DK26212764","Đỗ Trọng Trung Hiếu",0,"04/03/1999",0,0,15,0,8.0,8.25,8.15,0],["CH0426","DK26212820","Nguyễn Trung Hiếu",0,"23/11/2002",8,2,15,0,7.5,6.75,7.05,0],["CH0427","DK26212199","Nguyễn Bá Hiếu",0,"24/10/2001",5,0,15,0,7.0,6.5,6.7,0],["CH0428","DK26212413","Lê Văn Hiếu",0,"20/08/1988",26,12,15,0,5.0,5.0,5.0,0],["CH0429","DK26212437","Đồng Anh Hiếu",0,"26/04/2002",11,14,15,0,5.0,7.5,6.5,0],["CH0430","DK26213577","Hoàng Minh Hiếu",0,"28/05/2000",8,2,15,1,1.0,5.0,3.4,0],["CH0431","DK26213490","Đỗ Duy Hiếu",0,"27/10/1999",12,17,15,0,8.0,7.0,7.4,0],["CH0432","DK26213497","Mai Chấn Hiệp",0,"13/05/1987",5,8,15,1,5.5,6.5,6.1,0],["CH0433","DK26213289","Hoàng Đức Hiệp",0,"26/03/1997",12,8,16,1,3.0,7.5,5.7,0],["CH0434","DK26212570","Hà Huy Hiệu",0,"03/05/2003",4,8,16,0,5.5,8.0,7.0,0],["CH0435","DK26212444","Lê Thị Mai Hoa",1,"23/06/2002",1,8,16,0,5.5,7.5,6.7,0],["CH0436","DK26212420","Nguyễn Mai Hoa",1,"13/09/2003",0,0,16,1,7.5,7.5,7.5,0],["CH0437","DK26212247","Phan Thị Hoa",1,"06/02/1997",1,18,16,0,6.0,6.5,6.3,0],["CH0438","DK26111921","Bùi Thị Hoa",1,"18/10/1992",0,0,16,1,7.0,5.5,6.1,0],["CH0439","DK26213344","Trương Ngọc Hoa",1,"07/11/1991",0,11,16,0,8.0,6.75,7.25,0],["CH0440","DK26212758","Phạm Phương Hoa",1,"23/03/2002",6,9,16,1,3.0,7.0,5.4,0],["CH0441","DK26213049","Trần Thị Hoa",1,"24/04/2000",1,5,16,0,8.0,7.25,7.55,0],["CH0442","DK26212673","Lại Thị Khánh Hoà",1,"28/06/2001",8,1,16,1,7.0,6.75,6.85,0],["CH0443","DK26212609","Đoàn Thị Thanh Hoà",1,"29/01/1999",8,8,16,0,7.5,7.5,7.5,0],["CH0444","DK26212875","Nguyễn Thu Hoài",1,"30/06/2002",8,0,16,0,7.5,8.5,8.1,0],["CH0445","DK26212876","Nguyễn Ngọc Hoàng",0,"10/01/1984",0,2,16,0,7.5,5.5,6.3,0],["CH0446","DK26212886","Đinh Đức Hoàng",0,"29/12/2003",0,0,16,0,7.5,7.25,7.35,0],["CH0447","DK26212911","Nguyễn Đăng Hoàng",0,"23/12/1999",15,8,16,1,6.0,5.5,5.7,0],["CH0448","DK26212999","Lê Việt Hoàng",0,"21/10/2000",0,12,16,1,9.0,8.5,8.7,0],["CH0449","DK26212675","Vũ Huy Hoàng",0,"16/05/1999",0,20,16,0,7.0,6.25,6.55,0],["CH0450","DK26213394","Lê Vũ Việt Hoàng",0,"30/05/2000",24,2,16,0,8.0,7.0,7.4,0],["CH0451","DK26213032","Dương Đình Hoàng",0,"23/03/1995",11,13,16,0,7.0,7.75,7.45,0],["CH0452","DK26212614","Nguyễn Trí Hoàng",0,"31/12/2001",0,2,16,1,7.5,7.5,7.5,0],["CH0453","DK26211977","Tạ Mạnh Hoàng",0,"25/05/2001",6,0,16,0,8.0,8.25,8.15,0],["CH0454","DK26212046","Trần Gia Hoàng",0,"17/01/2002",27,0,16,0,6.5,7.0,6.8,0],["CH0455","DK26212111","Trần Việt Hoàng",0,"14/07/2001",7,8,16,0,6.0,6.75,6.45,0],["CH0456","DK26212213","Lê Minh Hoàng",0,"04/10/2003",8,18,16,0,8.0,8.25,8.15,0],["CH0457","DK26212184","Dương Minh Hoàng",0,"15/09/2000",13,18,16,0,4.5,6.5,5.7,0],["CH0458","DK26213439","Đinh Việt Hoàng",0,"10/12/2004",0,8,16,0,7.0,8.75,8.05,0],["CH0459","DK26213443","Nguyễn Huy Hoàng",0,"11/07/1999",8,21,16,0,5.5,8.25,7.15,0],["CH0460","DK26212412","Vũ Thu Hòa",1,"09/12/1999",3,1,17,0,8.0,8.5,8.3,0],["CH0461","DK26212368","Nguyễn Hữu Hòa",0,"30/01/2003",2,16,17,1,7.5,7.75,7.65,0],["CH0462","DK26212369","Nguyễn Thị Út Hồng",1,"08/07/2000",0,0,17,0,6.5,5.0,5.6,0],["CH0463","DK26212591","Ngô Việt Hồng",1,"16/03/2000",4,8,17,1,8.5,7.75,8.05,0],["CH0464","DK26212256","Võ Thị Thu Hồng",1,"26/06/2000",27,7,17,0,7.5,7.5,7.5,0],["CH0465","DK26112003","Bùi Thị Hồng",1,"08/04/1994",0,7,17,1,7.5,4.5,5.7,1],["CH0466","DK26213565","Phạm Thu Hồng",1,"15/06/2003",15,9,17,0,7.5,8.0,7.8,0],["CH0467","DK26212861","Ngô Minh Huê",1,"22/05/2000",0,25,17,0,6.5,8.5,7.7,0],["CH0468","DK26213108","Hoàng Minh Huế",1,"26/09/1994",19,0,17,1,4.5,6.25,5.55,0],["CH0469","DK26212096","Hà Thị Huế",1,"23/04/2004",4,8,17,0,7.0,8.25,7.75,0],["CH0470","DK26212253","Nguyễn Thị Huệ",1,"26/06/2001",8,7,17,1,8.5,6.25,7.15,0],["CH0471","DK26212922","Nguyễn Thị Huệ",1,"23/09/1993",5,14,17,0,8.0,7.25,7.55,0],["CH0472","DK26212888","Nguyễn Quang Huy",0,"14/01/2002",10,5,17,0,8.0,8.0,8.0,0],["CH0473","DK26212897","Nguyễn Như Huy",0,"18/08/2002",0,10,17,0,9.0,8.5,8.7,0],["CH0474","DK26212970","Đoàn Quang Huy",0,"18/01/1991",0,0,17,0,5.0,6.0,5.6,0],["CH0475","DK26213040","Lại Quốc Huy",0,"08/10/2004",0,9,17,1,7.5,7.5,7.5,0],["CH0476","DK26213024","Nguyễn Đình Quang Huy",0,"20/03/2001",0,0,17,0,5.0,6.75,6.05,0],["CH0477","DK26212763","Đỗ Xuân Huy",0,"15/12/2003",12,7,17,0,6.0,7.75,7.05,0],["CH0478","DK26213051","Ngô Quang Huy",0,"02/04/2002",1,1,17,0,7.5,6.75,7.05,0],["CH0479","DK26212245","Trần Quang Huy",0,"21/01/2001",0,8,17,1,0.0,null,0.0,0],["CH0480","DK26212080","Bùi Thế Huy",0,"15/02/2002",4,7,17,0,8.0,6.25,6.95,0],["CH0481","DK26212028","Phạm Quang Huy",0,"28/07/2003",0,5,17,0,7.0,8.0,7.6,0],["CH0482","DK26212636","Trần Đình Huy",0,"14/01/2001",0,3,17,0,6.5,8.25,7.55,0],["CH0483","DK26212551","Chu Vũ Huy",0,"01/05/2003",15,2,17,1,8.5,8.0,8.2,0],["CH0484","DK26213473","Phạm Đức Huy",0,"21/02/2003",6,19,17,1,8.0,6.0,6.8,0],["CH0485","DK26213453","Lê Đào Nguyên Huy",0,"29/08/2004",0,15,17,0,6.0,8.0,7.2,0],["CH0486","DK26213446","Phạm Thị Thanh Huyền",1,"20/06/1996",0,0,17,1,8.5,8.5,8.5,0],["CH0487","DK26213440","Trần Thanh Huyền",1,"30/04/2004",6,8,18,1,8.5,8.25,8.35,0],["CH0488","DK26213429","Phạm Thị Phương Huyền",1,"18/11/2002",6,3,18,1,7.5,7.5,7.5,0],["CH0489","DK26213591","Nguyễn Thị Thu Huyền",1,"21/09/2002",0,9,18,1,7.5,7.0,7.2,0],["CH0490","DK26212563","Nguyễn Thị Thu Huyền",1,"22/02/1990",0,2,18,1,7.0,6.0,6.4,0],["CH0491","DK26212632","Nguyễn Khánh Huyền",1,"03/11/2004",5,0,18,0,8.5,7.25,7.75,0],["CH0492","DK26212394","Lương Thị Thu Huyền",1,"28/01/2002",6,8,18,0,8.0,7.75,7.85,0],["CH0493","DK26212325","Ứng Thị Phương Huyền",1,"06/09/2004",8,9,18,0,6.0,8.0,7.2,0],["CH0494","DK26212333","Vũ Thị Huyền",1,"23/01/2003",0,11,18,1,7.5,7.0,7.2,0],["CH0495","DK26212306","Phạm Minh Huyền",1,"28/06/2001",12,2,18,0,7.0,8.0,7.6,0],["CH0496","DK26212455","Nguyễn Phương Huyền",1,"09/03/2002",0,0,18,1,7.5,7.5,7.5,0],["CH0497","DK26212075","Bùi Thu Huyền",1,"15/04/2003",0,3,18,0,7.0,7.25,7.15,0],["CH0498","DK26212107","Nguyễn Thị Huyền",1,"10/12/1997",11,3,18,1,5.5,7.75,6.85,0],["CH0499","DK26211398","Nguyễn Ngọc Huyền",1,"19/01/2003",12,8,18,1,7.0,6.0,6.4,0],["CH0500","DK26111247","Lê Khánh Huyền",1,"25/07/2001",6,18,18,0,6.0,7.5,6.9,0],["CH0501","DK26213062","Bùi Mai Huyền",1,"06/11/2003",5,0,18,1,7.5,8.0,7.8,0],["CH0502","DK26213228","Nguyễn Thanh Huyền",1,"01/05/2004",1,8,18,1,6.5,7.5,7.1,0],["CH0503","DK26213263","Bùi Ngọc Huyền",1,"19/01/2003",10,5,18,1,7.5,7.25,7.35,0],["CH0504","DK26213279","Mai Khánh Huyền",1,"02/09/2004",0,8,18,0,6.0,7.25,6.75,0],["CH0505","DK26213251","Trần Thu Huyền",1,"15/08/2001",3,0,18,1,8.0,7.5,7.7,0],["CH0506","DK26212818","Đỗ Ngọc Huyền",1,"08/02/2001",0,8,18,0,7.0,8.0,7.6,0],["CH0507","DK26212785","Vũ Thu Huyền",1,"15/01/2000",6,8,18,0,6.5,8.0,7.4,0],["CH0508","DK26213016","Nguyễn Khánh Huyền",1,"30/09/2001",15,0,18,0,8.0,6.75,7.25,0],["CH0509","DK26212904","Trịnh Thị Thanh Huyền",1,"13/12/2003",4,8,18,1,0.0,null,0.0,0],["CH0510","DK26212920","Văn Thị Khánh Huyền",1,"24/01/2003",4,3,18,0,5.5,9.0,7.6,0],["CH0511","DK26212930","Bùi Thu Huyền",1,"18/08/1996",10,2,18,1,6.5,8.25,7.55,0],["CH0512","DK26212938","Nguyễn Khánh Huyền",1,"02/12/2004",12,8,18,0,5.0,7.0,6.2,0],["CH0513","DK26212953","Cao Khánh Huyền",1,"18/12/2003",12,7,18,1,0.0,null,0.0,0],["CH0514","DK26213391","Trần Việt Hùng",0,"22/06/1998",0,8,19,1,6.5,7.25,6.95,0],["CH0515","DK26213347","Nguyễn Việt Hùng",0,"02/12/2002",8,19,19,1,3.5,6.25,5.15,0],["CH0516","DK26213567","Ngô Lê Hùng",0,"20/07/2003",0,8,19,1,9.0,9.0,9.0,0],["CH0517","DK26213511","Hoàng Duy Hùng",0,"01/02/2000",13,8,19,0,7.5,7.75,7.65,0],["CH0518","DK26213505","Vũ Nguyên Hưng",0,"21/09/2003",0,1,19,1,6.5,5.0,5.6,0],["CH0519","DK26213351","Mai Ngọc Hưng",0,"11/02/1999",8,2,19,0,4.0,5.75,5.05,0],["CH0520","DK26213220","Nguyễn Duy Hưng",0,"09/12/2004",12,9,19,0,6.0,8.5,7.5,0],["CH0521","DK26212863","Đinh Việt Hưng",0,"18/09/1996",0,9,19,0,8.0,8.25,8.15,0],["CH0522","DK26212869","Lại Hợp Thái Hưng",0,"20/02/2003",4,8,19,0,6.5,7.25,6.95,0],["CH0523","DK26212809","Nguyễn Thành Hưng",0,"17/02/1991",0,0,19,0,6.5,7.75,7.25,0],["CH0524","DK26212829","Dương Đức Hưng",0,"04/03/2004",0,8,19,0,7.0,8.0,7.6,0],["CH0525","DK26212836","Nguyễn Xuân Hưng",0,"07/06/1996",13,0,19,0,8.0,6.25,6.95,0],["CH0526","DK26212750","Nguyễn Duy Hưng",0,"25/07/2003",15,15,19,0,8.0,7.5,7.7,0],["CH0527","DK26211970","Đào Duy Hưng",0,"28/10/1990",12,8,19,0,5.0,8.0,6.8,0],["CH0528","DK26212236","Nguyễn Bảo Hưng",0,"20/10/2004",28,2,19,0,7.5,8.25,7.95,0],["CH0529","DK26212229","Nguyễn Quang Hưng",0,"30/11/2001",0,1,19,0,6.0,6.0,6.0,0],["CH0530","DK26212277","Nguyễn Duy Hưng",0,"24/03/1999",5,2,19,0,7.5,9.0,8.4,0],["CH0531","DK26212162","Trần Ngọc Hưng",0,"17/03/2000",0,14,19,1,6.0,6.25,6.15,0],["CH0532","DK26212126","Tống Việt Hưng",0,"26/12/1986",5,0,19,0,7.0,7.5,7.3,0],["CH0533","DK26212599","Quán Việt Hưng",0,"23/11/1990",1,2,19,0,6.5,6.25,6.35,0],["CH0534","DK26212534","Lưu Thanh Hương",1,"24/08/2001",0,11,19,1,7.5,7.5,7.5,0],["CH0535","DK26212409","Phùng Thiên Hương",1,"16/02/2003",0,0,19,0,6.5,6.75,6.65,0],["CH0536","DK26212321","Phạm Mai Hương",1,"03/10/2003",0,11,19,0,8.0,5.75,6.65,0],["CH0537","DK26212388","Ngô Lan Hương",1,"22/08/2002",8,0,19,0,7.0,7.5,7.3,0],["CH0538","DK26212386","Vũ Hà Lan Hương",1,"02/08/1992",8,0,19,0,8.0,7.25,7.55,0],["CH0539","DK26212288","Trần Thị Giang Hương",1,"14/04/1998",13,0,19,1,1.0,null,0.4,1],["CH0540","DK26212000","Bùi Việt Hương",1,"16/08/2002",8,1,19,0,6.0,8.25,7.35,0],["CH0541","DK26212097","Nguyễn Thị Thu Hương",1,"22/01/1999",6,0,20,0,8.0,7.75,7.85,0],["CH0542","DK26212093","Trần Thị Diệu Hương",1,"19/06/2004",12,14,20,0,5.5,6.5,6.1,0],["CH0543","DK26212769","Nguyễn Quỳnh Hương",1,"21/08/1999",4,7,20,0,8.0,7.0,7.4,0],["CH0544","DK26212864","Đinh Thị Thu Hương",1,"10/11/2004",8,9,20,1,0.0,null,0.0,0],["CH0545","DK26213042","Nguyễn Thanh Hương",1,"11/04/2004",4,17,20,0,8.5,6.75,7.45,0],["CH0546","DK26213126","Nguyễn Lan Hương",1,"25/12/2004",6,8,20,1,6.5,8.0,7.4,0],["CH0547","DK26213340","Lục Thị Diệu Hương",1,"21/11/2000",10,0,20,1,5.5,4.5,4.9,0],["CH0548","DK26213315","Phùng Thị Hương",1,"11/11/1996",4,2,20,1,8.5,7.5,7.9,0],["CH0549","DK26213519","Nguyễn Thị Lan Hương",1,"12/05/2004",4,8,20,0,4.0,7.5,6.1,0],["CH0550","DK26213588","Nguyễn Thu Hường",1,"03/07/2003",15,6,20,0,5.0,6.0,5.6,0],["CH0551","DK26213302","Nguyễn Thị Hường",1,"03/05/2004",10,3,20,1,8.0,7.5,7.7,0],["CH0552","DK26212735","Nguyễn Thuý Hường",1,"28/01/2004",4,8,20,0,6.5,9.0,8.0,0],["CH0553","DK26212469","Ngọc Thúy Hường",1,"16/11/2001",14,4,20,1,6.0,6.0,6.0,0],["CH0554","DK26211853","Nguyễn Thị Hưởng",1,"21/04/1990",0,0,20,0,7.0,7.75,7.45,0],["CH0555","DK26111634","Nguyễn Văn Khanh",0,"02/09/1997",12,0,20,0,6.5,4.5,5.3,0],["CH0556","DK26212639","Bùi Huy Khanh",0,"09/02/2004",12,5,20,1,8.0,7.5,7.7,0],["CH0557","DK26212005","Trương Đỗ Khải",0,"04/07/2003",0,0,20,1,8.0,6.5,7.1,0],["CH0558","DK26110803","Bùi Đỗ Ngọc Khánh",1,"02/09/2000",0,11,20,0,7.5,5.5,6.3,0],["CH0559","DK26212252","Đỗ Quốc Khánh",0,"21/08/2004",0,0,20,0,6.0,8.5,7.5,0],["CH0560","DK26212105","Vũ Nguyên Khánh",0,"01/01/2002",6,0,20,0,7.0,8.0,7.6,0],["CH0561","DK26212468","Lê Ngọc Kỳ Khánh",0,"06/04/2001",12,0,20,1,6.5,7.5,7.1,0],["CH0562","DK26212722","Đặng Nam Khánh",0,"26/09/2001",0,8,20,0,7.5,7.25,7.35,0],["CH0563","DK26212793","Nguyễn Diên Khánh",1,"10/05/2004",12,9,20,1,6.5,7.5,7.1,0],["CH0564","DK26213247","Nguyễn Nam Khánh",0,"05/12/2002",2,2,20,1,7.0,7.75,7.45,0],["CH0565","DK26213155","Trần Ngọc Khánh",0,"07/09/2003",5,2,20,1,6.0,9.75,8.25,0],["CH0566","DK26213065","Bùi Ngọc Khánh",0,"05/05/1994",8,2,20,0,7.5,8.5,8.1,0],["CH0567","DK26111196","Dương Văn Khiêm",0,"09/04/2002",0,9,20,0,3.0,5.75,4.65,0],["CH0568","DK26211950","Trần Đức Khiêm",0,"11/09/2002",0,23,21,0,4.5,7.5,6.3,0],["CH0569","DK26213307","Hồ Minh Khoa",0,"09/04/2004",0,8,21,0,3.0,6.75,5.25,0],["CH0571","DK26213587","Lê Trọng Khôi",0,"25/09/2003",4,4,21,0,7.5,5.25,6.15,0],["CH0572","DK26212362","Nguyễn Ngọc Khuê",1,"28/09/2004",0,6,21,0,8.0,9.0,8.6,0],["CH0573","DK26212522","Nguyễn Minh Khuê",1,"04/11/2003",0,11,21,0,0.0,null,0.0,0],["CH0574","DK26212492","Lê Mạnh Kiên",0,"03/02/2003",0,2,21,1,5.0,6.75,6.05,0],["CH0575","DK26212541","Đào Trung Kiên",0,"03/01/2002",0,0,21,0,5.5,8.25,7.15,0],["CH0576","DK26212555","Nguyễn Trung Kiên",0,"13/08/1981",8,2,21,0,6.5,8.5,7.7,0],["CH0577","DK26212651","Đỗ Mạnh Kiên",0,"15/08/2000",0,6,21,0,2.0,6.0,4.4,0],["CH0578","DK26110535","Trần Trung Kiên",0,"02/01/1997",11,0,21,0,2.0,5.75,4.25,0],["CH0579","DK26213041","Lương Đức Kiên",0,"05/05/2004",0,11,21,0,5.0,8.25,6.95,0],["CH0580","DK26213450","Cấn Trung Kiên",0,"15/05/1999",0,0,21,0,3.0,7.75,5.85,0],["CH0581","DK26212422","Kiều Quốc Kỳ",0,"03/06/2004",0,9,21,0,7.5,7.0,7.2,0],["CH0582","DK26213281","Trần Hương Lam",1,"07/10/2004",0,25,21,0,3.0,7.5,5.7,0],["CH0583","DK26213093","Trần Thị Mai Lan",1,"23/11/1978",0,8,21,1,4.0,5.25,4.75,0],["CH0584","DK26213106","Nguyễn Ngọc Lan",1,"01/12/2004",5,18,21,0,8.0,6.5,7.1,0],["CH0585","DK26212344","Nguyễn Thị Lan",1,"13/12/1999",4,1,21,0,8.0,6.5,7.1,0],["CH0586","DK26212518","Nguyễn Hương Lan",1,"18/04/2003",0,7,21,0,6.0,6.25,6.15,0],["CH0587","DK26212545","Phạm Tùng Lâm",0,"10/07/1997",0,0,21,0,2.0,6.25,4.55,0],["CH0588","DK26212211","Phạm Đăng Lâm",0,"23/03/2003",0,8,21,0,7.0,7.75,7.45,0],["CH0589","DK26213101","Trần Ngọc Lâm",0,"20//1998",10,0,21,0,0.0,null,0.0,0],["CH0590","DK26212848","Ngô Chiếu Lâm",0,"06/12/1999",0,20,21,0,7.5,7.25,7.35,0],["CH0591","DK26213522","Vu Tông Lập",0,"13/12/2004",0,8,21,0,0.0,null,0.0,0],["CH0592","DK26212376","Lê Mỹ Lệ",1,"13/10/2004",4,9,21,1,7.5,6.75,7.05,0],["CH0593","DK26212621","Đỗ Bích Liên",1,"10/12/2003",15,0,21,1,7.0,7.75,7.45,0],["CH0594","DK26212021","Đồng Thị Liên",1,"23/09/1998",10,9,21,1,7.5,5.25,6.15,0],["CH0595","DK26213090","Nguyễn Phương Liên",1,"21/10/2001",0,9,22,1,7.0,7.25,7.15,0],["CH0596","DK26213182","Đặng Thị Liên",1,"02/12/1993",1,1,22,0,0.0,null,0.0,0],["CH0597","DK26212841","Trần Thị Thu Liễu",1,"21/10/2004",8,0,22,0,5.0,8.75,7.25,0],["CH0598","DK26212857","Trần Ngọc Linh",1,"20/10/2004",0,0,22,0,7.5,8.25,7.95,0],["CH0599","DK26212830","Nghiêm Diệu Linh",1,"29/05/2004",12,9,22,1,6.0,6.5,6.3,0],["CH0600","DK26212822","Mai Thùy Linh",1,"25/02/1998",12,8,22,0,5.0,6.25,5.75,0],["CH0601","DK26212826","Đinh Thị Thùy Linh",1,"03/02/2002",3,10,22,0,6.5,5.5,5.9,0],["CH0602","DK26212812","Lê Thị Mỹ Linh",1,"21/04/1996",1,11,22,0,4.0,7.5,6.1,0],["CH0603","DK26212798","Nguyễn Thị Mỹ Linh",1,"29/01/1996",0,4,22,1,5.0,6.0,5.6,0],["CH0604","DK26212670","Phan Nguyễn Hiền Linh",1,"31/12/2003",11,0,22,1,4.0,7.25,5.95,0],["CH0605","DK26212671","Trần Mỹ Linh",1,"24/05/2002",0,0,22,0,6.0,5.75,5.85,0],["CH0606","DK26212736","Hoàng Thị Thúy Linh",1,"06/09/2002",5,11,22,1,6.5,7.5,7.1,0],["CH0608","DK26213035","Mai Khánh Linh",1,"26/02/2003",6,8,22,0,5.5,7.0,6.4,0],["CH0609","DK26213044","Nguyễn Dương Khánh Linh",1,"14/02/2004",4,2,22,0,7.5,7.0,7.2,0],["CH0610","DK26213012","Trần Khánh Linh",1,"28/05/2004",8,0,22,0,3.5,7.5,5.9,0],["CH0611","DK26212983","Đỗ Trúc Linh",1,"01/09/2001",28,8,22,0,5.5,8.25,7.15,0],["CH0612","DK26213010","Lưu Khánh Linh",1,"08/10/2002",3,9,22,0,3.0,7.0,5.4,0],["CH0613","DK26212900","Quản Khánh Linh",1,"29/09/2003",7,11,22,1,3.5,7.5,5.9,0],["CH0614","DK26212901","Lê Ánh Ngọc Linh",1,"19/08/2004",5,8,22,0,6.0,7.5,6.9,0],["CH0615","DK26212890","Cao Vũ Mai Linh",1,"26/06/2004",0,8,22,0,3.5,7.5,5.9,0],["CH0616","DK26212912","Đỗ Lý Hương Linh",1,"08/08/2004",0,8,22,0,8.0,6.0,6.8,0],["CH0617","DK26212908","Phùng Ngọc Linh",1,"21/09/2003",8,0,22,0,6.5,8.0,7.4,0],["CH0618","DK26212957","Lê Thị Diệu Linh",1,"21/09/2002",8,0,22,1,5.5,6.0,5.8,0],["CH0619","DK26212962","Đào Khánh Linh",1,"17/08/2004",0,8,22,0,6.0,8.0,7.2,0],["CH0620","DK26212928","Nguyễn Thị Nhật Linh",1,"08/04/2003",0,17,22,1,7.5,8.25,7.95,0],["CH0621","DK26213215","Đinh Mỹ Linh",1,"12/11/1996",0,2,23,0,8.5,4.25,5.95,0],["CH0622","DK26213213","Phạm Phương Linh",1,"03/08/2002",0,5,23,0,8.0,7.25,7.55,0],["CH0623","DK26213225","Nguyễn Ngọc Linh",1,"14/11/2004",1,8,23,0,0.0,null,0.0,0],["CH0624","DK26213241","Đồng Phương Linh",1,"31/12/2003",7,8,23,1,0.0,null,0.0,0],["CH0625","DK26213088","Cao Thùy Linh",1,"08/10/2000",0,11,23,1,7.0,7.25,7.15,0],["CH0626","DK26213052","Nguyễn Ngọc Mỹ Linh",1,"14/02/2003",5,9,23,0,7.5,7.75,7.65,0],["CH0627","DK26213053","Trần Khánh Linh",1,"20/12/2003",0,3,23,0,7.5,6.75,7.05,0],["CH0628","DK26213069","Đỗ Ngọc Linh",1,"20/06/2003",0,11,23,0,7.5,7.75,7.65,0],["CH0629","DK26213152","Ngô Thị Linh",1,"16/11/2003",10,0,23,0,8.5,7.5,7.9,0],["CH0630","DK26213134","Đào Ngọc Linh",1,"12/09/1996",0,0,23,1,3.0,5.25,4.35,0],["CH0631","DK26213142","Phạm Quỳnh Linh",1,"06/05/2004",29,9,23,1,7.0,5.75,6.25,0],["CH0632","DK26213130","Đỗ Diệu Linh",1,"01/05/2004",15,9,23,0,5.5,6.5,6.1,0],["CH0633","DK26213274","Đinh Thị Thảo Linh",1,"18/08/2004",8,6,23,0,6.0,8.25,7.35,0],["CH0634","DK26213245","Nguyễn Hà Linh",1,"26/11/2004",4,26,23,0,6.5,8.0,7.4,0],["CH0635","DK26213326","Ngô Thị Khánh Linh",1,"06/05/2001",0,0,23,1,5.5,8.25,7.15,0],["CH0636","DK26213341","Nguyễn Thị Thuỳ Linh",1,"08/09/2002",13,8,23,0,7.0,7.25,7.15,0],["CH0637","DK26213350","Quách Tú Linh",1,"29/06/2004",0,7,23,0,4.0,5.75,5.05,0],["CH0638","DK26213358","Nguyễn Thị Diệu Linh",1,"02/06/2002",0,8,23,1,4.0,7.5,6.1,0],["CH0639","DK26213354","Trần Phương Linh",1,"18/08/2004",17,6,23,0,6.5,7.75,7.25,0],["CH0640","DK26213397","Lê Diệu Linh",1,"27/10/2003",4,7,23,0,7.5,8.0,7.8,0],["CH0641","DK26213404","Lê Mai Linh",1,"28/08/2003",0,14,23,0,7.0,8.25,7.75,0],["CH0642","DK26213406","Nguyễn Trang Linh",1,"05/01/2002",0,3,23,1,5.5,7.25,6.55,0],["CH0643","DK26213373","Trần Thị Linh",1,"05/01/2002",30,8,23,1,3.5,6.25,5.15,0],["CH0644","DK27110008","Ngô Phương Linh",1,"25/06/2003",0,8,23,0,4.0,7.75,6.25,0],["CH0645","DK26213389","Hà Diệu Linh",1,"26/01/2003",6,5,23,0,5.5,7.25,6.55,0],["CH0646","DK26212017","Nguyễn Lê Khánh Linh",1,"28/11/2003",0,7,23,0,7.0,7.5,7.3,0],["CH0647","DK26212104","Nguyễn Khánh Linh",1,"19/12/2002",5,8,24,0,8.0,8.0,8.0,0],["CH0648","DK26212114","Nguyễn Khánh Linh",1,"07/08/2002",13,0,24,0,7.0,8.25,7.75,0],["CH0649","DK26212072","Nguyễn Thùy Linh",1,"28/07/2002",0,10,24,1,6.0,6.25,6.15,0],["CH0650","DK26212066","Bùi Hà Linh",1,"13/07/2003",0,0,24,0,7.5,8.5,8.1,0],["CH0651","DK26211646","Nguyễn Phạm Thuỳ Linh",1,"16/04/2003",3,8,24,0,8.0,8.5,8.3,0],["CH0652","DK26211508","Lê Phương Linh",1,"01/06/2001",15,2,24,1,8.5,8.25,8.35,0],["CH0653","DK26211359","Trương Khánh Linh",1,"06/03/1994",5,11,24,0,5.5,7.25,6.55,0],["CH0654","DK26211754","Vũ Khánh Linh",1,"20/02/1999",7,0,24,1,4.0,6.25,5.35,0],["CH0655","DK26211984","Nguyễn Mai Linh",1,"19/08/2003",0,18,24,0,9.0,7.75,8.25,0],["CH0656","DK26212215","Phạm Nguyễn Mai Linh",1,"14/09/2003",8,8,24,0,7.0,6.75,6.85,0],["CH0657","DK26212217","Phùng Khánh Linh",1,"25/06/2004",4,8,24,0,8.0,7.75,7.85,0],["CH0658","DK26212230","Vũ Thùy Linh",1,"20/08/2003",0,15,24,1,7.5,6.25,6.75,0],["CH0659","DK26212231","Phạm Thị Linh",1,"14/05/1999",5,0,24,0,6.0,6.0,6.0,0],["CH0660","DK26212234","Phan Nhật Linh",0,"12/10/2002",13,0,24,1,7.0,7.25,7.15,0],["CH0661","DK26212278","Nguyễn Thùy Linh",1,"20/10/2000",8,8,24,0,7.0,7.25,7.15,0],["CH0662","DK26212268","Nguyễn Phương Linh",1,"10/05/2003",5,8,24,0,7.5,7.5,7.5,0],["CH0663","DK26212271","Đoàn Kiều Linh",1,"20/11/2002",0,0,24,0,8.0,7.25,7.55,0],["CH0664","DK26212273","Nguyễn Phương Linh",1,"12/07/2002",10,0,24,0,8.0,6.75,7.25,0],["CH0665","DK26212166","Phạm Thị Yến Linh",1,"31/07/2004",0,0,24,0,7.0,6.75,6.85,0],["CH0666","DK26212170","Đoàn Nhật Linh",1,"20/11/2003",10,8,24,0,8.0,7.25,7.55,0],["CH0667","DK26212190","Phùng Thị Phương Linh",1,"26/07/2000",8,8,24,0,7.5,7.25,7.35,0],["CH0668","DK26212191","Bùi Hải Linh",0,"20/08/2002",0,0,24,1,3.0,6.5,5.1,0],["CH0669","DK26212201","Phạm Trần Mai Linh",1,"27/08/2004",0,0,24,1,7.0,7.5,7.3,0],["CH0670","DK26212629","Trịnh Gia Linh",0,"20/02/2003",0,8,24,1,6.0,6.5,6.3,0],["CH0671","DK26212653","Lê Gia Linh",1,"22/03/2004",0,5,24,1,8.0,8.0,8.0,0],["CH0672","DK26212600","Nguyễn Khánh Linh",1,"03/09/2004",5,9,24,0,8.0,6.75,7.25,0],["CH0673","DK26212587","Lưu Ái Linh",1,"04/04/2002",7,14,25,0,5.5,8.0,7.0,0],["CH0674","DK26212592","Đặng Hà Linh",1,"26/08/2003",0,0,25,1,8.5,7.75,8.05,0],["CH0675","DK26212584","Vũ Đặng Thuỳ Linh",1,"29/03/2000",12,11,25,0,7.0,7.75,7.45,0],["CH0676","DK26212606","Nguyễn Thị Phương Linh",1,"12/03/2003",0,11,25,1,8.0,7.5,7.7,0],["CH0677","DK26212577","Nguyễn Thị Mỹ Linh",1,"20/10/1994",0,18,25,1,8.0,7.0,7.4,0],["CH0678","DK26212525","Vũ Khánh Linh",1,"31/03/2004",10,9,25,0,8.0,7.0,7.4,0],["CH0679","DK26212495","Phạm Kiều Linh",1,"09/04/2003",8,8,25,0,8.5,8.5,8.5,0],["CH0680","DK26212502","Đàm Khánh Linh",1,"09/12/2003",8,17,25,1,6.5,7.75,7.25,0],["CH0681","DK26212379","Nguyễn Khánh Linh",1,"30/08/2002",4,0,25,1,7.0,7.25,7.15,0],["CH0682","DK26212381","Lê Khánh Linh",1,"24/09/2004",0,4,25,0,7.5,6.25,6.75,0],["CH0683","DK26212345","Nguyễn Khánh Linh",1,"07/06/2003",0,25,25,1,4.0,6.25,5.35,0],["CH0684","DK26212341","Vũ Trần Phương Linh",1,"09/05/2002",12,11,25,1,7.5,7.0,7.2,0],["CH0685","DK26212315","Nguyễn Khánh Linh",1,"25/07/2000",6,0,25,0,7.0,7.75,7.45,0],["CH0686","DK26212307","Nguyễn Việt Phương Linh",1,"13/11/2002",13,8,25,0,7.5,9.25,8.55,0],["CH0687","DK26212475","Phí Thị Diệu Linh",1,"10/05/2002",15,2,25,0,6.5,7.5,7.1,0],["CH0688","DK26212470","Trần Khánh Linh",1,"26/04/2003",3,0,25,0,4.0,6.25,5.35,0],["CH0689","DK26213509","Trịnh Diệu Linh",1,"23/06/2000",13,8,25,1,4.0,7.0,5.8,0],["CH0690","DK26213538","Nguyễn Thị Hoài Linh",1,"29/09/2003",15,16,25,1,5.0,5.0,5.0,0],["CH0691","DK26213534","Hoàng Mai Linh",1,"02/12/2003",14,0,25,0,1.0,null,0.4,1],["CH0692","DK26213531","Nguyễn Thị Mai Linh",1,"25/10/2003",8,2,25,1,8.0,6.0,6.8,0],["CH0693","DK26213594","Trần Ngọc Linh",1,"21/08/2004",0,6,25,0,7.5,8.0,7.8,0],["CH0694","DK26213584","Nguyễn Hoàng Diệu Linh",1,"06/09/2005",0,8,25,1,8.5,7.0,7.6,0],["CH0695","DK26213560","Hoàng Mai Linh",1,"21/10/2004",0,0,25,1,8.0,7.5,7.7,0],["CH0696","DK26213455","Nguyễn Thị Khánh Linh",1,"01/03/2004",17,8,25,0,7.5,7.25,7.35,0],["CH0697","DK26213425","Trần Ngọc Linh",1,"22/10/2004",8,8,25,0,3.0,7.5,5.7,0],["CH0698","DK26213418","Phan Nguyễn Thùy Linh",1,"25/09/2002",0,7,25,1,7.5,4.5,5.7,0],["CH0699","DK26213419","Khúc Mai Linh",1,"22/05/2003",13,0,26,0,7.5,6.5,6.9,1],["CH0700","DK26213463","Nguyễn Thị Trúc Linh",1,"08/03/2003",6,18,26,0,7.0,5.75,6.25,0],["CH0701","DK26213478","Vũ Lê Thùy Linh",1,"12/09/1999",0,0,26,1,7.5,7.0,7.2,0],["CH0702","DK26213479","Nguyễn Khánh Linh",1,"15/09/2004",13,18,26,0,4.0,7.0,5.8,0],["CH0703","DK26213480","Phạm Nguyễn Khánh Linh",1,"20/07/2004",0,8,26,0,5.5,7.25,6.55,0],["CH0704","DK26213489","Lê Phương Linh",1,"18/09/2004",5,5,26,1,6.0,7.0,6.6,0],["CH0705","DK26213612","Trần Ngân Linh",1,"20/06/2004",8,11,26,1,3.5,6.25,5.15,0],["CH0706","DK26213630","Nguyễn Thị Khánh Linh",1,"03/10/2004",10,0,26,1,5.5,7.25,6.55,0],["CH0707","DK26213610","Phạm Kiều Mai Linh",1,"01/01/2003",4,0,26,1,6.5,7.75,7.25,0],["CH0708","DK26212859","Nguyễn Thị Lí",1,"17/12/1989",6,7,26,1,5.0,6.5,5.9,0],["CH0709","DK26212823","Nguyễn Khánh Loan",1,"02/11/2003",0,8,26,0,7.0,7.0,7.0,0],["CH0710","DK26212806","Nguyễn Phương Loan",1,"09/11/2002",8,0,26,0,5.5,6.0,5.8,0],["CH0711","DK26212969","Bùi Thị Thanh Loan",1,"04/10/1987",17,0,26,0,6.5,7.25,6.95,0],["CH0712","DK26213337","Bùi Thị Loan",1,"23/10/1992",6,3,26,1,5.5,8.75,7.45,0],["CH0713","DK26212446","Nguyễn Trần Khánh Loan",1,"26/09/2003",0,19,26,0,3.0,4.25,3.75,0],["CH0714","DK26212378","Trương Thị Bích Loan",1,"18/09/2002",0,23,26,0,3.0,5.5,4.5,0],["CH0715","DK26212663","Nguyễn Thị Thanh Loan",1,"27/10/2001",8,11,26,0,6.0,8.0,7.2,0],["CH0716","DK26212490","Nguyễn Hoàng Long",0,"01/10/2000",0,0,26,0,7.5,7.75,7.65,0],["CH0717","DK26212353","Nguyễn Vũ Gia Long",0,"17/07/2004",8,0,26,0,8.0,7.75,7.85,0],["CH0718","DK26111890","Nguyễn Thành Long",0,"01/01/2003",12,11,26,1,8.0,6.5,7.1,0],["CH0719","DK26110365","Nguyễn Thành Long",0,"16/08/2002",10,5,26,0,8.5,8.0,8.2,0],["CH0720","DK26213021","Nguyễn Thế Long",0,"05/07/2004",0,2,26,0,6.0,7.0,6.6,0],["CH0721","DK26212805","Phạm Tôn Long",0,"10/12/2003",6,6,26,1,8.0,8.0,8.0,0],["CH0722","DK26212821","Nguyễn Nam Long",0,"19/05/1998",0,8,26,0,0.0,null,0.0,0],["CH0723","DK26212682","Nguyễn Thành Long",0,"09/03/2004",0,11,26,0,3.0,7.5,5.7,0],["CH0724","DK26212035","Nguyễn Thành Luân",0,"26/10/1986",8,9,26,1,0.0,null,0.0,0],["CH0725","DK27110017","Đỗ Viết Luỹ",0,"26/04/1995",8,2,27,0,7.5,7.25,7.35,0],["CH0726","DK26213615","Trần Tuấn Lưu",0,"05/05/1996",8,2,27,0,6.5,7.5,7.1,0],["CH0727","DK26212054","Nguyễn Thị Lự",1,"09/11/1997",10,2,27,1,7.5,6.25,6.75,0],["CH0728","DK26212232","Nguyễn Hương Ly",1,"28/12/2002",12,8,27,1,7.5,7.5,7.5,0],["CH0729","DK26212454","Lê Khánh Ly",1,"24/12/1998",0,8,27,0,5.5,8.75,7.45,0],["CH0730","DK26212418","Vũ Hoàng Khánh Ly",1,"26/11/2003",13,9,27,0,8.0,8.75,8.45,0],["CH0731","DK26212477","Nguyễn Hương Ly",1,"19/02/1995",0,0,27,1,8.5,8.0,8.2,0],["CH0732","DK26212581","Nguyễn Huyền Ly",1,"04/12/2004",0,7,27,0,7.5,7.5,7.5,0],["CH0733","DK26212751","Trần Khánh Ly",1,"11/02/2002",10,0,27,0,8.5,8.25,8.35,0],["CH0734","DK26212784","Phùng Ngọc Thảo Ly",1,"03/12/2000",0,11,27,1,7.0,8.25,7.75,0],["CH0735","DK26213291","Phạm Hương Ly",1,"07/01/2004",8,9,27,1,7.5,6.75,7.05,0],["CH0736","DK26213606","Lưu Trần Huyền Ly",1,"05/11/2003",15,1,27,0,7.0,7.0,7.0,0],["CH0737","DK26213608","Vũ Hương Ly",1,"22/03/2003",0,2,27,0,7.5,7.0,7.2,0],["CH0738","DK26213574","Lê Diệu Ly",1,"17/03/2002",5,7,27,0,8.0,6.75,7.25,0],["CH0739","DK26213581","Phan Thị Vân Ly",1,"14/12/2004",1,0,27,0,7.0,7.5,7.3,0],["CH0740","DK26213553","Doãn Phùng Hải Ly",1,"27/10/2003",0,0,27,1,4.0,7.25,5.95,0],["CH0741","DK26213539","Phạm Thị Ngọc Mai",1,"09/09/2003",15,0,27,0,6.5,7.5,7.1,0],["CH0742","DK26213585","Nguyễn Nhật Mai",1,"30/11/2001",0,3,27,1,5.0,7.0,6.2,0],["CH0743","DK26213586","Trần Ánh Mai",1,"14/11/2004",0,8,27,0,7.0,8.0,7.6,0],["CH0744","DK26213424","Nguyễn Thị Thanh Mai",1,"28/09/2001",8,6,27,1,5.5,7.25,6.55,0],["CH0745","DK27110048","Đoàn Xuân Mai",1,"11/06/1993",8,2,27,0,7.5,5.25,6.15,0],["CH0746","DK26213319","Nguyễn Ngọc Mai",1,"06/11/2003",0,16,27,0,7.0,8.0,7.6,0],["CH0747","DK26213370","Trịnh Thanh Mai",1,"06/01/2004",12,7,27,0,5.5,8.25,7.15,0],["CH0748","DK26213379","Bùi Thị Thanh Mai",1,"08/04/2002",4,0,27,1,7.0,6.75,6.85,1],["CH0749","DK26213119","Nguyễn Ngọc Mai",1,"18/09/2003",13,7,27,0,3.5,7.25,5.75,0],["CH0750","DK26213081","Phan Thị Ngọc Mai",1,"13/05/2002",12,9,27,0,6.5,8.5,7.7,0],["CH0751","DK26213180","Đinh Thu Mai",1,"27/11/1999",13,0,28,0,5.5,7.0,6.4,0],["CH0752","DK26212718","Đinh Thị Xuân Mai",1,"08/11/2003",8,5,28,1,3.5,7.5,5.9,0],["CH0753","DK26212712","Trần Ngọc Mai",1,"16/06/2003",10,8,28,0,5.5,8.5,7.3,0],["CH0754","DK26212967","Đinh Ngọc Mai",1,"12/10/2003",0,0,28,0,6.0,6.75,6.45,0],["CH0755","DK26212977","Hoàng Thị Xuân Mai",1,"22/12/2002",6,0,28,0,5.0,8.5,7.1,0],["CH0756","DK26212948","Trần Thanh Mai",1,"23/06/2004",4,8,28,0,5.0,5.5,5.3,0],["CH0757","DK26212884","Đỗ Thị Mai",1,"25/09/1989",12,8,28,0,6.0,6.25,6.15,0],["CH0758","DK26212536","Trần Quỳnh Mai",1,"15/05/1993",13,7,28,0,6.0,7.25,6.75,0],["CH0759","DK26212396","Vũ Phương Mai",1,"15/02/2003",12,0,28,1,7.5,8.25,7.95,0],["CH0760","DK26212332","Nguyễn Ngọc Hương Mai",1,"06/08/2000",0,2,28,1,6.5,7.0,6.8,0],["CH0761","DK26212276","Nguyễn Thị Ngọc Mai",1,"06/10/2004",5,2,28,1,7.0,8.5,7.9,0],["CH0762","DK26212198","Trịnh Thị Mai",1,"01/01/2001",5,1,28,0,8.0,7.5,7.7,0],["CH0763","DK26212127","Đào Thị Ngọc Mai",1,"24/09/2002",3,15,28,1,5.5,5.0,5.2,0],["CH0764","DK26212134","Tạ Hoàng Nhật Mai",1,"13/12/2002",4,17,28,1,0.0,null,0.0,0],["CH0765","DK26212135","Dương Thị Thanh Mai",1,"23/02/1994",5,9,28,0,7.5,6.75,7.05,0],["CH0766","DK26212050","Phạm Thị Phương Mai",1,"27/12/2003",12,7,28,0,8.0,8.25,8.15,0],["CH0767","DK26212095","Trần Thị Thanh Mai",1,"31/12/2004",0,8,28,1,7.0,7.5,7.3,0],["CH0768","DK26211960","Nguyễn Vũ Phương Mai",1,"29/06/2000",8,9,28,0,8.0,6.5,7.1,0],["CH0769","DK26212480","Hoàng Quốc Mạnh",0,"30/08/2003",0,1,28,1,7.0,7.5,7.3,0],["CH0770","DK26212827","Chu Tấn Mạnh",0,"13/04/2004",1,2,28,0,7.0,8.25,7.75,0],["CH0771","DK26212845","Nguyễn Bình Minh",0,"25/12/1999",8,8,28,1,7.0,7.0,7.0,0],["CH0772","DK26212849","Trịnh Anh Minh",0,"27/01/1998",0,0,28,1,6.0,8.25,7.35,0],["CH0773","DK26212779","Nguyễn Văn Minh",0,"10/11/2001",0,10,28,1,6.0,5.25,5.55,0],["CH0774","DK26212909","Nguyễn Phúc Minh",0,"14/11/2003",0,0,28,0,7.0,7.75,7.45,0],["CH0775","DK26213031","Lương Hoàng Ngọc Minh",1,"07/04/2003",0,1,28,1,8.0,7.75,7.85,0],["CH0776","DK26213060","Quàng Thị Bình Minh",1,"28/06/2001",2,0,28,1,4.0,5.5,4.9,1],["CH0777","DK26213192","Nguyễn Bùi Nguyệt Minh",1,"05/08/2003",6,18,29,0,6.5,7.5,7.1,0],["CH0778","DK26213202","Mai Trần Minh",0,"20/08/2004",5,8,29,0,7.5,6.75,7.05,0],["CH0779","DK26213151","Nguyễn Đại Nhật Minh",0,"14/07/2003",13,0,29,0,5.5,8.5,7.3,0],["CH0780","DK26213401","Nguyễn Hùng Minh",0,"19/07/2004",0,2,29,0,4.0,8.75,6.85,0],["CH0781","DK26213304","Hoàng Công Minh",0,"17/08/2004",5,0,29,0,6.0,9.25,7.95,0],["CH0782","DK26213255","Đỗ Thị Nguyệt Minh",1,"16/12/2001",14,0,29,0,6.5,5.75,6.05,1],["CH0783","DK26212535","Đỗ Quý Minh",0,"12/03/1994",12,0,29,0,6.0,7.5,6.9,0],["CH0784","DK26212617","Nguyễn Ngọc Minh",0,"05/09/1998",0,17,29,0,6.0,7.75,7.05,0],["CH0785","DK26212305","Nguyễn Hồng Minh",1,"18/11/2003",0,0,29,1,6.5,7.0,6.8,0],["CH0786","DK26211955","Trần Quang Minh",0,"17/03/2003",8,9,29,0,6.0,7.75,7.05,0],["CH0787","DK26212088","Nguyễn Bùi Hà Minh",1,"07/11/2003",0,18,29,0,5.5,6.5,6.1,0],["CH0788","DK26212036","Nguyễn Nhật Minh",0,"17/11/1989",12,0,29,0,7.5,7.0,7.2,0],["CH0789","DK26112022","Lại Quang Minh",0,"28/09/2002",0,8,29,1,8.5,7.5,7.9,0],["CH0790","DK26212125","Đỗ Bảo Hiếu Minh",0,"18/11/2003",5,2,29,0,3.5,8.0,6.2,0],["CH0791","DK26212153","Phan Thị Hồng Minh",1,"31/12/2002",6,11,29,0,8.0,7.5,7.7,0],["CH0792","DK26212203","Trần Lê Ngọc Minh",1,"29/01/2003",0,7,29,0,7.5,4.5,5.7,0],["CH0793","DK26212225","Lê Quang Minh",0,"20/07/2003",3,0,29,1,7.5,6.25,6.75,0],["CH0794","DK26212254","Lê Tuyết Minh",1,"21/09/2003",0,8,29,0,7.0,7.0,7.0,0],["CH0795","DK26212255","Phùng Tiến Minh",0,"22/03/2002",0,17,29,1,5.0,8.75,7.25,0],["CH0796","DK26213609","Nguyễn Ngọc Minh",0,"14/11/2003",0,3,29,1,8.5,7.25,7.75,0],["CH0797","DK26213619","Đặng Vũ Minh",0,"02/05/2002",4,0,29,0,4.0,5.75,5.05,0],["CH0798","DK27110025","Đỗ Ngọc Minh",1,"12/05/2003",24,0,29,1,5.0,7.0,6.2,0],["CH0799","DK26213465","Nguyễn Lê Minh",0,"19/09/2004",4,8,29,0,5.5,7.75,6.85,0],["CH0800","DK26212395","Phan Thị Mơ",1,"10/08/2002",1,1,29,0,7.5,8.0,7.8,0],["CH0801","DK26212403","Vũ Thị Hương Mơ",1,"17/08/2003",4,1,29,0,7.5,8.25,7.95,0],["CH0802","DK26213208","Nguyễn Xuân Mùi",1,"06/08/2001",0,8,29,0,7.0,6.5,6.7,0],["CH0803","DK26213195","Nguyễn Hà My",1,"28/02/2004",4,0,30,0,8.0,5.75,6.65,0],["CH0804","DK26213124","Nguyễn Ngọc Khánh My",1,"02/02/2002",12,0,30,0,7.0,7.25,7.15,0],["CH0805","DK26213067","Kim Trang My",1,"15/03/2004",0,0,30,0,7.0,9.25,8.35,0],["CH0806","DK26213094","Đặng Hà My",1,"06/12/2000",10,7,30,0,7.5,7.5,7.5,0],["CH0807","DK26213095","Lê Mai Huyền My",1,"17/11/2004",0,16,30,0,7.5,5.75,6.45,0],["CH0808","DK26213103","Nguyễn Hà My",1,"26/03/2004",0,1,30,0,6.0,4.5,5.1,0],["CH0809","DK26213286","Dương Thảo My",1,"21/10/2003",13,0,30,0,7.5,7.25,7.35,1],["CH0810","DK26213382","Vũ Trần Trà My",1,"24/09/2001",10,0,30,1,7.0,6.0,6.4,0],["CH0811","DK26213385","Vũ Thị Thảo My",1,"06/01/2003",12,1,30,0,6.5,7.75,7.25,0],["CH0812","DK26212811","Phạm Hà My",1,"08/06/2004",0,0,30,0,8.0,8.25,8.15,0],["CH0813","DK26212354","Hoàng Vũ Trà My",1,"11/11/2001",0,15,30,0,8.0,6.25,6.95,0],["CH0814","DK26212366","Đinh Thị Trà My",1,"29/10/1999",13,8,30,0,9.0,7.5,8.1,1],["CH0815","DK26212560","Trần Kiều My",1,"29/08/2003",0,11,30,0,7.5,7.5,7.5,0],["CH0816","DK26212192","Nguyễn Việt Trà My",1,"28/02/2003",13,1,30,0,7.0,7.5,7.3,0],["CH0817","DK26212160","Lê Thị Huyền My",1,"02/08/2002",12,1,30,0,8.5,6.75,7.45,0],["CH0818","DK26212142","Trịnh Hà My",1,"03/09/2003",0,0,30,1,5.0,6.25,5.75,0],["CH0819","DK26212124","Phạm Hà My",1,"07/02/2004",5,8,30,1,7.0,6.0,6.4,0],["CH0820","DK26211961","Nguyễn Ngọc Hà My",1,"19/09/2000",4,11,30,0,7.5,6.5,6.9,0],["CH0821","DK26213548","Nguyễn Thị Trà My",1,"22/10/2002",0,11,30,0,7.5,5.25,6.15,0],["CH0822","DK26213405","Nguyễn Phan Diệu Na",1,"03/11/2003",11,8,30,0,7.0,8.0,7.6,0],["CH0823","DK26213092","Lê Hải Nam",0,"17/09/1996",8,8,30,0,3.5,7.5,5.9,0],["CH0824","DK26213156","Trần Hải Nam",0,"30/12/2004",2,0,30,0,5.0,8.0,6.8,0],["CH0825","DK26213197","Đào Việt Nam",0,"02/01/2004",10,7,30,0,4.0,7.25,5.95,0],["CH0826","DK26212808","Trần Vũ Giang Nam",0,"28/03/2001",0,0,30,0,6.5,7.75,7.25,0],["CH0827","DK26213013","Lò Phương Nam",0,"16/07/2003",24,2,30,0,6.0,5.75,5.85,0],["CH0828","DK26212898","Đỗ Thành Nam",0,"07/11/1982",13,0,30,0,3.0,5.5,4.5,0],["CH0829","DK26212942","Nguyễn Quang Nam",0,"04/03/2004",0,8,31,0,7.0,9.0,8.2,0],["CH0830","DK26212879","Nguyễn Phương Nam",0,"11/08/2002",0,0,31,1,6.5,7.0,6.8,0],["CH0831","DK26211991","Nguyễn Thanh Nam",0,"15/07/2004",28,0,31,0,6.0,8.0,7.2,0],["CH0832","DK26212002","Nguyễn Thành Nam",0,"09/03/2002",3,19,31,0,6.5,7.25,6.95,0],["CH0833","DK26212281","Nguyễn Hoàng Nam",0,"26/12/1998",0,0,31,1,0.0,null,0.0,0],["CH0834","DK26212300","Nguyễn Hoàng Nam",0,"11/09/2001",15,3,31,0,6.0,6.75,6.45,0],["CH0835","DK26212657","Đỗ Hải Nam",0,"18/02/2000",5,11,31,0,7.0,5.75,6.25,0],["CH0836","DK26212349","Nguyễn Hữu Hoài Nam",0,"30/05/2004",0,1,31,1,7.0,8.0,7.6,0],["CH0837","DK26212329","Nguyễn Thu Nga",1,"17/07/2002",0,11,31,1,6.5,7.0,6.8,0],["CH0838","DK26212510","Trần Thanh Nga",1,"24/01/2004",8,8,31,0,7.5,8.5,8.1,0],["CH0839","DK26212171","Vàng Thị Nga",1,"06/08/1992",9,27,31,0,6.5,4.5,5.3,0],["CH0840","DK26111604","Đỗ Thị Nga",1,"12/11/2001",6,7,31,1,7.0,7.5,7.3,0],["CH0841","DK26212102","Vũ Nguyệt Nga",1,"21/12/2003",10,3,31,0,7.5,8.0,7.8,0],["CH0842","DK26213079","Nguyễn Thị Thanh Nga",1,"30/07/2000",0,2,31,1,6.5,6.75,6.65,0],["CH0843","DK26213365","Phạm Thanh Ngà",1,"16/05/2003",12,0,31,0,7.5,7.75,7.65,0],["CH0844","DK26213366","Ngô Kim Ngân",1,"15/06/2004",15,8,31,1,7.5,5.25,6.15,0],["CH0845","DK26213285","Phạm Thảo Ngân",1,"24/07/2002",0,8,31,1,7.5,6.75,7.05,0],["CH0846","DK26213159","Nguyễn Hạnh Ngân",1,"02/04/2002",2,2,31,1,7.0,6.75,6.85,0],["CH0847","DK26212899","Vũ Thị Kim Ngân",1,"31/08/2002",8,1,31,1,7.5,7.75,7.65,0],["CH0848","DK26213028","Nguyễn Hoàng Ngân",1,"05/11/2003",0,8,31,0,6.0,7.0,6.6,0],["CH0849","DK26212989","Đỗ Thu Ngân",1,"24/09/2004",14,9,31,0,4.0,6.75,5.65,0],["CH0850","DK26212047","Nguyễn Thị Ngân",1,"05/02/1994",6,0,31,0,8.0,8.0,8.0,0],["CH0851","DK26212197","Đỗ Thị Thanh Ngân",1,"29/01/2001",0,0,31,0,7.0,8.0,7.6,0],["CH0852","DK26212152","Bùi Hiếu Ngân",1,"29/09/2001",13,7,31,1,7.5,6.5,6.9,1],["CH0853","DK26212260","Nguyễn Thị Hạnh Ngân",1,"13/03/2001",0,18,31,0,8.0,6.5,7.1,0],["CH0854","DK26212348","Nguyễn Vũ Bảo Ngân",1,"24/09/2004",12,9,31,0,8.0,7.75,7.85,0],["CH0855","DK27110018","Phạm Thị Kim Ngân",1,"18/10/1992",1,2,32,0,7.5,7.0,7.2,0],["CH0856","DK26213566","Nguyễn Hoàng Ngân",1,"16/11/2004",10,8,32,0,7.5,8.75,8.25,0],["CH0857","DK26212270","Lê Tiến Nghĩa",0,"27/01/2002",0,0,32,1,4.0,8.0,6.4,0],["CH0858","DK26212118","Mẫn Đức Nghĩa",0,"22/04/2000",10,5,32,0,7.0,8.75,8.05,0],["CH0859","DK26110699","Phạm Hữu Nghĩa",0,"03/09/2001",12,2,32,1,7.5,8.25,7.95,0],["CH0860","DK26212995","Nguyễn Minh Nghĩa",0,"07/12/2002",0,12,32,0,6.5,6.75,6.65,0],["CH0861","DK26212833","Trần Thanh Nghĩa",0,"10/06/2003",0,16,32,0,6.0,5.5,5.7,0],["CH0862","DK26213077","Lê Khánh Nghĩa",0,"06/05/2001",15,2,32,0,6.5,6.25,6.35,0],["CH0863","DK26213300","Nguyễn Thế Nghĩa",0,"17/08/1992",8,2,32,0,6.0,8.5,7.5,0],["CH0864","DK26213246","Vũ Thị Bích Ngọc",1,"06/02/2002",12,3,32,1,8.0,7.25,7.55,0],["CH0865","DK26213573","Phan Minh Ngọc",1,"02/09/2004",6,8,32,0,8.5,8.0,8.2,0],["CH0866","DK26213475","Nguyễn Mai Ngọc",1,"02/08/2001",10,0,32,0,8.0,8.25,8.15,0],["CH0867","DK26213420","Nguyễn Minh Ngọc",1,"20/10/2001",3,8,32,0,7.5,7.75,7.65,0],["CH0868","DK26213448","Hồ Bảo Ngọc",1,"13/01/2003",17,8,32,0,7.5,6.25,6.75,0],["CH0869","DK27110036","Trần Vũ Minh Ngọc",1,"14/12/2004",13,8,32,0,8.0,7.5,7.7,0],["CH0870","DK26213250","Nguyễn Hồng Ngọc",1,"31/08/2002",0,5,32,0,8.5,6.75,7.45,0],["CH0871","DK26213388","Trần Bảo Ngọc",1,"11/03/2004",24,8,32,0,7.5,7.0,7.2,0],["CH0872","DK26212667","Nguyễn Minh Ngọc",1,"13/02/2001",5,11,32,0,7.5,7.5,7.5,0],["CH0874","DK26212755","Đoàn Văn Ngọc",0,"02/01/1990",10,0,32,0,6.0,6.75,6.45,0],["CH0875","DK26212877","Phạm Lan Ngọc",1,"10/12/2002",0,8,32,1,7.0,5.75,6.25,0],["CH0876","DK26212292","Nguyễn Hồng Ngọc",1,"14/01/2004",0,0,32,0,6.0,5.0,5.4,0],["CH0877","DK26212318","Phạm Như Ngọc",1,"14/07/2004",8,7,32,1,9.0,8.5,8.7,0],["CH0878","DK26212323","Lê Thị Quỳnh Ngọc",1,"02/01/2000",6,18,32,0,7.5,6.0,6.6,0],["CH0879","DK26212440","Nguyễn Hồng Ngọc",1,"11/05/2002",0,6,32,1,7.0,8.0,7.6,0],["CH0880","DK26212456","Đoàn Thị Kim Ngọc",1,"27/02/2002",3,11,32,1,8.0,8.25,8.15,0],["CH0881","DK26212573","Đỗ Linh Ngọc",1,"02/03/2004",10,6,33,0,7.5,6.25,6.75,0],["CH0882","DK26212538","Bùi Văn Nguyên",0,"02/04/2001",4,0,33,0,7.5,7.75,7.65,0],["CH0883","DK26212474","Phạm Mạnh Nguyên",0,"08/11/1995",0,19,33,0,5.5,6.75,6.25,0],["CH0884","DK26212701","Đỗ Thị Thu Nguyên",1,"03/10/2000",12,8,33,0,7.0,6.5,6.7,0],["CH0885","DK26213386","Trần Bình Nguyên",0,"31/08/2003",19,8,33,1,7.0,8.75,8.05,0],["CH0886","DK26213185","Vũ Khôi Nguyên",0,"26/06/1999",0,1,33,1,7.0,6.75,6.85,0],["CH0887","DK26213177","Phạm Thị Minh Nguyệt",1,"29/08/2001",12,9,33,1,7.5,8.25,7.95,0],["CH0888","DK26213327","Dương Thị Minh Nguyệt",1,"23/08/1998",3,11,33,0,8.5,6.75,7.45,0],["CH0889","DK26213328","Ngô Minh Nguyệt",1,"07/04/2003",0,8,33,1,7.5,5.5,6.3,0],["CH0890","DK26212796","Nguyễn Minh Nguyệt",1,"17/01/2003",0,14,33,1,4.0,7.5,6.1,0],["CH0891","DK26212493","Lê Thị Minh Nguyệt",1,"20/10/2002",5,8,33,0,7.5,7.5,7.5,0],["CH0892","DK26211559","Đào Thị Minh Nguyệt",1,"29/12/2000",13,8,33,1,6.5,8.5,7.7,0],["CH0893","DK26211954","Phạm Đình Khôi Nguyên",0,"08/11/2003",0,8,33,1,3.5,5.75,4.85,0],["CH0894","DK26211412","Nguyễn Thị Nhàn",1,"27/05/2003",6,5,33,1,6.0,6.25,6.15,0],["CH0895","DK26213599","Lê Thanh Nhàn",1,"19/02/2002",7,0,33,1,7.5,7.75,7.65,0],["CH0896","DK26213488","Nguyễn Thị Thanh Nhàn",1,"16/07/2003",0,8,33,0,6.5,6.5,6.5,0],["CH0897","DK26213458","Đặng Đại Nhân",0,"11/03/2003",17,0,33,0,0.0,null,0.0,0],["CH0898","DK26212258","Nguyễn Trọng Nhân",0,"29/12/2002",0,0,33,0,5.5,8.5,7.3,0],["CH0899","DK26112013","Phan Văn Nhật",0,"17/02/1993",0,13,33,1,6.5,8.25,7.55,0],["CH0900","DK26212115","Nguyễn Anh Nhật",0,"28/11/2003",4,9,33,0,8.5,7.75,8.05,0],["CH0901","DK26212112","Vũ Khúc Nguyệt Nhi",1,"08/09/2004",0,1,33,1,8.0,7.5,7.7,0],["CH0902","DK26212108","Vũ Tuyết Nhi",1,"03/12/2004",12,0,33,1,8.0,6.75,7.25,0],["CH0903","DK26212181","Phạm Yến Nhi",1,"23/01/2003",0,6,33,0,8.0,7.75,7.85,0],["CH0904","DK26212613","Hoàng Xuân Nhi",1,"16/06/2002",0,18,33,1,7.0,7.75,7.45,0],["CH0905","DK26212585","Hà Thị Xuân Nhi",1,"14/05/2003",5,0,33,0,8.0,7.75,7.85,0],["CH0906","DK26212408","Phạm Thụy Nhi",1,"23/03/2002",9,8,33,1,7.0,7.5,7.3,0],["CH0907","DK26212772","Thành Ngọc Trung Nhi",1,"06/02/2004",0,11,34,1,9.0,6.25,7.35,0],["CH0908","DK26212744","Nguyễn Nhật Lam Nhi",1,"10/11/2003",11,2,34,1,7.5,5.5,6.3,0],["CH0909","DK26212891","Phạm Thị Yến Nhi",1,"01/06/2003",1,5,34,0,7.0,8.0,7.6,0],["CH0910","DK26212915","Nguyễn Hiền Nhi",1,"25/12/2002",29,8,34,1,6.5,7.25,6.95,0],["CH0911","DK26212934","Phan Huyền Nhi",1,"28/07/2003",0,3,34,1,6.0,7.75,7.05,0],["CH0912","DK26213380","Nguyễn Phương Nhi",1,"28/06/2002",0,18,34,1,6.5,6.0,6.2,0],["CH0913","DK26213214","Vũ Yến Nhi",1,"30/08/2002",5,0,34,1,8.0,6.75,7.25,0],["CH0914","DK26213236","Bùi Ý Nhi",1,"18/12/2002",0,8,34,1,8.0,7.0,7.4,0],["CH0915","DK26213224","Phạm Thị Tuyết Nhi",1,"08/12/2001",12,0,34,0,8.5,7.5,7.9,0],["CH0916","DK26213075","Lê Yến Nhi",1,"18/03/2002",5,8,34,0,7.0,7.25,7.15,0],["CH0917","DK26213469","Nguyễn Phan Yến Nhi",1,"06/07/2003",29,11,34,1,8.0,7.0,7.4,0],["CH0918","DK26213493","Đào Thị Nhinh",1,"08/05/1995",6,8,34,1,7.0,6.75,6.85,0],["CH0919","DK26213559","Nguyễn Thị Phi Nhung",1,"12/07/2004",0,23,34,0,8.0,8.0,8.0,0],["CH0920","DK26213582","Trịnh Hồng Nhung",1,"19/05/1995",0,0,34,0,6.0,5.25,5.55,0],["CH0921","DK27110043","Trần Hồng Nhung",1,"16/07/1988",6,0,34,1,7.0,7.75,7.45,0],["CH0922","DK26213099","Hà Hồng Nhung",1,"08/01/2004",4,11,34,0,9.5,6.75,7.85,1],["CH0923","DK26213229","Ngô Hồng Nhung",1,"09/09/2003",15,8,34,0,8.0,7.5,7.7,0],["CH0924","DK26213384","Nguyễn Lan Nhung",1,"28/10/2003",11,8,34,0,7.0,8.5,7.9,0],["CH0925","DK26213395","Đinh Cẩm Nhung",1,"04/11/1999",8,8,34,0,7.5,6.0,6.6,0],["CH0926","DK26213334","Lương Hồng Nhung",1,"01/01/2004",13,9,34,0,7.0,7.75,7.45,0],["CH0927","DK26213254","Khiếu Thị Nhung",1,"24/07/2004",6,2,34,0,7.0,7.0,7.0,0],["CH0928","DK26212835","Nguyễn Thị Hồng Nhung",1,"26/12/1999",12,0,34,0,7.0,7.5,7.3,0],["CH0929","DK26212467","Lê Thị Hồng Nhung",1,"04/02/1991",1,19,34,1,5.5,8.5,7.3,0],["CH0930","DK26212313","Nguyễn Thị Hồng Nhung",1,"06/06/2002",6,11,34,1,7.5,6.0,6.6,0],["CH0931","DK26212513","Vũ Hồng Nhung",1,"06/10/2003",10,5,34,1,8.0,9.0,8.6,0],["CH0932","DK26212098","Đinh Phương Nhung",1,"26/01/2002",0,11,34,0,7.5,5.75,6.45,0],["CH0933","DK26211959","Lê Thị Hồng Nhung",1,"15/03/1998",11,7,35,0,7.0,7.25,7.15,0],["CH0934","DK26111349","Nguyễn Tuyết Như",1,"11/01/2003",0,1,35,1,8.0,6.0,6.8,0],["CH0935","DK26212375","Lê Thị Như",1,"20/02/1993",6,0,35,1,8.0,7.5,7.7,0],["CH0936","DK26212462","Nguyễn Vũ Quỳnh Như",1,"01/12/2002",28,9,35,0,7.5,7.5,7.5,0],["CH0937","DK26213139","Nguyễn Thị Quỳnh Như",1,"15/02/1995",11,13,35,0,7.5,8.0,7.8,0],["CH0938","DK26212062","Đặng Thị Nữ",1,"20/05/2001",5,0,35,1,7.5,5.0,6.0,0],["CH0939","DK26212034","Lê Phương Oanh",1,"08/09/1992",0,0,35,0,0.0,null,0.0,0],["CH0940","DK26212136","Ngô Thị Oanh",1,"06/11/2003",10,8,35,0,6.0,6.5,6.3,0],["CH0941","DK26213207","Nguyễn Thị Oanh",1,"05/09/2000",5,6,35,1,7.5,8.5,8.1,0],["CH0942","DK26213324","Trần Thị Ngọc Oanh",1,"22/06/2003",0,8,35,1,6.5,8.25,7.55,0],["CH0943","DK26213410","Ninh Phương Oanh",1,"20/11/2004",8,8,35,1,7.0,8.0,7.6,0],["CH0944","DK26212990","Nguyễn Ngô Ngọc Oanh",1,"01/08/2004",8,0,35,1,8.0,7.75,7.85,0],["CH0945","DK26213362","Phạm Hoàng Phú",0,"19/01/2003",1,0,35,0,7.0,5.5,6.1,0],["CH0946","DK26212754","Ngô Văn Phúc",0,"18/06/1992",13,0,35,0,8.0,7.5,7.7,0],["CH0947","DK26212757","Hồ Hữu Phúc",0,"28/08/1993",0,0,35,1,7.5,6.75,7.05,0],["CH0948","DK26212275","Hoàng Thế Phúc",0,"04/11/2003",12,2,35,1,7.5,6.0,6.6,0],["CH0949","DK26212443","Đỗ Thị Minh Phúc",1,"12/05/2002",12,7,35,0,8.0,6.75,7.25,0],["CH0950","DK26212642","Trương Văn Phúc",0,"04/04/2003",28,0,35,1,7.5,7.25,7.35,0],["CH0951","DK26212433","Hồ Anh Phương",1,"19/07/2001",3,18,35,1,8.0,8.0,8.0,0],["CH0952","DK26212429","Nguyễn Minh Phương",1,"01/11/2003",0,8,35,1,0.0,null,0.0,0],["CH0953","DK26212451","Phạm Hà Phương",1,"10/09/2003",6,0,35,0,8.0,8.25,8.15,0],["CH0954","DK26212361","Phạm Bích Phương",1,"08/12/1994",0,19,35,0,8.0,6.75,7.25,0],["CH0955","DK26212280","Đinh Hồng Phương",1,"25/12/2003",0,0,35,0,7.5,8.5,8.1,0],["CH0956","DK26212222","Nguyễn Quỳnh Phương",1,"22/04/2003",0,7,35,0,7.5,7.0,7.2,0],["CH0957","DK26212209","Đào Thị Mai Phương",1,"01/01/1994",5,0,35,0,5.5,6.75,6.25,0],["CH0958","DK26212016","Phan Kỳ Phương",0,"28/05/2000",0,0,35,0,0.0,null,0.0,0],["CH0959","DK26212067","Vũ Thị Phương",1,"26/07/2003",12,8,36,0,5.0,7.75,6.65,0],["CH0960","DK26212077","Nguyễn Mai Phương",1,"16/12/2002",0,17,36,0,6.0,7.5,6.9,0],["CH0961","DK26211881","Lương Minh Phương",0,"14/01/2003",8,5,36,1,4.0,7.25,5.95,0],["CH0962","DK26212731","Dương Thị Thu Phương",1,"26/12/2001",10,0,36,1,6.5,7.5,7.1,0],["CH0963","DK26212693","Ninh Thu Phương",1,"17/03/1997",8,0,36,0,6.5,8.0,7.4,0],["CH0964","DK26212716","Lê Hà Phương",1,"27/05/2003",0,8,36,1,7.0,8.5,7.9,0],["CH0965","DK26212689","Lại Thu Phương",1,"01/09/1996",0,0,36,0,5.5,6.0,5.8,0],["CH0966","DK26212997","Đỗ Bảo Phương",1,"09/08/2003",0,3,36,1,5.0,5.25,5.15,0],["CH0967","DK26213030","Trần Thị Mai Phương",1,"07/09/2003",4,0,36,0,7.5,6.25,6.75,0],["CH0968","DK26212943","Lê Minh Phương",1,"11/04/2004",12,5,36,0,7.0,6.0,6.4,0],["CH0969","DK26212963","Tạ Thị Thanh Phương",1,"07/09/2003",28,7,36,0,3.0,7.25,5.55,0],["CH0970","DK26212964","Nguyễn Thị Lan Phương",1,"24/07/2000",0,7,36,0,5.5,7.25,6.55,0],["CH0971","DK26212955","Vũ Thị Phương",1,"10/09/1991",8,8,36,0,6.0,7.0,6.6,0],["CH0972","DK26213359","Vũ Minh Phương",1,"17/08/2003",0,8,36,0,0.0,null,0.0,0],["CH0973","DK26213408","Phạm Thị Yến Phương",1,"27/04/2003",12,11,36,1,4.0,6.5,5.5,0],["CH0974","DK26213398","Hà Lan Phương",1,"28/05/2004",4,11,36,1,3.5,6.75,5.45,0],["CH0975","DK26213287","Cao Việt Phương",1,"20/09/2003",0,8,36,1,5.5,7.5,6.7,0],["CH0976","DK26213232","Nguyễn Việt Phương",0,"24/02/1978",4,2,36,1,7.5,5.5,6.3,0],["CH0977","DK26213164","Đoàn Thị Hồng Phương",1,"27/10/2004",0,8,36,0,6.5,7.75,7.25,0],["CH0978","DK26213529","Vũ Tuyết Phương",1,"10/09/2003",4,7,36,1,6.0,7.0,6.6,0],["CH0979","DK26213512","Ngô Minh Phương",1,"14/11/2003",6,18,36,0,4.0,7.75,6.25,0],["CH0980","DK26213524","Lê Văn Phương",0,"07/04/2004",3,19,36,1,5.5,6.75,6.25,0],["CH0981","DK26213498","Đỗ Thị Minh Phương",1,"11/01/2003",5,0,36,1,3.0,7.75,5.85,0],["CH0982","DK26212790","Đỗ Thị Phượng",1,"14/05/2001",6,0,36,0,6.0,7.0,6.6,0],["CH0983","DK26212311","Vũ Minh Phượng",1,"20/06/2004",6,1,36,0,7.0,8.75,8.05,0],["CH0984","DK26212604","Lê Hồng Phượng",1,"09/10/2003",0,11,36,0,6.5,7.75,7.25,0],["CH0985","DK26212556","Trần Nhật Quang",0,"29/10/2004",0,11,37,0,4.0,8.25,6.55,0],["CH0986","DK26212441","Bùi Minh Quang",0,"26/08/2002",6,8,37,1,4.0,8.25,6.55,0],["CH0987","DK26212414","Phạm Minh Quang",0,"22/04/1999",0,0,37,0,4.0,7.0,5.8,0],["CH0988","DK26212935","Nguyễn Thành Quang",0,"22/03/2004",3,8,37,0,5.5,8.75,7.45,0],["CH0989","DK26212690","Phùng Minh Quân",0,"28/09/2003",0,0,37,1,3.0,6.75,5.25,0],["CH0990","DK26213181","Doãn Anh Quân",0,"11/12/2003",1,0,37,1,3.0,6.25,4.95,0],["CH0991","DK26212389","Nguyễn Trung Quân",0,"30/01/2003",11,8,37,0,3.0,7.5,5.7,0],["CH0992","DK26212532","Lê Đăng Quân",0,"30/11/2003",10,2,37,0,4.0,8.0,6.4,0],["CH0993","DK26213533","Phạm Trần Anh Quân",0,"08/08/2004",0,8,37,1,5.0,6.75,6.05,0],["CH0994","DK26213575","Nguyễn Việt Quân",0,"28/07/1994",0,0,37,1,5.0,7.25,6.35,0],["CH0995","DK27110027","Cao Mạnh Quân",0,"06/02/2004",0,9,37,1,7.5,8.0,7.8,0],["CH0996","DK26212694","Nguyễn Thị Quyên",1,"15/01/2004",6,9,37,1,8.0,7.0,7.4,0],["CH0997","DK26212728","Vũ Toàn Quyền",0,"22/10/2001",3,0,37,0,5.0,7.5,6.5,0],["CH0998","DK26213426","Nguyễn Công Quyền",0,"11/08/1998",1,0,37,0,7.5,7.5,7.5,0],["CH0999","DK26213005","Nguyễn Đăng Quyết",0,"02/06/2004",13,2,37,0,8.5,6.75,7.45,0],["CH1000","DK26212565","Phan Anh Quyết",0,"25/11/1998",0,11,37,1,7.0,6.75,6.85,0],["CH1001","DK26212571","Nguyễn Như Quỳnh",1,"19/07/2003",5,0,37,1,7.0,6.75,6.85,0],["CH1002","DK26212298","Đinh Như Quỳnh",1,"30/07/2002",1,0,37,0,7.5,6.5,6.9,0],["CH1003","DK26212140","Đỗ Thị Diễm Quỳnh",1,"17/06/2002",5,3,37,0,7.0,7.0,7.0,0],["CH1004","DK26212204","Nguyễn Hoàng Hương Quỳnh",1,"05/02/2003",5,1,37,0,8.0,8.0,8.0,0],["CH1005","DK26212945","Phạm Thị Diễm Quỳnh",1,"06/07/2003",12,5,37,0,8.0,8.0,8.0,0],["CH1006","DK26213211","Nguyễn Thị Hương Quỳnh",1,"16/10/1998",14,8,37,0,5.5,4.75,5.05,0],["CH1007","DK26213144","Phan Thị Như Quỳnh",1,"30/09/2004",1,9,37,1,7.5,7.0,7.2,0],["CH1008","DK26213097","Phạm Thị Như Quỳnh",1,"21/10/2001",3,8,37,0,7.5,7.5,7.5,0],["CH1009","DK26213381","Vũ Thị Như Quỳnh",1,"29/12/2003",8,6,37,1,8.5,8.75,8.65,0],["CH1010","DK26213372","Bùi Diễm Quỳnh",1,"27/11/1999",4,8,37,0,7.5,7.0,7.2,0],["CH1011","DK26213496","Bùi Đỗ Dạ Quỳnh",1,"09/09/2000",4,8,38,0,6.5,6.5,6.5,1],["CH1012","DK26213517","Vũ Diễm Quỳnh",1,"21/12/1998",5,0,38,1,7.5,7.25,7.35,0],["CH1013","DK26212346","Vũ Xuân Quý",0,"09/08/2002",12,18,38,1,6.5,7.75,7.25,0],["CH1014","DK26212436","Đặng Trần Ngọc San",1,"18/02/2000",11,8,38,0,8.5,7.5,7.9,0],["CH1015","DK26212262","Ngô Thị Ánh Sao",1,"23/05/1990",10,7,38,1,0.0,null,0.0,0],["CH1016","DK26212043","Nguyễn Công Sáng",0,"26/07/2002",0,0,38,1,6.5,7.75,7.25,0],["CH1017","DK26211782","Nguyễn Thái Sơn",0,"10/09/2000",1,0,38,0,7.5,8.25,7.95,0],["CH1018","DK26211510","Đặng Hoàng Sơn",0,"01/01/1996",0,0,38,0,5.0,8.75,7.25,0],["CH1019","DK26212290","Đinh Hoàng Sơn",0,"24/02/2003",8,2,38,0,6.0,7.5,6.9,0],["CH1020","DK26213074","Tống Lương Sơn",0,"14/07/1998",5,8,38,1,7.0,5.75,6.25,0],["CH1021","DK26213201","Nguyễn Tùng Sơn",0,"21/10/2004",1,0,38,0,7.5,8.5,8.1,0],["CH1022","DK26213050","Hoàng Lâm Ngọc Sơn",0,"27/01/2003",8,7,38,1,0.0,null,0.0,0],["CH1023","DK26212776","Nguyễn Hoài Sơn",0,"17/10/2003",0,1,38,0,7.0,5.75,6.25,0],["CH1024","DK26212802","Trần Vũ Hải Sơn",0,"27/09/2002",0,5,38,0,7.5,7.0,7.2,0],["CH1025","DK26213617","Nguyễn Hoàng Sơn",0,"25/12/2004",4,14,38,0,6.5,6.5,6.5,0],["CH1026","DK26212907","Hoàng Anh Tài",0,"07/05/2004",15,4,38,0,7.0,5.75,6.25,0],["CH1027","DK26212695","Phạm Minh Tâm",1,"11/01/2001",10,8,38,0,8.0,6.25,6.95,0],["CH1028","DK26212264","Cao Thị Thanh Tâm",1,"08/04/1993",1,0,38,0,9.0,7.25,7.95,0],["CH1029","DK26211496","Phạm Duy Anh Tâm",0,"19/10/2004",0,0,38,1,0.0,null,0.0,0],["CH1030","DK26212397","Trần Tùng Tâm",1,"22/10/1992",3,11,38,0,7.0,8.75,8.05,0],["CH1031","DK26212384","Nguyễn Thanh Tâm",1,"21/12/1988",14,0,38,1,3.5,7.25,5.75,0],["CH1032","DK26213345","Hoàng Trọng Tân",0,"22/12/2001",8,2,38,0,3.5,5.0,4.4,0],["CH1033","DK26213353","Nguyễn Hoài Thanh",1,"08/10/2004",10,9,38,0,6.5,7.0,6.8,0],["CH1034","DK26213066","Đường Thị Thanh",1,"10/02/2004",4,17,38,1,4.0,7.0,5.8,0],["CH1035","DK26212342","Trịnh Ngọc Thúy Thanh",1,"09/03/2003",5,8,38,1,7.0,7.25,7.15,0],["CH1036","DK26212431","Lê Thị Hoài Thanh",1,"15/07/1987",5,9,38,0,7.0,8.5,7.9,0],["CH1037","DK26212074","Nguyễn Thị Phương Thanh",1,"24/02/1999",12,3,39,1,7.5,7.75,7.65,0],["CH1038","DK26213515","Chu Thị Hà Thanh",1,"28/10/2003",0,8,39,0,7.0,8.0,7.6,0],["CH1039","DK26213415","Võ Nhật Thanh",0,"24/06/1993",17,0,39,1,6.5,9.0,8.0,0],["CH1040","DK26212155","Nguyễn Sỹ Thành",0,"03/04/1998",0,5,39,0,7.5,8.5,8.1,0],["CH1041","DK26212331","Nguyễn Đức Thành",0,"03/12/2003",12,3,39,0,7.0,6.5,6.7,0],["CH1042","DK26212322","Hoàng Thị Thành",1,"28/02/2001",8,0,39,0,7.0,6.5,6.7,0],["CH1043","DK26213331","Đinh Tất Thành",0,"02/01/2002",8,8,39,0,7.0,8.0,7.6,0],["CH1044","DK26212738","Nguyễn Viết Thành",0,"14/11/1988",13,0,39,0,7.0,6.25,6.55,0],["CH1045","DK26212770","Chu Phương Thảo",1,"21/02/2004",8,8,39,0,7.5,6.5,6.9,0],["CH1046","DK26212800","Nguyễn Phương Thảo",1,"22/08/2003",0,0,39,0,8.0,7.75,7.85,0],["CH1047","DK26212816","Đỗ Phương Thảo",1,"30/03/2002",6,0,39,0,7.0,8.5,7.9,0],["CH1048","DK26212866","Trần Thu Thảo",1,"25/05/2000",0,19,39,0,8.0,7.5,7.7,0],["CH1049","DK26212923","Nguyễn Thanh Thảo",1,"27/06/2004",8,0,39,1,7.0,7.75,7.45,0],["CH1050","DK26213047","Lê Phương Thảo",1,"17/12/2004",10,5,39,1,7.5,6.75,7.05,0],["CH1051","DK26213043","Nguyễn Phương Thảo",1,"22/04/2002",8,15,39,1,8.0,6.75,7.25,0],["CH1052","DK26213019","Trịnh Thị Thảo",1,"11/11/2000",10,23,39,1,6.5,7.5,7.1,0],["CH1053","DK26213004","Đoàn Thu Thảo",1,"02/03/2001",0,0,39,0,7.5,6.5,6.9,0],["CH1054","DK26213001","Thái Phương Thảo",1,"18/06/2002",8,8,39,0,7.0,8.0,7.6,0],["CH1055","DK26212984","Nguyễn Phương Thảo",1,"14/01/2002",5,0,39,0,8.0,7.0,7.4,0],["CH1056","DK26213374","Vũ Phương Thảo",1,"22/09/2003",0,8,39,1,6.0,7.5,6.9,0],["CH1057","DK26213283","Bùi Thu Thảo",1,"15/11/2002",10,8,39,0,8.0,8.0,8.0,0],["CH1058","DK26213256","Lê Phương Thảo",1,"01/07/2004",6,18,39,0,7.5,7.75,7.65,0],["CH1059","DK26213270","Vũ Thanh Thảo",1,"23/10/2004",3,19,39,0,8.0,6.5,7.1,0],["CH1060","DK26213267","Phạm Thị Phương Thảo",1,"31/03/2002",6,8,39,1,8.0,6.25,6.95,0],["CH1061","DK26213148","Nguyễn Thu Thảo",1,"27/04/2001",10,8,39,0,8.5,7.75,8.05,0],["CH1062","DK26213206","Phạm Ngọc Phương Thảo",1,"06/06/1998",0,11,39,0,6.0,5.0,5.4,0],["CH1063","DK26213179","Vũ Phương Thảo",1,"28/06/2004",8,9,40,0,7.0,7.75,7.45,0],["CH1064","DK26213216","Trần Dạ Thảo",1,"09/07/1996",6,5,40,0,8.0,8.75,8.45,0],["CH1065","DK26213221","Bùi Phương Thảo",1,"26/12/2003",4,0,40,1,5.5,6.0,5.8,0],["CH1066","DK26212424","Nguyễn Phương Thảo",1,"20/11/2003",2,2,40,0,7.0,6.5,6.7,0],["CH1067","DK26212448","Phùng Thu Thảo",1,"30/08/2001",0,0,40,0,5.0,6.5,5.9,0],["CH1068","DK26212471","Vũ Phương Thảo",1,"28/07/2003",13,9,40,0,6.5,7.25,6.95,0],["CH1069","DK26212574","Chu Phương Thảo",1,"23/06/1999",8,11,40,1,6.0,7.25,6.75,0],["CH1070","DK26212554","Hà Phương Thảo",1,"17/09/2001",0,0,40,1,6.5,6.75,6.65,0],["CH1071","DK26212516","Nguyễn Thị Phương Thảo",1,"08/02/1995",8,0,40,0,4.0,7.0,5.8,0],["CH1072","DK26212165","Nguyễn Thị Phương Thảo",1,"17/06/2002",6,1,40,0,3.5,7.5,5.9,0],["CH1073","DK26212303","Bùi Phương Thảo",1,"20/11/2003",0,8,40,0,6.0,7.0,6.6,0],["CH1074","DK26212073","Hồ Thị Như Thảo",1,"03/01/2002",1,0,40,0,3.5,6.5,5.3,0],["CH1075","DK26212029","Nguyễn Thị Thảo",1,"13/11/2002",0,8,40,0,3.5,8.0,6.2,0],["CH1076","DK26212033","Ngô Phương Thảo",1,"18/08/2003",0,11,40,1,7.0,6.5,6.7,0],["CH1077","DK26212039","Đinh Thị Phương Thảo",1,"16/12/2002",6,2,40,1,8.5,6.75,7.45,0],["CH1078","DK26111223","Nguyễn Thị Phương Thảo",1,"14/08/2001",6,18,40,0,3.0,5.75,4.65,0],["CH1079","DK26213438","Nguyễn Thị Thanh Thảo",1,"20/04/2002",0,9,40,1,7.0,6.25,6.55,0],["CH1080","DK26213461","Nguyễn Phương Thảo",1,"03/08/2001",0,8,40,0,5.0,7.25,6.35,0],["CH1081","DK26213462","Lê Thanh Thảo",1,"17/01/2004",0,22,40,0,8.5,7.5,7.9,0],["CH1082","DK26213555","Phạm Phương Thảo",1,"03/08/2001",0,11,40,0,8.0,6.75,7.25,0],["CH1083","DK26213482","Trần Đức Thái",0,"23/12/2002",5,8,40,1,5.5,7.25,6.55,0],["CH1084","DK26212177","Nguyễn Quý Thái",0,"21/06/2000",19,0,40,0,7.5,8.5,8.1,0],["CH1085","DK26212656","Phạm Duy Thái",0,"27/10/2003",14,8,40,1,6.0,8.0,7.2,0],["CH1086","DK26212435","Trần Thị Thái",1,"17/04/2000",0,1,40,0,8.0,8.0,8.0,0],["CH1087","DK27110006","Nguyễn Hồng Thái",0,"19/09/2004",4,8,40,0,7.5,7.25,7.35,0],["CH1088","DK26212648","Dương Phú Thăng",0,"22/09/2003",11,0,40,0,7.0,7.25,7.15,0],["CH1089","DK26212417","Đinh Thị Thắm",1,"27/10/1992",6,7,41,0,6.0,6.75,6.45,0],["CH1090","DK26212207","Lưu Minh Thắng",0,"01/06/2003",1,0,41,0,5.0,7.5,6.5,0],["CH1091","DK26212287","Tạ Quang Thắng",0,"01/01/2001",14,0,41,0,4.5,4.75,4.65,1],["CH1092","DK26213343","Lưu Đức Thắng",0,"09/01/2003",0,0,41,0,3.0,6.0,4.8,0],["CH1093","DK26213007","Nguyễn Tiến Thắng",0,"24/12/2004",0,8,41,0,6.0,6.5,6.3,0],["CH1094","DK26212668","Nguyễn Văn Thắng",0,"13/09/2003",0,0,41,1,3.5,7.0,5.6,0],["CH1095","DK26212246","Lê Phú Thế",0,"15/11/1994",5,18,41,1,6.0,6.0,6.0,0],["CH1096","DK26212767","Nông Đoàn Minh Thi",1,"13/10/2004",19,0,41,1,5.0,5.25,5.15,1],["CH1097","DK26213590","Nguyễn Hải Thiện",0,"07/09/2003",12,0,41,1,7.0,7.25,7.15,0],["CH1098","DK26213504","Nguyễn Ngô Như Thịnh",0,"26/10/2004",10,8,41,0,8.0,8.5,8.3,0],["CH1099","DK26212055","Nguyễn Ngô Phước Thịnh",0,"29/03/1994",0,23,41,1,7.0,8.0,7.6,0],["CH1100","DK26212405","Trần Thị Bảo Thoa",1,"04/11/2001",0,0,41,1,8.5,7.0,7.6,0],["CH1101","DK26213023","Đỗ Vũ Trang Thơ",1,"26/11/2003",8,8,41,0,7.5,8.0,7.8,0],["CH1102","DK26213118","Nguyễn Thị Thu",1,"06/08/2002",0,0,41,1,7.5,8.0,7.8,0],["CH1103","DK26212593","Hoàng Nhật Thu",1,"14/08/2003",4,7,41,1,7.5,6.5,6.9,0],["CH1104","DK26212598","Hoàng Vũ Minh Thu",1,"02/09/2004",12,11,41,0,7.5,6.75,7.05,0],["CH1105","DK26212557","Trần Minh Thu",1,"26/09/2000",12,9,41,1,8.0,6.5,7.1,0],["CH1106","DK26212227","Nguyễn Phương Thu",1,"20/03/2003",12,8,41,1,8.0,8.0,8.0,0],["CH1107","DK26212194","Nguyễn Thị Hoài Thu",1,"04/06/2002",10,3,41,0,7.5,8.5,8.1,0],["CH1108","DK26213128","Lò Phương Thuỳ",1,"24/02/2004",9,2,41,0,8.5,8.25,8.35,1],["CH1109","DK26212678","Nguyễn Thị Thuỳ",1,"16/05/1999",0,1,41,1,7.5,7.5,7.5,0],["CH1110","DK26213198","Nguyễn Thị Thuỷ",1,"27/05/2000",1,1,41,0,3.0,8.0,6.0,0],["CH1111","DK26212567","Trần Thu Thuỷ",1,"02/04/2001",6,0,41,0,7.5,7.75,7.65,0],["CH1112","DK26213184","Nguyễn Thị Thùy",1,"04/07/2003",5,10,41,1,8.0,6.75,7.25,0],["CH1113","DK26213309","Nguyễn Thu Thủy",1,"04/12/2004",3,18,41,0,6.0,7.25,6.75,0],["CH1114","DK26212902","Nguyễn Thanh Thủy",1,"09/06/2000",0,8,41,0,3.5,8.0,6.2,0],["CH1115","DK26212635","Mai Thanh Thủy",1,"17/10/2004",0,8,42,0,7.0,7.5,7.3,0],["CH1116","DK26212145","Bùi Bích Thủy",1,"03/08/2000",12,1,42,0,7.0,7.75,7.45,0],["CH1117","DK26213579","Vũ Thị Thu Thủy",1,"10/06/1989",0,7,42,0,6.0,7.25,6.75,0],["CH1118","DK26212251","Nguyễn Thị Thúy",1,"17/08/2003",0,0,42,1,5.0,6.75,6.05,0],["CH1119","DK26212649","Nguyễn Kim Thúy",1,"19/08/1992",0,11,42,1,6.5,7.75,7.25,0],["CH1120","DK26212665","Lê Thanh Thúy",1,"12/10/2004",13,0,42,1,5.5,5.75,5.65,0],["CH1121","DK26212952","Trần Thị Minh Thúy",1,"04/07/2000",8,0,42,1,8.5,8.25,8.35,0],["CH1122","DK26213352","Phạm Trần Thanh Thúy",1,"15/10/2004",0,8,42,1,3.0,6.5,5.1,0],["CH1123","DK26212504","Trần Gia Thụy",1,"14/03/2003",0,8,42,0,7.0,7.5,7.3,0],["CH1124","DK26212586","Bùi Anh Thư",1,"25/08/2003",0,0,42,0,6.0,8.25,7.35,0],["CH1125","DK26212612","Lại Anh Thư",1,"06/09/2002",3,11,42,0,5.5,6.75,6.25,0],["CH1126","DK26212202","Bùi Thị Anh Thư",1,"24/05/2001",12,10,42,1,8.5,7.5,7.9,0],["CH1127","DK26111894","Lê Thị Thư",1,"02/09/2001",10,18,42,1,7.5,7.5,7.5,0],["CH1128","DK26213342","Vũ Minh Thư",1,"15/06/2004",0,0,42,0,7.5,7.5,7.5,0],["CH1129","DK26213375","Trần Anh Thư",1,"06/08/2004",11,0,42,1,8.0,6.75,7.25,0],["CH1130","DK26213190","Trịnh Minh Thư",1,"28/08/2004",6,7,42,1,7.5,8.5,8.1,0],["CH1131","DK26213076","Nguyễn Thị Minh Thư",1,"25/09/2003",1,5,42,0,7.5,4.75,5.85,0],["CH1132","DK26212702","Tạ Nguyễn Minh Thư",1,"02/03/2003",17,19,42,0,8.0,8.0,8.0,0],["CH1133","DK26212768","Lê Hoài Thương",1,"25/07/2000",7,0,42,0,8.0,8.0,8.0,0],["CH1134","DK26213166","Nguyễn Trường Thương",1,"14/02/2002",4,0,42,1,8.0,7.75,7.85,0],["CH1135","DK26213244","Nguyễn Thị Hoài Thương",1,"01/02/2002",1,8,42,0,7.5,7.75,7.65,0],["CH1136","DK26211972","Đoàn Văn Thường",0,"05/10/1997",8,0,42,0,6.5,5.25,5.75,0],["CH1137","DK26212742","Hoàng Văn Thưởng",0,"18/09/1989",10,0,42,1,8.0,3.75,5.45,1],["CH1138","DK26212838","Dương Hồng Thượng",0,"01/09/1981",13,0,42,0,5.0,6.5,5.9,0],["CH1139","DK26213036","Đậu Đình Thực",0,"20/08/1990",1,9,42,1,7.0,7.5,7.3,0],["CH1140","DK26212730","Nguyễn Thủy Tiên",1,"29/07/2002",0,9,42,1,8.0,7.75,7.85,0],["CH1141","DK26213084","Trần Thanh Thủy Tiên",1,"09/07/2003",0,7,43,1,8.0,7.75,7.85,0],["CH1142","DK26110991","Trần Phạm Thủy Tiên",1,"19/10/2002",0,14,43,1,7.0,6.25,6.55,0],["CH1143","DK26212053","Trần Thủy Tiên",1,"07/12/1998",6,8,43,0,7.5,8.0,7.8,0],["CH1144","DK26212624","Nguyễn Giang Thuỷ Tiên",1,"28/12/2002",0,9,43,0,3.5,7.5,5.9,0],["CH1145","DK26213034","Đinh Lương Tiền",1,"17/08/1999",10,0,43,1,7.0,6.5,6.7,0],["CH1146","DK26212819","Cù Việt Tiến",0,"29/11/2000",0,2,43,0,6.0,6.5,6.3,0],["CH1147","DK26213191","Vũ Ngọc Tiến",0,"09/02/1992",31,3,43,0,7.0,7.75,7.45,0],["CH1148","DK26212860","Nguyễn Công Toàn",0,"08/01/2003",6,9,43,1,0.0,null,0.0,0],["CH1149","DK26212842","Nguyễn Huyền Trang",1,"16/10/2003",7,16,43,0,8.0,7.0,7.4,0],["CH1150","DK26212844","Đinh Thị Thu Trang",1,"12/10/2003",0,9,43,0,0.0,null,0.0,0],["CH1151","DK26212777","Lê Thị Huyền Trang",1,"30/07/1990",0,10,43,1,7.5,6.75,7.05,0],["CH1152","DK26212778","Trần Phương Trang",1,"18/11/2002",8,11,43,0,6.5,6.0,6.2,0],["CH1153","DK26212734","Nguyễn Thùy Trang",1,"08/05/2003",0,6,43,1,8.0,6.75,7.25,0],["CH1154","DK26212756","Tô Thị Trang",1,"24/05/1997",13,0,43,1,8.0,7.0,7.4,1],["CH1155","DK26212748","Nguyễn Thị Huyền Trang",1,"31/10/2004",5,9,43,1,5.0,6.75,6.05,0],["CH1156","DK26213027","Phạm Như Trang",1,"15/12/2002",4,0,43,0,7.5,8.0,7.8,0],["CH1157","DK26213011","Trần Thu Trang",1,"12/12/2003",13,8,43,0,7.0,7.75,7.45,0],["CH1158","DK26212874","Trần Hà Trang",1,"28/08/2003",10,8,43,0,8.0,8.0,8.0,0],["CH1159","DK26212895","Nguyễn Linh Trang",1,"13/01/2001",4,15,43,0,8.0,6.25,6.95,0],["CH1160","DK26212896","Lê Thị Minh Trang",1,"02/06/2003",0,8,43,1,8.5,6.75,7.45,0],["CH1161","DK26213189","Nguyễn Thị Huyền Trang",1,"21/04/2002",6,0,43,0,0.0,null,0.0,0],["CH1162","DK26213200","Quách Thị Linh Trang",1,"15/12/2002",31,0,43,0,6.0,8.75,7.65,0],["CH1163","DK26213196","Trần Quỳnh Trang",1,"18/10/2004",0,19,43,1,4.0,4.75,4.45,0],["CH1164","DK26213223","Phan Thị Huyền Trang",1,"10/03/2003",11,8,43,0,5.0,7.0,6.2,0],["CH1165","DK26213210","Đặng Huyền Trang",1,"08/10/2004",0,1,43,0,7.0,8.25,7.75,0],["CH1166","DK26213070","Nguyễn Quỳnh Trang",1,"21/03/2004",1,5,43,0,3.5,6.25,5.15,0],["CH1167","DK26213110","Nguyễn Thị Thu Trang",1,"20/11/1994",15,1,44,0,6.5,8.0,7.4,0],["CH1168","DK26213162","Phạm Thị Thu Trang",1,"25/12/2002",12,5,44,0,0.0,null,0.0,0],["CH1169","DK26213153","Lê Thu Trang",1,"28/03/2003",5,17,44,0,5.5,7.75,6.85,0],["CH1170","DK26213376","Nguyễn Minh Trang",1,"29/03/2003",5,7,44,1,5.0,6.5,5.9,0],["CH1171","DK26213377","Vũ Thị Huyền Trang",1,"23/02/2000",0,8,44,1,0.0,null,0.0,0],["CH1172","DK26213383","La Thị Thu Trang",1,"14/08/2000",14,8,44,1,4.0,5.75,5.05,0],["CH1173","DK26213338","Vũ Minh Trang",1,"25/10/2000",0,0,44,0,5.0,5.5,5.3,0],["CH1174","DK26213332","Chu Thị Thùy Trang",1,"03/06/2004",0,9,44,1,5.5,8.0,7.0,0],["CH1175","DK26213317","Nguyễn Thị Thu Trang",1,"21/08/2004",4,9,44,1,5.0,7.5,6.5,0],["CH1176","DK26213288","Lê Thị Huyền Trang",1,"29/04/2004",8,14,44,0,5.0,8.0,6.8,0],["CH1177","DK26213260","Mai Thị Trang",1,"03/09/2004",5,8,44,0,0.0,null,0.0,0],["CH1179","DK26213280","Bùi Thảo Trang",1,"29/11/2003",10,8,44,0,6.5,7.0,6.8,0],["CH1180","DK26212658","Nguyễn Thị Quỳnh Trang",1,"02/05/2004",21,21,44,0,5.5,7.0,6.4,0],["CH1181","DK26212661","Trần Thị Quỳnh Trang",1,"08/11/2003",1,9,44,1,4.0,6.5,5.5,0],["CH1182","DK26212619","Lê Kiều Trang",1,"22/12/1996",5,8,44,0,5.5,7.25,6.55,0],["CH1183","DK26212608","Nguyễn Thị Thu Trang",1,"07/04/2001",6,8,44,1,8.5,8.75,8.65,0],["CH1184","DK26212498","Trần Minh Trang",1,"04/03/2003",1,2,44,0,7.0,8.25,7.75,0],["CH1185","DK26212507","Nguyễn Thị Thu Trang",1,"08/09/2002",0,9,44,0,6.5,7.75,7.25,0],["CH1186","DK26212531","Nguyễn Thị Trang",1,"01/09/2002",10,5,44,1,7.0,6.25,6.55,0],["CH1187","DK26212540","Đỗ Quỳnh Trang",1,"10/12/2003",0,8,44,0,6.5,7.25,6.95,0],["CH1188","DK26212546","Trần Phương Trang",1,"30/09/2000",6,0,44,0,8.0,7.0,7.4,0],["CH1189","DK26212402","Phạm Thị Thùy Trang",1,"08/01/1997",12,0,44,0,7.5,8.25,7.95,0],["CH1190","DK26212416","Nguyễn Thu Trang",1,"10/03/2003",5,8,44,1,0.0,null,0.0,0],["CH1191","DK26212410","Đặng Minh Trang",1,"18/10/1993",0,0,44,1,7.5,6.75,7.05,0],["CH1192","DK26212460","Trần Thị Thu Trang",1,"29/05/2000",6,10,44,0,7.0,8.0,7.6,0],["CH1193","DK26212461","Trần Huyền Trang",1,"20/02/2001",11,8,45,1,7.0,6.75,6.85,0],["CH1194","DK26212350","Nguyễn Thị Thu Trang",1,"28/02/1990",10,8,45,0,7.5,7.75,7.65,0],["CH1195","DK26212380","Thiều Hà Thanh Trang",1,"08/08/2003",0,8,45,0,7.0,6.0,6.4,0],["CH1196","DK26212390","Trần Thu Trang",1,"07/08/2003",0,8,45,1,8.0,7.5,7.7,0],["CH1197","DK26212030","Nguyễn Thu Trang",1,"06/02/2004",12,14,45,0,7.0,7.25,7.15,0],["CH1198","DK26212064","Nguyễn Quỳnh Trang",1,"14/11/2004",6,2,45,0,6.0,7.0,6.6,0],["CH1199","DK26212113","Trần Thị Huyền Trang",1,"28/07/2000",10,0,45,0,6.0,6.0,6.0,0],["CH1200","DK26110969","Hàn Thu Trang",1,"12/01/2003",0,9,45,1,4.0,7.0,5.8,0],["CH1201","DK26211348","Đào Thị Mỹ Trang",1,"12/08/1998",0,0,45,1,5.5,4.5,4.9,0],["CH1202","DK26111588","Lê Huyền Trang",1,"13/10/2003",0,8,45,0,0.0,null,0.0,0],["CH1203","DK26212206","Lương Đào Kiều Trang",1,"30/08/2004",24,7,45,0,7.5,7.5,7.5,0],["CH1204","DK26212151","Tạ Huyền Trang",1,"22/07/2000",0,5,45,0,6.0,7.5,6.9,0],["CH1205","DK26212133","Nguyễn Thị Khánh Trang",1,"01/05/2003",1,18,45,0,0.0,null,0.0,0],["CH1206","DK26212235","Võ Thị Thảo Trang",1,"29/10/1999",24,8,45,0,5.0,7.25,6.35,0],["CH1207","DK26212220","Nguyễn Thu Trang",1,"14/08/2003",0,7,45,1,6.0,8.0,7.2,0],["CH1208","DK26212294","Nguyễn Hà Trang",1,"05/03/2002",0,7,45,0,5.5,7.5,6.7,0],["CH1209","DK26213514","Ngô Thu Trang",1,"16/04/2000",0,0,45,1,6.5,5.75,6.05,0],["CH1210","DK26213445","Vũ Yến Trang",1,"13/01/2004",8,8,45,0,7.0,6.0,6.4,0],["CH1211","DK26213456","Vũ Minh Trang",1,"07/08/2004",8,12,45,0,8.0,8.25,8.15,0],["CH1212","DK26213436","Trần Lan Trang",1,"10/01/2000",6,0,45,0,8.0,8.5,8.3,0],["CH1213","DK26213558","Đoàn Ngọc Trà",1,"26/09/2004",3,3,45,0,8.0,8.25,8.15,0],["CH1214","DK26212284","Nguyễn Hương Trà",1,"13/11/2003",1,3,45,1,7.0,5.25,5.95,0],["CH1215","DK26212148","Nguyễn Hương Trà",1,"22/10/2002",15,1,45,0,8.0,8.25,8.15,0],["CH1216","DK26213080","Lê Thu Trà",1,"28/01/2003",5,19,45,0,7.5,7.25,7.35,0],["CH1217","DK26213086","Nguyễn Thanh Trà",1,"18/08/2004",17,1,45,0,8.0,8.0,8.0,0],["CH1218","DK26212981","Nông Thị Hương Trà",1,"14/08/2001",19,18,45,1,8.5,6.75,7.45,1],["CH1219","DK26212987","Phạm Ngọc Trâm",1,"26/08/2001",0,19,46,1,0.0,null,0.0,0],["CH1220","DK26213532","Nguyễn Hải Triều",0,"18/06/1986",8,2,46,0,6.5,8.5,7.7,0],["CH1221","DK26213547","Nguyễn Lê Phương Trinh",1,"22/06/2003",11,3,46,0,6.0,7.25,6.75,0],["CH1222","DK26212319","Lê Việt Trinh",1,"27/12/2003",4,8,46,0,8.5,7.25,7.75,0],["CH1223","DK26211730","Trần Đình Trí",0,"06/12/1989",0,8,46,0,8.0,8.25,8.15,0],["CH1224","DK26211962","Cao Thành Trung",0,"12/09/1985",12,2,46,0,9.0,6.5,7.5,0],["CH1225","DK26111914","Nguyễn Thành Trung",0,"08/07/2003",0,15,46,0,5.0,8.0,6.8,0],["CH1226","DK26212040","Nguyễn Thành Trung",0,"14/12/2003",8,0,46,1,8.0,8.0,8.0,0],["CH1227","DK26212627","Nguyễn Đức Trung",0,"16/10/2002",10,8,46,0,7.0,8.5,7.9,0],["CH1228","DK26212951","Nguyễn Thành Trung",0,"04/12/2004",0,8,46,0,8.0,7.75,7.85,0],["CH1229","DK26212786","Lê Quang Trung",0,"01/03/1989",0,23,46,0,8.0,8.5,8.3,0],["CH1230","DK26213230","Lê Thế Trung",0,"24/05/2004",1,2,46,0,7.5,8.0,7.8,0],["CH1231","DK26213330","Nguyễn Đăng Quốc Trung",0,"26/04/2004",8,2,46,0,7.5,8.0,7.8,0],["CH1232","DK27110034","Nguyễn Mạnh Trung",0,"01/06/2004",1,2,46,1,4.0,7.5,6.1,0],["CH1233","DK26213253","Nguyễn Thị Minh Trúc",1,"24/06/2002",6,11,46,1,7.5,7.0,7.2,0],["CH1234","DK26213242","Nguyễn Văn Trường",0,"25/03/2001",12,0,46,1,6.5,8.25,7.55,0],["CH1235","DK26212494","Chử Minh Trường",0,"03/03/1997",0,0,46,0,7.0,5.5,6.1,1],["CH1236","DK26213628","Đặng Xuân Trường",0,"02/03/1998",0,8,46,0,7.5,7.5,7.5,0],["CH1237","DK26213503","Nguyễn Xuân Trường",0,"27/02/1998",13,0,46,1,7.5,6.75,7.05,0],["CH1238","DK26213589","Đào Anh Tuấn",0,"10/03/2003",4,7,46,0,7.0,7.0,7.0,0],["CH1239","DK26212489","Nguyễn Ngọc Anh Tuấn",0,"02/09/1990",1,0,46,0,5.5,6.25,5.95,0],["CH1240","DK26212506","Đặng Minh Tuấn",0,"02/12/2003",4,19,46,0,10.0,8.25,8.95,1],["CH1241","DK26212447","Phùng Minh Tuấn",0,"01/10/2003",0,2,46,0,6.5,6.75,6.65,0],["CH1243","DK26213175","Vũ Mạnh Tuấn",0,"12/12/2003",7,8,46,1,0.0,null,0.0,0],["CH1244","DK26213390","Nguyễn Anh Tuấn",0,"05/02/1996",0,0,46,0,7.0,6.25,6.55,0],["CH1245","DK26212771","Dương Thanh Tuấn",0,"23/09/1994",13,0,47,1,6.5,7.75,7.25,0],["CH1246","DK26212696","Phạm Anh Tuấn",0,"07/03/2003",15,18,47,1,9.0,6.75,7.65,1],["CH1247","DK26212976","Nguyễn Quốc Tuấn",0,"15/07/2004",28,8,47,1,6.5,6.75,6.65,0],["CH1248","DK26212060","Nguyễn Văn Tuyến",0,"10/10/1982",1,0,47,0,5.5,6.75,6.25,0],["CH1249","DK26212641","Dương Thị Ánh Tuyết",1,"01/09/2003",5,0,47,0,0.0,null,0.0,0],["CH1250","DK26213219","Đoàn Thị Tuyết",1,"26/02/2003",8,8,47,0,8.0,7.5,7.7,0],["CH1251","DK26213484","Nguyễn Thị Tuyết",1,"30/01/2001",13,7,47,1,7.0,6.5,6.7,0],["CH1252","DK26213457","Nguyễn Đình Tùng",0,"18/09/2004",0,8,47,0,5.5,8.25,7.15,0],["CH1253","DK26213536","Vũ Thanh Tùng",0,"28/07/2002",8,8,47,1,3.0,6.25,4.95,0],["CH1254","DK26213614","Lưu Trường Thanh Tùng",0,"27/12/2004",0,8,47,0,3.5,9.0,6.8,0],["CH1255","DK26213122","Dương Minh Tùng",0,"18/09/1999",12,2,47,0,0.0,null,0.0,0],["CH1256","DK26212991","Lê Mạnh Tùng",0,"07/06/2004",0,8,47,1,7.0,7.25,7.15,0],["CH1257","DK26212698","Phí Hoàng Tùng",0,"14/05/1998",0,0,47,1,7.5,8.75,8.25,0],["CH1258","DK26212672","Nguyễn Minh Tùng",0,"05/06/2001",0,1,47,1,8.0,8.25,8.15,0],["CH1259","DK26212128","Nguyễn Danh Tùng",0,"31/07/2003",0,8,47,0,7.5,7.25,7.35,0],["CH1260","DK26212509","Vũ Anh Tú",0,"05/02/2003",10,8,47,0,5.0,6.75,6.05,0],["CH1261","DK26212347","Lê Anh Tú",0,"21/06/2001",0,9,47,1,7.0,5.5,6.1,0],["CH1262","DK26212705","Khuất Thị Tú",1,"30/03/2003",0,0,47,1,7.5,7.25,7.35,0],["CH1263","DK26212733","Nguyễn Ngọc Tú",0,"04/02/2002",12,0,47,1,8.0,8.0,8.0,0],["CH1264","DK26213000","Nguyễn Thị Minh Tú",1,"04/08/2001",0,8,47,1,8.5,8.25,8.35,0],["CH1265","DK26213403","Bùi Thanh Tú",1,"15/06/2003",13,6,47,0,8.0,6.75,7.25,0],["CH1266","DK26213601","Phạm Thị Cẩm Tú",1,"19/03/1999",1,22,47,0,8.0,8.5,8.3,0],["CH1267","DK26213523","Nguyễn Thị Cẩm Tú",1,"03/12/2004",11,8,47,1,0.0,null,0.0,0],["CH1268","DK26212686","Bùi Minh Tường",0,"05/08/2002",5,0,47,1,7.5,6.0,6.6,0],["CH1269","DK26212804","Nguyễn Phương Uyên",1,"01/01/2002",0,0,47,0,8.0,5.0,6.2,0],["CH1270","DK26212944","Nguyễn Thị Thu Uyên",1,"13/03/2002",12,9,47,1,8.0,6.75,7.25,0],["CH1271","DK26212927","Trần Thị Phương Uyên",1,"27/12/2002",0,6,48,0,4.0,5.75,5.05,0],["CH1272","DK26212387","Nguyễn Thị Thu Uyên",1,"07/11/2002",5,11,48,1,3.5,6.75,5.45,0],["CH1274","DK26212466","Vũ Tú Uyên",1,"22/12/2002",0,11,48,0,5.5,7.25,6.55,0],["CH1275","DK26212529","Trần Tố Uyên",1,"17/11/2002",0,0,48,0,3.5,6.5,5.3,0],["CH1276","DK26213596","Ngô Thị Thu Uyên",1,"14/09/1997",6,0,48,0,5.5,5.5,5.5,0],["CH1277","DK26213583","Mai Ngọc Uyên",1,"09/12/2005",0,8,48,1,5.5,5.5,5.5,0],["CH1278","DK26213474","Phạm Thu Uyên",1,"27/03/1999",0,0,48,1,5.5,6.25,5.95,0],["CH1279","DK26213472","Lê Thị Thu Uyên",1,"26/02/2000",5,8,48,0,6.0,7.25,6.75,0],["CH1280","DK26213481","Nguyễn Yến Vân",1,"15/01/2004",0,5,48,1,3.5,6.25,5.15,0],["CH1281","DK26212578","Bùi Hải Vân",1,"26/08/2001",12,6,48,0,6.0,7.75,7.05,0],["CH1282","DK26212666","Nguyễn Cẩm Vân",1,"30/10/2004",6,0,48,1,5.0,7.75,6.65,0],["CH1283","DK26212486","Nguyễn Thị Thanh Vân",1,"16/11/1988",6,7,48,0,5.5,7.0,6.4,0],["CH1284","DK26212237","Lê Vân",1,"03/02/1994",10,8,48,0,5.0,5.5,5.3,0],["CH1285","DK26212081","Lê Thanh Vân",1,"10/01/2003",5,5,48,1,0.0,null,0.0,0],["CH1286","DK26213002","Đinh Lê Vân",1,"16/01/2002",6,7,48,0,6.0,6.75,6.45,0],["CH1287","DK26213276","Trần Thị Thảo Vân",1,"25/10/2004",13,11,48,0,5.0,6.5,5.9,0],["CH1288","DK26213284","Trần Thị Vân",1,"07/03/2002",4,8,48,0,3.5,8.0,6.2,0],["CH1289","DK26213133","Nguyễn Thị Thảo Vân",1,"13/03/2002",6,0,48,1,5.0,5.5,5.3,0],["CH1290","DK26213104","Trần Thảo Vân",1,"12/02/2001",3,3,48,0,5.5,7.75,6.85,0],["CH1291","DK26213234","Phạm Đình Khánh Vân",1,"29/03/2004",3,9,48,0,5.0,7.25,6.35,0],["CH1292","DK26213416","Trịnh Ngọc Lam Viên",1,"21/02/2004",0,8,48,0,3.0,8.25,6.15,0],["CH1293","DK26213171","Đinh Ngọc Việt",0,"02/10/1995",8,19,48,1,7.0,6.5,6.7,0],["CH1294","DK26212450","Lê Văn Việt",0,"22/06/1989",6,2,48,0,5.5,5.75,5.65,0],["CH1295","DK26212640","Lương Hoàng Việt",0,"17/03/2003",0,21,48,1,3.5,6.5,5.3,0],["CH1296","DK26212457","Ngô Thế Vinh",0,"16/05/2001",3,11,48,1,7.5,7.75,7.65,0],["CH1297","DK26212360","Nguyễn Quang Vinh",0,"15/01/2004",12,8,49,0,6.5,7.0,6.8,0],["CH1298","DK26212296","Nguyễn Xuân Vinh",0,"19/10/2005",5,2,49,0,7.0,8.75,8.05,0],["CH1299","DK26213127","Đặng Ngọc Vinh",0,"22/08/2004",6,9,49,1,6.0,7.0,6.6,0],["CH1300","DK26213316","Đào Đồng Quang Vinh",0,"21/05/2004",12,2,49,1,8.0,5.75,6.65,0],["CH1301","DK26213271","Phạm Quang Vinh",0,"08/12/2003",13,8,49,1,6.5,7.0,6.8,0],["CH1302","DK26213349","Hoàng Gia Vinh",0,"27/08/2003",0,9,49,0,5.5,8.0,7.0,0],["CH1303","DK26212959","Nguyễn Thành Vinh",0,"16/01/2002",0,8,49,1,6.0,6.25,6.15,0],["CH1304","DK26212774","Lê Hồng Vinh",0,"29/09/2004",12,21,49,0,8.0,8.25,8.15,0],["CH1305","DK27110024","Trần Đức Vinh",0,"06/08/2004",0,6,49,0,7.5,6.75,7.05,0],["CH1306","DK26212248","Nguyễn Thị Vui",1,"20/09/2000",6,0,49,0,7.5,8.0,7.8,0],["CH1307","DK26111161","Ngô Lê Minh Vũ",0,"09/03/2002",1,9,49,1,7.5,8.25,7.95,0],["CH1308","DK26212980","Nguyễn Hữu Vượng",0,"20/08/1987",0,1,49,0,5.0,6.75,6.05,0],["CH1309","DK26213314","Đinh Hoàng Yến Vy",1,"30/09/2003",4,8,49,0,8.5,7.5,7.9,0],["CH1310","DK26212355","Nguyễn Khánh Vy",1,"31/07/2002",0,8,49,0,7.0,7.25,7.15,0],["CH1311","DK26212377","Phạm Hải Yến",1,"24/01/2000",0,6,49,0,8.0,7.5,7.7,0],["CH1312","DK26212472","Nguyễn Hồng Yến",1,"25/11/2003",13,5,49,1,8.0,6.75,7.25,0],["CH1313","DK26212425","Lê Thị Hải Yến",1,"20/06/2004",5,5,49,1,8.0,1.75,4.25,0],["CH1314","DK26212622","Lê Hải Yến",1,"02/10/2004",8,8,49,1,7.5,6.25,6.75,0],["CH1315","DK26212548","Nguyễn Thị Hoàng Yến",1,"26/08/2003",0,0,49,0,7.5,8.0,7.8,0],["CH1316","DK26211671","Nguyễn Hải Yến",1,"09/03/2002",0,0,49,1,8.0,5.0,6.2,0],["CH1317","DK26111434","Trần Thị Hải Yến",1,"25/11/2003",6,8,49,1,8.0,6.0,6.8,0],["CH1318","DK26212261","Phạm Bảo Yến",1,"16/03/2002",32,2,49,0,6.5,6.25,6.35,0],["CH1319","DK26213305","Trần Hải Yến",1,"27/01/2003",0,0,49,0,0.0,null,0.0,0],["CH1320","DK26213008","Vũ Kim Yến",1,"09/11/2004",8,0,49,0,8.0,8.0,8.0,0],["CH1321","DK26213009","Khúc Hoàng Yến",1,"03/09/2001",12,0,49,0,0.0,null,0.0,0],["CH1322","DK26213576","Nguyễn Hải Yến",1,"06/07/2003",0,11,49,1,5.0,6.25,5.75,0]]};
+
+/* ---------- Dữ liệu ---------- */
+const { places: PLACES, majors: MAJORS, rooms: ROOMS } = RAW;
+const strip = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').toLowerCase();
+/* Sắp xếp tên kiểu Việt Nam: Tên → Họ → Đệm.
+   Mỗi phần so chữ cái trước theo bảng chữ cái tiếng Việt (a ă â b c d đ e ê … o ô ơ … u ư …),
+   bằng nhau mới so dấu thanh theo thứ tự: ngang, huyền, hỏi, ngã, sắc, nặng.
+   Tách dấu thanh ra nên “Hoà”/“Hòa”, “Thuỳ”/“Thùy” (bỏ dấu kiểu cũ/mới) được coi là một. */
+const viColl = new Intl.Collator('vi', { sensitivity: 'base', numeric: true });
+const TONES = { '̀': 1, '̉': 2, '̃': 3, '́': 4, '̣': 5 };
+function viKey(str) {
+  let base = '', tones = '';
+  for (const syl of str.normalize('NFC').split(/\s+/)) {
+    let t = 0;
+    const b = syl.normalize('NFD').replace(/[̣̀́̃̉]/g, m => { t = TONES[m]; return ''; }).normalize('NFC');
+    base += (base ? ' ' : '') + b; tones += t;
+  }
+  return { base, tones };
+}
+const cmpKey = (a, b) => viColl.compare(a.base, b.base) || (a.tones < b.tones ? -1 : a.tones > b.tones ? 1 : 0) ||
+  (a.base < b.base ? -1 : a.base > b.base ? 1 : 0); // cùng chữ khác hoa/thường
+const S = RAW.rows.map(r => {
+  const name = r[2].normalize('NFC').trim().replace(/\s+/g, ' ');
+  const parts = name.split(' ');
+  const yr = r[4].match(/(\d{4})$/);
+  return {
+    sbd: r[0], mdk: r[1], name, female: r[3], dob: r[4], year: yr ? +yr[1] : NaN,
+    place: r[5], major: r[6], room: r[7], mien: r[8], luan: r[9], ktth: r[10], xt: r[11], prio: r[12],
+    full: r[10] !== null,
+    ten: parts[parts.length - 1], ho: parts[0], dem: parts.slice(1, -1).join(' '),
+    kTen: viKey(parts[parts.length - 1]), kHo: viKey(parts.length > 1 ? parts[0] : ''), kDem: viKey(parts.slice(1, -1).join(' ')),
+    key: strip(r[0] + ' ' + r[1] + ' ' + name),
+  };
+});
+const cmpName = (a, b) => cmpKey(a.kTen, b.kTen) || cmpKey(a.kHo, b.kHo) || cmpKey(a.kDem, b.kDem) || a.sbd.localeCompare(b.sbd);
+const cmpText = (a, b) => cmpKey(viKey(a), viKey(b));
+
+/* Xếp hạng (đồng điểm đồng hạng) — chỉ thí sinh đủ điểm */
+function rankBy(list, out) {
+  const sorted = list.slice().sort((a, b) => b.xt - a.xt);
+  sorted.forEach((s, i) => { s[out] = i > 0 && sorted[i - 1].xt === s.xt ? sorted[i - 1][out] : i + 1; });
+  return sorted.length;
+}
+const FULL = S.filter(s => s.full);
+const N_FULL = rankBy(FULL, 'rAll');
+const groupBy = (arr, f) => { const m = new Map(); for (const x of arr) { const k = f(x); if (!m.has(k)) m.set(k, []); m.get(k).push(x); } return m; };
+const majorCount = new Map(), roomCount = new Map();
+for (const [k, g] of groupBy(FULL, s => s.major)) majorCount.set(k, rankBy(g, 'rMaj'));
+for (const [k, g] of groupBy(FULL, s => s.room)) roomCount.set(k, rankBy(g, 'rRoom'));
+const xtSortedAsc = FULL.map(s => s.xt).sort((a, b) => a - b);
+for (const s of FULL) {
+  let lo = 0, hi = xtSortedAsc.length;
+  while (lo < hi) { const m = (lo + hi) >> 1; if (xtSortedAsc[m] < s.xt) lo = m + 1; else hi = m; }
+  s.below = lo; // số thí sinh điểm thấp hơn
+}
+
+/* ---------- Tiện ích ---------- */
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const f2 = v => v == null || isNaN(v) ? '—' : v.toLocaleString('vi-VN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const f1 = v => v == null || isNaN(v) ? '—' : v.toLocaleString('vi-VN', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+const fi = v => v.toLocaleString('vi-VN');
+const pct = (a, b) => b ? f1(100 * a / b) + '%' : '—';
+const sum = a => a.reduce((x, y) => x + y, 0);
+const mean = a => a.length ? sum(a) / a.length : NaN;
+const quant = (sorted, q) => { if (!sorted.length) return NaN; const p = (sorted.length - 1) * q, l = Math.floor(p), h = Math.ceil(p); return sorted[l] + (sorted[h] - sorted[l]) * (p - l); };
+const sd = a => { if (a.length < 2) return NaN; const m = mean(a); return Math.sqrt(sum(a.map(x => (x - m) ** 2)) / (a.length - 1)); };
+function stats(vals) {
+  const s = vals.slice().sort((a, b) => a - b);
+  const counts = new Map(); for (const v of s) counts.set(v, (counts.get(v) || 0) + 1);
+  let mode = NaN, mc = 0; for (const [v, c] of counts) if (c > mc) { mc = c; mode = v; }
+  return { n: s.length, mean: mean(s), med: quant(s, .5), sd: sd(s), min: s[0], max: s[s.length - 1], q1: quant(s, .25), q3: quant(s, .75), mode, modeN: mc, sorted: s };
+}
+const exclAbsent = () => $('#exclAbsent').checked;
+const pool = (arr = S) => exclAbsent() ? arr.filter(s => s.full) : arr;
+const majorName = i => MAJORS[i];
+const roomName = i => ROOMS[i];
+const placeName = i => PLACES[i].replace(/^(Tỉnh|Thành phố)\s+/, '');
+const genderName = s => s.female ? 'Nữ' : 'Nam';
+const scoreCell = v => v == null ? '<span class="muted">---</span>' : f2(v);
+function medal(r) { return r <= 3 ? `<span class="medal r${r}">${r}</span>` : r; }
+const hashOf = arr => arr.map(x => x).join('|');
+
+/* Tooltip dùng chung: phần tử có data-tip */
+const tip = $('#tip');
+document.addEventListener('mouseover', e => { const t = e.target.closest('[data-tip]'); if (t) { tip.innerHTML = t.dataset.tip; tip.classList.add('on'); } });
+document.addEventListener('mouseout', e => { if (e.target.closest('[data-tip]')) tip.classList.remove('on'); });
+document.addEventListener('mousemove', e => {
+  if (!tip.classList.contains('on')) return;
+  const w = tip.offsetWidth, h = tip.offsetHeight;
+  let x = e.clientX + 14, y = e.clientY + 14;
+  if (x + w > innerWidth - 8) x = e.clientX - w - 14;
+  if (y + h > innerHeight - 8) y = e.clientY - h - 14;
+  tip.style.left = x + 'px'; tip.style.top = y + 'px';
+});
+
+/* ---------- Biểu đồ cột dọc (SVG) ---------- */
+function columnChart(items, { height = 220, hlIndex = -1, refLine = null, refLabel = '', yFmt = fi, labelEvery = 1, minBar = 0 } = {}) {
+  const W = 640, H = height, ml = 36, mr = 8, mt = 12, mb = 26;
+  const iw = W - ml - mr, ih = H - mt - mb;
+  const maxV = Math.max(1, ...items.map(d => d.v), refLine || 0);
+  const step = niceStep(maxV / 4);
+  const top = Math.ceil(maxV / step) * step;
+  const bw = iw / items.length, gap = Math.min(2, bw * .2);
+  let g = '';
+  for (let t = 0; t <= top + 1e-9; t += step) {
+    const y = mt + ih - ih * t / top;
+    g += `<line class="gl" x1="${ml}" x2="${W - mr}" y1="${y}" y2="${y}"/><text x="${ml - 6}" y="${y + 3.5}" text-anchor="end">${yFmt(t)}</text>`;
+  }
+  items.forEach((d, i) => {
+    const x = ml + i * bw, h = d.v ? Math.max(minBar, ih * d.v / top) : 0, y = mt + ih - h;
+    const r = Math.min(4, (bw - gap) / 2, h);
+    const path = h ? `M${x + gap / 2},${y + h}V${y + r}q0,-${r} ${r},-${r}H${x + bw - gap / 2 - r}q${r},0 ${r},${r}V${y + h}Z` : '';
+    g += `<g data-tip="${esc(d.tip || d.label + ': ' + fi(d.v))}"><rect x="${x}" y="${mt}" width="${bw}" height="${ih}" fill="transparent"/>${path ? `<path class="bar${i === hlIndex || d.hl ? ' hl' : ''}" d="${path}"/>` : ''}</g>`;
+    if (i % labelEvery === 0) g += `<text x="${x + bw / 2}" y="${H - 8}" text-anchor="middle">${esc(d.label)}</text>`;
+  });
+  if (refLine != null) {
+    const y = mt + ih - ih * refLine / top;
+    g += `<line x1="${ml}" x2="${W - mr}" y1="${y}" y2="${y}" stroke="var(--s2)" stroke-width="1.5" stroke-dasharray="4 3"/><text x="${W - mr}" y="${y - 5}" text-anchor="end" style="fill:var(--text)">${esc(refLabel)}</text>`;
+  }
+  g += `<line class="ax" x1="${ml}" x2="${W - mr}" y1="${mt + ih}" y2="${mt + ih}"/>`;
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img">${g}</svg>`;
+}
+function niceStep(x) { const p = 10 ** Math.floor(Math.log10(x || 1)); const n = x / p; return (n <= 1 ? 1 : n <= 2 ? 2 : n <= 2.5 ? 2.5 : n <= 5 ? 5 : 10) * p; }
+
+/* Cột nhóm 2 chuỗi (tỷ lệ %) */
+function groupedChart(bins, series, { height = 220 } = {}) {
+  const W = 640, H = height, ml = 36, mr = 8, mt = 12, mb = 26, iw = W - ml - mr, ih = H - mt - mb;
+  const maxV = Math.max(...series.flatMap(s => s.vals));
+  const step = niceStep(maxV / 4), top = Math.ceil(maxV / step) * step;
+  const gw = iw / bins.length, bw = (gw - 6) / series.length;
+  let g = '';
+  for (let t = 0; t <= top + 1e-9; t += step) { const y = mt + ih - ih * t / top; g += `<line class="gl" x1="${ml}" x2="${W - mr}" y1="${y}" y2="${y}"/><text x="${ml - 6}" y="${y + 3.5}" text-anchor="end">${fi(t)}%</text>`; }
+  bins.forEach((b, i) => {
+    series.forEach((s, j) => {
+      const v = s.vals[i], h = ih * v / top, x = ml + i * gw + 3 + j * bw, y = mt + ih - h, r = Math.min(3, h, (bw - 2) / 2);
+      g += `<g data-tip="<b>${esc(s.name)}</b> · ${esc(b)}<br>${f1(v)}% (${fi(s.cnt[i])} TS)"><rect x="${x}" y="${mt}" width="${bw}" height="${ih}" fill="transparent"/>${h ? `<path fill="${s.color}" d="M${x + 1},${y + h}V${y + r}q0,-${r} ${r},-${r}H${x + bw - 1 - r}q${r},0 ${r},${r}V${y + h}Z"/>` : ''}</g>`;
+    });
+    g += `<text x="${ml + i * gw + gw / 2}" y="${H - 8}" text-anchor="middle">${esc(b)}</text>`;
+  });
+  g += `<line class="ax" x1="${ml}" x2="${W - mr}" y1="${mt + ih}" y2="${mt + ih}"/>`;
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img">${g}</svg>`;
+}
+
+function table(cols, rows, { onRow, sortState, sortKey } = {}) {
+  const head = cols.map((c, i) => {
+    const s = sortState && c.sort ? (sortState.col === i ? `<span class="arr">${sortState.dir > 0 ? '▲' : '▼'}</span>` : '') : '';
+    return `<th class="${c.num ? 'num ' : ''}${c.sort && sortState ? 'sortable ' : ''}${c.cls || ''}" data-col="${i}" ${c.title ? `title="${esc(c.title)}"` : ''}>${c.h}${s}</th>`;
+  }).join('');
+  const body = rows.map((r, ri) => `<tr${onRow ? ` class="clickable" data-row="${ri}"` : ''}>${cols.map(c => `<td class="${c.num ? 'num ' : ''}${c.cls || ''}">${c.v(r)}</td>`).join('')}</tr>`).join('');
+  return `<thead><tr>${head}</tr></thead><tbody>${body || `<tr><td colspan="${cols.length}" class="empty">Không có dữ liệu</td></tr>`}</tbody>`;
+}
+/* Bảng có sắp xếp: render vào <table>, gắn sự kiện */
+function sortableTable(el, cols, getRows, { initial = { col: 0, dir: 1 }, onRow } = {}) {
+  const st = { ...initial };
+  function draw() {
+    const rows = getRows().slice();
+    const c = cols[st.col];
+    if (c && c.sort) rows.sort((a, b) => st.dir * c.sort(a, b));
+    el.innerHTML = table(cols, rows, { onRow, sortState: st });
+    el.querySelectorAll('th.sortable').forEach(th => th.onclick = () => {
+      const i = +th.dataset.col; if (st.col === i) st.dir = -st.dir; else { st.col = i; st.dir = cols[i].defDir || 1; } draw();
+    });
+    if (onRow) el.querySelectorAll('tr[data-row]').forEach(tr => tr.onclick = () => onRow(rows[+tr.dataset.row]));
+  }
+  draw();
+  return draw;
+}
+const byNum = f => (a, b) => (f(a) ?? -1) - (f(b) ?? -1);
+const byText = f => (a, b) => cmpText(f(a), f(b));
+
+/* ---------- Mô phỏng trúng tuyển theo chỉ tiêu ---------- */
+/* Chỉ tiêu theo thông báo tuyển sinh thạc sĩ K35 đợt 2/2026 (theo ngành) */
+const NGANH = [
+  ['Kinh tế học', 16], ['Kinh tế chính trị', 7], ['Kinh tế đầu tư', 15], ['Kinh tế phát triển', 34], ['Kinh tế quốc tế', 12],
+  ['Quản lý kinh tế', 102], ['Quản trị kinh doanh', 185], ['Kinh doanh thương mại', 14], ['Tài chính - Ngân hàng', 142], ['Kế toán', 30],
+  ['Quản trị nhân lực', 22], ['Hệ thống thông tin quản lý', 15], ['Luật kinh tế', 25], ['Kinh tế Nông nghiệp', 5],
+];
+/* Gán chuyên ngành → ngành (mặc định, người dùng sửa được) */
+const DEFAULT_MAP = {
+  'Kinh tế học': 'Kinh tế học', 'Thống kê kinh tế': 'Kinh tế học', 'Toán Kinh tế - Tài chính': 'Kinh tế học', 'Kinh tế bảo hiểm': 'Kinh tế học',
+  'Kinh tế và quản lý môi trường': 'Kinh tế học', 'Kinh tế và quản lý địa chính': 'Kinh tế học',
+  'Kinh tế chính trị': 'Kinh tế chính trị', 'Kinh tế đầu tư': 'Kinh tế đầu tư',
+  'Kinh tế phát triển': 'Kinh tế phát triển', 'Kế hoạch phát triển': 'Kinh tế phát triển', 'Kinh tế quốc tế': 'Kinh tế quốc tế',
+  'Quản lý kinh tế và chính sách': 'Quản lý kinh tế', 'Quản lý công': 'Quản lý kinh tế',
+  'Quản trị kinh doanh': 'Quản trị kinh doanh', 'Quản trị kinh doanh (Viện)': 'Quản trị kinh doanh', 'Quản trị kinh doanh quốc tế': 'Quản trị kinh doanh',
+  'Marketing': 'Quản trị kinh doanh', 'Logistics': 'Quản trị kinh doanh', 'Quản trị kinh doanh du lịch và khách sạn': 'Quản trị kinh doanh',
+  'Quản trị kinh doanh bất động sản': 'Quản trị kinh doanh',
+  'Quản trị kinh doanh thương mại': 'Kinh doanh thương mại', 'Kinh tế và quản lý thương mại': 'Kinh doanh thương mại',
+  'Tài chính - Ngân hàng': 'Tài chính - Ngân hàng', 'Kế toán, kiểm toán và phân tích': 'Kế toán', 'Quản trị nhân lực': 'Quản trị nhân lực',
+  'Hệ thống thông tin quản lý': 'Hệ thống thông tin quản lý', 'Luật kinh tế': 'Luật kinh tế', 'Quản trị kinh doanh nông nghiệp': 'Kinh tế Nông nghiệp',
+};
+const ADM_DEFAULT = { floor: '5', tie: 'all', bonus: '0' };
+const ADM = { ...ADM_DEFAULT, map: MAJORS.map(m => Math.max(0, NGANH.findIndex(n => n[0] === DEFAULT_MAP[m]))), quota: NGANH.map(n => n[1]) };
+try {
+  const sv = JSON.parse(localStorage.getItem('adm-k35') || 'null');
+  if (sv) {
+    for (const k of Object.keys(ADM_DEFAULT)) if (sv[k] != null) ADM[k] = sv[k];
+    if (sv.map) MAJORS.forEach((m, i) => { const j = NGANH.findIndex(n => n[0] === sv.map[m]); if (j >= 0) ADM.map[i] = j; });
+    if (sv.quota) NGANH.forEach((n, i) => { if (sv.quota[n[0]] != null) ADM.quota[i] = +sv.quota[n[0]]; });
+  }
+} catch (e) {}
+function saveAdm() {
+  try {
+    localStorage.setItem('adm-k35', JSON.stringify({ floor: ADM.floor, tie: ADM.tie, bonus: ADM.bonus,
+      map: Object.fromEntries(MAJORS.map((m, i) => [m, NGANH[ADM.map[i]][0]])), quota: Object.fromEntries(NGANH.map((n, i) => [n[0], ADM.quota[i]])) }));
+  } catch (e) {}
+}
+let NG = [];
+const admScore = s => s.xt + (s.prio ? +ADM.bonus : 0);
+function predict() {
+  const floor = ADM.floor === '' ? null : +ADM.floor;
+  NG = NGANH.map((n, i) => ({ i, name: n[0], q: ADM.quota[i], reg: [], elig: [], adm: [], cutoff: null }));
+  for (const s of S) {
+    s.ng = ADM.map[s.major]; s.adm = false; s.rNg = null; s.need = null; s.score = admScore(s);
+    s.why = !s.full ? 'Vắng/thiếu điểm KTTH'
+      : floor != null && (s.luan < floor || s.ktth < floor) ? `Có môn dưới điểm sàn ${f1(floor)}` : '';
+    NG[s.ng].reg.push(s);
+    if (!s.why) NG[s.ng].elig.push(s);
+  }
+  const cmpAdm = ADM.tie === 'ktth' ? (a, b) => b.score - a.score || b.ktth - a.ktth || b.luan - a.luan : (a, b) => b.score - a.score;
+  for (const g of NG) {
+    const E = g.elig.sort((a, b) => cmpAdm(a, b) || cmpName(a, b));
+    E.forEach((s, k) => { s.rNg = k > 0 && cmpAdm(E[k - 1], s) === 0 ? E[k - 1].rNg : k + 1; });
+    if (!g.q || !E.length) { g.cutoff = null; continue; }
+    if (E.length <= g.q) g.adm = E.slice();
+    else {
+      const last = E[g.q - 1];
+      if (ADM.tie === 'cut' && cmpAdm(E[g.q], last) === 0) g.adm = E.filter(s => cmpAdm(s, last) < 0);
+      else g.adm = E.filter(s => cmpAdm(s, last) <= 0);
+    }
+    g.adm.forEach(s => s.adm = true);
+    // Điểm chuẩn: điểm thấp nhất trong nhóm trúng tuyển; nếu không lấy ai (đồng điểm) thì là điểm ngay trên nhóm đồng điểm
+    g.cutoff = g.adm.length ? g.adm[g.adm.length - 1].score : null;
+    g.firstOut = E.find(s => !s.adm) || null;
+  }
+  for (const g of NG) for (const s of g.elig) if (!s.adm) s.need = g.cutoff != null ? g.cutoff - s.score : null;
+}
+const admBadge = s => s.adm ? '<span class="badge adm-yes">Trúng tuyển</span>'
+  : s.why ? `<span class="badge adm-inel" title="${esc(s.why)}">Không đủ ĐK</span>`
+  : `<span class="badge adm-no" title="${s.need != null ? 'Thiếu ' + f2(s.need) + ' điểm' : ''}">Không trúng tuyển</span>`;
+predict();
+
+/* ---------- Tabs ---------- */
+const rendered = {};
+function showTab(name, push = true) {
+  document.querySelectorAll('nav.tabs button').forEach(b => b.setAttribute('aria-selected', b.dataset.tab === name));
+  document.querySelectorAll('section.tab').forEach(s => s.classList.toggle('active', s.id === 'tab-' + name));
+  if (!rendered[name]) { RENDER[name](); rendered[name] = true; }
+  if (push && !location.hash.startsWith('#sbd=')) history.replaceState(null, '', '#' + name);
+  window.scrollTo({ top: 0 });
+}
+document.querySelectorAll('nav.tabs button').forEach(b => b.onclick = () => showTab(b.dataset.tab));
+
+/* ---------- Tổng quan ---------- */
+function renderOverview() {
+  const P = pool();
+  const absent = S.length - FULL.length;
+  const st = stats(P.map(s => s.xt));
+  const fem = P.filter(s => s.female).length, mien = P.filter(s => s.mien).length;
+  const ge7 = P.filter(s => s.xt >= 7).length, ge8 = P.filter(s => s.xt >= 8).length, lt5 = P.filter(s => s.xt < 5).length;
+  const kp = [
+    ['Tổng số thí sinh', fi(S.length), `${fi(FULL.length)} đủ điểm · ${fi(absent)} vắng/thiếu`],
+    ['Điểm XT trung bình', f2(st.mean), `Trung vị ${f2(st.med)} · ĐLC ${f2(st.sd)}`],
+    ['Điểm XT cao nhất', f2(st.max), `Thấp nhất ${f2(st.min)}`],
+    ['Đạt từ 7 điểm', pct(ge7, P.length), `${fi(ge7)} thí sinh`],
+    ['Đạt từ 8 điểm', pct(ge8, P.length), `${fi(ge8)} thí sinh`],
+    ['Dưới 5 điểm', pct(lt5, P.length), `${fi(lt5)} thí sinh`],
+    ['Nữ / Nam', `${pct(fem, P.length)}`, `${fi(fem)} nữ · ${fi(P.length - fem)} nam`],
+    ['Miễn ngoại ngữ', pct(mien, P.length), `${fi(mien)} thí sinh · ${fi(P.filter(s => s.prio).length)} diện ưu tiên`],
+  ];
+  $('#kpis').innerHTML = kp.map(k => `<div class="card kpi"><div class="lbl">${k[0]}</div><div class="val">${k[1]}</div><div class="note">${k[2]}</div></div>`).join('');
+
+  // Histogram XT bin 0.5
+  const bins = []; for (let b = 0; b < 10; b += .5) bins.push(b);
+  const cnt = bins.map(b => P.filter(s => s.xt >= b && (b === 9.5 ? s.xt <= 10 : s.xt < b + .5)).length);
+  const lo = bins.findIndex((_, i) => cnt.slice(0, i + 1).some(Boolean));
+  const items = bins.map((b, i) => ({ label: f1(b).replace(',0', ''), v: cnt[i], tip: `<b>${f2(b)} – ${b === 9.5 ? '10,00' : '&lt;' + f2(b + .5)}</b><br>${fi(cnt[i])} thí sinh (${pct(cnt[i], P.length)})` }));
+  $('#histXT').innerHTML = columnChart(items.slice(Math.max(0, lo)), { labelEvery: 2, minBar: 2 });
+
+  const bands = [['Dưới 5', 0, 5], ['5 – dưới 6', 5, 6], ['6 – dưới 7', 6, 7], ['7 – dưới 8', 7, 8], ['8 – dưới 9', 8, 9], ['9 – 10', 9, 10.01]];
+  const maxB = Math.max(...bands.map(b => P.filter(s => s.xt >= b[1] && s.xt < b[2]).length));
+  $('#bandTable').innerHTML = `<div class="hbars">${bands.map(b => {
+    const n = P.filter(s => s.xt >= b[1] && s.xt < b[2]).length;
+    return `<div class="hbar" data-tip="${b[0]}: ${fi(n)} thí sinh"><span class="nm">${b[0]}</span><span class="tr"><span class="fl" style="width:${100 * n / maxB}%"></span></span><span class="v">${fi(n)} <span class="muted">· ${pct(n, P.length)}</span></span></div>`;
+  }).join('')}</div>
+  <div style="margin-top:14px" class="t2">Điểm XT phổ biến nhất: <b>${f2(st.mode)}</b> (${fi(st.modeN)} thí sinh). Một nửa số thí sinh nằm trong khoảng <b>${f2(st.q1)} – ${f2(st.q3)}</b>.</div>`;
+
+  const lv = pool().map(s => s.luan);
+  const lvals = []; for (let v = 0; v <= 10; v += .5) lvals.push(v);
+  $('#histLuan').innerHTML = columnChart(lvals.map(v => { const n = lv.filter(x => x === v).length; return { label: String(v).replace('.', ','), v: n, tip: `Môn luận <b>${f2(v)}</b>: ${fi(n)} TS (${pct(n, lv.length)})` }; }), { labelEvery: 2, minBar: 2 });
+  const kv = S.filter(s => s.full).map(s => s.ktth);
+  const kvals = []; for (let v = Math.floor(Math.min(...kv)); v <= 10; v += .25) kvals.push(v);
+  $('#histKTTH').innerHTML = columnChart(kvals.map(v => { const n = kv.filter(x => x === v).length; return { label: String(v).replace('.', ','), v: n, tip: `KTTH <b>${f2(v)}</b>: ${fi(n)} TS (${pct(n, kv.length)})` }; }), { labelEvery: 4, minBar: 2 });
+
+  const subj = [['Môn luận', pool().map(s => s.luan)], ['KTTH', kv], ['Điểm xét tuyển', pool().map(s => s.xt)]].map(([lbl, v]) => ({ ...stats(v), lbl }));
+  $('#statTable').innerHTML = `<div class="tbl-wrap"><table>${table([
+    { h: 'Chỉ số', v: r => r[0] },
+    ...subj.map(s => ({ h: s.lbl, num: 1, v: r => r[1](s) })),
+  ], [
+    ['Số thí sinh', s => fi(s.n)], ['Trung bình', s => f2(s.mean)], ['Trung vị', s => f2(s.med)], ['Độ lệch chuẩn', s => f2(s.sd)],
+    ['Thấp nhất', s => f2(s.min)], ['Tứ phân vị 25%', s => f2(s.q1)], ['Tứ phân vị 75%', s => f2(s.q3)], ['Cao nhất', s => f2(s.max)],
+    ['Điểm nhiều nhất', s => `${f2(s.mode)} <span class="muted">(${fi(s.modeN)})</span>`],
+  ])}</table></div>`;
+
+  const desc = FULL.map(s => s.xt).sort((a, b) => b - a);
+  const tops = [10, 20, 50, 100, 200, 300, 500, 1000];
+  const pcts = [1, 5, 10, 25, 50];
+  $('#pctTable').innerHTML = `<div class="tbl-wrap"><table>${table([
+    { h: 'Nhóm', v: r => r[0] }, { h: 'Điểm XT tối thiểu', num: 1, v: r => `<b>${f2(r[1])}</b>` }, { h: 'Số TS đạt ngưỡng', num: 1, v: r => fi(r[2]) },
+  ], [
+    ...tops.filter(t => t <= desc.length).map(t => [`Top ${fi(t)}`, desc[t - 1], desc.filter(x => x >= desc[t - 1]).length]),
+    ...pcts.map(p => { const k = Math.max(1, Math.round(desc.length * p / 100)); return [`Top ${p}%`, desc[k - 1], desc.filter(x => x >= desc[k - 1]).length]; }),
+  ])}</table></div><p class="muted" style="font-size:12px;margin:8px 0 0">Tính trên ${fi(FULL.length)} thí sinh đủ điểm; do đồng điểm, số đạt ngưỡng có thể lớn hơn nhóm.</p>`;
+
+  const top = FULL.slice().sort((a, b) => b.xt - a.xt || b.ktth - a.ktth || cmpName(a, b)).filter(s => s.rAll <= 20);
+  const t20 = $('#top20'); t20.innerHTML = `<div class="tbl-wrap"><table></table></div>`;
+  const tb = t20.querySelector('table');
+  tb.innerHTML = table(rankCols(['rAll', 'sbd', 'name', 'major', 'luan', 'ktth', 'xt']), top, { onRow: 1 });
+  tb.querySelectorAll('tr[data-row]').forEach(tr => tr.onclick = () => openProfile(top[+tr.dataset.row]));
+}
+
+/* Cột dùng chung cho bảng thí sinh */
+const COLS = {
+  rFilter: { h: 'Hạng lọc', num: 1, title: 'Thứ hạng trong nhóm đang lọc', v: s => s._rf ? medal(s._rf) : '<span class="muted">—</span>', sort: byNum(s => s._rf ?? 1e9) },
+  rAll: { h: 'Hạng chung', num: 1, title: 'Hạng toàn khóa', v: s => s.rAll ? medal(s.rAll) : '<span class="muted">—</span>', sort: byNum(s => s.rAll ?? 1e9) },
+  rMaj: { h: 'Hạng ngành', num: 1, title: 'Hạng trong chuyên ngành', v: s => s.rMaj ? `${s.rMaj}<span class="muted">/${majorCount.get(s.major)}</span>` : '<span class="muted">—</span>', sort: byNum(s => s.rMaj ?? 1e9) },
+  sbd: { h: 'SBD', v: s => `<b>${s.sbd}</b>`, sort: byText(s => s.sbd) },
+  mdk: { h: 'Mã ĐK', cls: 'hide-sm', v: s => `<span class="t2">${s.mdk}</span>`, sort: byText(s => s.mdk) },
+  name: { h: 'Họ tên', v: s => esc(s.name) + (s.prio ? ' <span class="badge acc" title="Diện ưu tiên">ƯT</span>' : ''), sort: cmpName },
+  gender: { h: 'GT', v: s => genderName(s), sort: byNum(s => s.female) },
+  dob: { h: 'Ngày sinh', cls: 'hide-sm', v: s => s.dob, sort: byText(s => s.dob.split('/').reverse().join('')) },
+  place: { h: 'Nơi sinh', cls: 'hide-sm', v: s => esc(placeName(s.place)), sort: byText(s => placeName(s.place)) },
+  major: { h: 'Chuyên ngành', v: s => esc(majorName(s.major)), sort: byText(s => majorName(s.major)) },
+  room: { h: 'Phòng', cls: 'hide-sm', v: s => roomName(s.room), sort: byText(s => roomName(s.room)) },
+  nn: { h: 'Ngoại ngữ', cls: 'hide-sm', v: s => s.mien ? '<span class="badge good">Miễn NN</span>' : '<span class="badge" title="Không được miễn, đã thi đạt ngoại ngữ">Thi đạt NN</span>', sort: byNum(s => s.mien) },
+  luan: { h: 'Môn luận', num: 1, v: s => scoreCell(s.luan), sort: byNum(s => s.luan), defDir: -1 },
+  ktth: { h: 'KTTH', num: 1, v: s => scoreCell(s.ktth), sort: byNum(s => s.ktth), defDir: -1 },
+  xt: { h: 'Điểm XT', num: 1, v: s => s.full ? `<b>${f2(s.xt)}</b>` : `<span class="muted" title="Vắng/thiếu điểm">${f2(s.xt)}</span>`, sort: byNum(s => s.full ? s.xt : -1 + s.xt / 100), defDir: -1 },
+  nganh: { h: 'Ngành', cls: 'hide-sm', v: s => esc(NGANH[s.ng][0]), sort: byText(s => NGANH[s.ng][0]) },
+  rNg: { h: 'Hạng xét', num: 1, title: 'Thứ hạng xét tuyển trong ngành (chỉ thí sinh đủ điều kiện)', v: s => s.rNg ? `${s.rNg}<span class="muted">/${NG[s.ng].q}</span>` : '<span class="muted">—</span>', sort: byNum(s => s.rNg ?? 1e9) },
+  adm: { h: 'Dự kiến', v: admBadge, sort: byNum(s => s.adm ? 2 : s.why ? 0 : 1), defDir: -1 },
+};
+const rankCols = keys => keys.map(k => COLS[k]);
+
+/* ---------- Tra cứu ---------- */
+function search(q, limit = 12) {
+  const k = strip(q.trim()); if (!k) return [];
+  const terms = k.split(/\s+/);
+  const exact = S.filter(s => s.sbd.toLowerCase() === k || s.mdk.toLowerCase() === k);
+  if (exact.length) return exact;
+  return S.filter(s => terms.every(t => s.key.includes(t)))
+    .sort((a, b) => (strip(b.ten) === terms[terms.length - 1]) - (strip(a.ten) === terms[terms.length - 1]) || cmpName(a, b))
+    .slice(0, limit);
+}
+let suggIdx = -1, suggList = [], CUR = null;
+function drawSugg() {
+  const box = $('#sugg');
+  if (!suggList.length) { box.classList.remove('open'); return; }
+  box.innerHTML = suggList.map((s, i) => `<div class="${i === suggIdx ? 'on' : ''}" data-i="${i}"><span><b>${esc(s.name)}</b> <span class="muted">· ${s.sbd} · ${s.dob}</span></span><span class="t2">${s.full ? f2(s.xt) : 'Vắng'}</span></div>`).join('');
+  box.classList.add('open');
+  box.querySelectorAll('[data-i]').forEach(d => d.onmousedown = e => { e.preventDefault(); openProfile(suggList[+d.dataset.i]); });
+}
+function initLookup() {
+  const inp = $('#lookupInput');
+  inp.oninput = () => { suggList = search(inp.value); suggIdx = suggList.length ? 0 : -1; drawSugg(); };
+  inp.onkeydown = e => {
+    if (e.key === 'ArrowDown') { suggIdx = Math.min(suggList.length - 1, suggIdx + 1); drawSugg(); e.preventDefault(); }
+    else if (e.key === 'ArrowUp') { suggIdx = Math.max(0, suggIdx - 1); drawSugg(); e.preventDefault(); }
+    else if (e.key === 'Enter' && suggList[suggIdx]) openProfile(suggList[suggIdx]);
+    else if (e.key === 'Escape') { suggList = []; drawSugg(); }
+  };
+  inp.onblur = () => setTimeout(() => $('#sugg').classList.remove('open'), 100);
+  inp.onfocus = () => suggList.length && drawSugg();
+}
+function openProfile(s) {
+  if (!rendered.lookup) { RENDER.lookup(); rendered.lookup = true; }
+  showTab('lookup', false);
+  history.replaceState(null, '', '#sbd=' + s.sbd);
+  $('#lookupInput').value = s.name; suggList = []; drawSugg();
+  const P = FULL;
+  const allSt = stats(P.map(x => x.xt));
+  const majP = P.filter(x => x.major === s.major), majSt = stats(majP.map(x => x.xt));
+  const roomP = P.filter(x => x.room === s.room), roomSt = stats(roomP.map(x => x.xt));
+  const sameGender = stats(P.filter(x => x.female === s.female).map(x => x.xt));
+  const initials = s.ten[0];
+  const delta = (v, ref) => { const d = v - ref; return `<span class="${d >= 0 ? 'delta-up' : 'delta-down'}">${d >= 0 ? '+' : ''}${f2(d)}</span>`; };
+  const subj = (lbl, v, all, w) => `<div class="score-tile${w ? ' main' : ''}"><div class="t2">${lbl}</div><div class="val">${v == null ? '---' : f2(v)}</div><div class="muted" style="font-size:12px">${v == null ? 'Không có điểm' : `TB khóa ${f2(all)} · ${delta(v, all)}`}</div></div>`;
+  const luanAvg = mean(P.map(x => x.luan)), ktthAvg = mean(P.map(x => x.ktth));
+  let ranks = '';
+  if (s.full) {
+    const pctBetter = 100 * s.below / P.length;
+    const top = 100 * (s.rAll) / P.length;
+    const sameXT = P.filter(x => x.xt === s.xt).length;
+    ranks = `<div class="card" style="margin-top:16px"><h2>Thứ hạng</h2><p class="desc">Xếp theo điểm xét tuyển, đồng điểm đồng hạng; chỉ tính ${fi(P.length)} thí sinh đủ điểm</p>
+      <div class="rank-tiles">
+        <div class="rank-tile"><div class="t2">Toàn khóa</div><div class="val">${fi(s.rAll)} <small>/ ${fi(P.length)}</small></div><div class="muted" style="font-size:12px">Top ${f1(top)}%</div></div>
+        <div class="rank-tile"><div class="t2">Trong chuyên ngành</div><div class="val">${fi(s.rMaj)} <small>/ ${fi(majorCount.get(s.major))}</small></div><div class="muted" style="font-size:12px">${esc(majorName(s.major))}</div></div>
+        <div class="rank-tile"><div class="t2">Trong phòng thi</div><div class="val">${fi(s.rRoom)} <small>/ ${fi(roomCount.get(s.room))}</small></div><div class="muted" style="font-size:12px">Phòng ${roomName(s.room)}</div></div>
+        <div class="rank-tile"><div class="t2">Cao hơn</div><div class="val">${f1(pctBetter)}%</div><div class="muted" style="font-size:12px">${fi(s.below)} thí sinh điểm thấp hơn · ${fi(sameXT - 1)} người cùng điểm</div></div>
+      </div></div>`;
+  }
+  // Kết quả xét tuyển dự kiến
+  CUR = s;
+  const G = NG[s.ng];
+  const res = s.adm ? ['yes', '✓', 'Dự kiến TRÚNG TUYỂN', `Hạng xét tuyển ${fi(s.rNg)} trong ngành ${esc(G.name)} (chỉ tiêu ${fi(G.q)}) · điểm xét ${f2(s.score)} ≥ điểm chuẩn dự kiến ${f2(G.cutoff)}`]
+    : s.why ? ['inel', '!', 'Không đủ điều kiện xét tuyển', esc(s.why) + ' (theo điều kiện đang chọn ở tab Trúng tuyển)']
+    : ['no', '✕', 'Dự kiến không trúng tuyển', `Hạng xét tuyển ${fi(s.rNg)} / chỉ tiêu ${fi(G.q)} ngành ${esc(G.name)}` + (s.need != null ? ` · thiếu <b>${f2(s.need)}</b> điểm so với điểm chuẩn dự kiến ${f2(G.cutoff)}` : '')];
+  const admCard = `<div class="card" style="margin-top:16px"><h2>Xét tuyển theo chỉ tiêu (dự kiến)</h2><p class="desc">Mô phỏng theo chỉ tiêu ngành và điều kiện đang chọn — không phải kết quả chính thức</p>
+    <div class="result-banner ${res[0]}"><span class="ic">${res[1]}</span><div><div class="big">${res[2]}</div><div class="t2">${res[3]}</div></div></div>
+    <div class="rank-tiles">
+      <div class="rank-tile"><div class="t2">Ngành xét tuyển</div><div class="val" style="font-size:17px">${esc(G.name)}</div><div class="muted" style="font-size:12px">từ chuyên ngành ${esc(majorName(s.major))}</div></div>
+      <div class="rank-tile"><div class="t2">Chỉ tiêu / đủ điều kiện</div><div class="val">${fi(G.q)} <small>/ ${fi(G.elig.length)} TS</small></div><div class="muted" style="font-size:12px">${fi(G.reg.length)} thí sinh dự thi</div></div>
+      <div class="rank-tile"><div class="t2">Điểm chuẩn dự kiến</div><div class="val">${f2(G.cutoff)}</div><div class="muted" style="font-size:12px">${fi(G.adm.length)} thí sinh trúng tuyển</div></div>
+    </div></div>`;
+  // Phân bố điểm ngành, tô cột của thí sinh
+  const bins = []; for (let b = 0; b < 10; b += .5) bins.push(b);
+  const binOf = v => Math.min(19, Math.floor(v / .5 + 1e-9));
+  const majCnt = bins.map((b, i) => majP.filter(x => binOf(x.xt) === i).length);
+  const first = Math.max(0, Math.min(majCnt.findIndex(Boolean), s.full ? binOf(s.xt) : 99));
+  const items = bins.map((b, i) => ({ label: f1(b).replace(',0', ''), v: majCnt[i], hl: s.full && binOf(s.xt) === i, tip: `${f2(b)} – ${f2(b + .5)}: ${fi(majCnt[i])} TS${s.full && binOf(s.xt) === i ? '<br><b>Thí sinh nằm ở đây</b>' : ''}` })).slice(first);
+  const cmpRows = [
+    ['Thí sinh', s.xt, 1], ['TB toàn khóa', allSt.mean], ['TB chuyên ngành', majSt.mean], ['Cao nhất ngành', majSt.max], ['TB phòng thi', roomSt.mean], [`TB thí sinh ${genderName(s).toLowerCase()}`, sameGender.mean],
+  ];
+  // Hàng xóm trong bảng xếp hạng ngành
+  const majSorted = majP.slice().sort((a, b) => b.xt - a.xt || cmpName(a, b));
+  const pos = majSorted.indexOf(s);
+  const near = pos < 0 ? [] : majSorted.slice(Math.max(0, pos - 3), pos + 4);
+
+  $('#profile').innerHTML = `
+  <div class="card">
+    <div class="profile-head">
+      <div class="avatar">${esc(initials)}</div>
+      <div style="flex:1;min-width:200px">
+        <h2>${esc(s.name)}</h2>
+        <div class="t2">SBD <b>${s.sbd}</b> · Mã ĐK ${s.mdk} ${s.prio ? '<span class="badge acc">Diện ưu tiên</span>' : ''} ${s.full ? '' : '<span class="badge bad">Vắng/thiếu điểm KTTH</span>'}</div>
+      </div>
+      <button class="btn" type="button" onclick="navigator.clipboard && navigator.clipboard.writeText(location.href); this.textContent='Đã chép liên kết'">Chép liên kết</button>
+    </div>
+    <div class="info-grid">
+      <div><div class="k">Giới tính</div>${genderName(s)}</div>
+      <div><div class="k">Ngày sinh</div>${s.dob} <span class="muted">(${2026 - s.year} tuổi)</span></div>
+      <div><div class="k">Nơi sinh</div>${esc(PLACES[s.place])}</div>
+      <div><div class="k">Chuyên ngành</div>${esc(majorName(s.major))}</div>
+      <div><div class="k">Phòng thi</div>${roomName(s.room)}</div>
+      <div><div class="k">Ngoại ngữ</div>${s.mien ? 'Miễn NN' : 'Thi đạt NN (không được miễn)'}</div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:16px"><h2>Điểm thi</h2><p class="desc">Điểm xét tuyển = 0,4 × Môn luận + 0,6 × KTTH</p>
+    <div class="score-tiles">${subj('Điểm xét tuyển', s.xt, allSt.mean, 1)}${subj('Môn luận (hệ số 0,4)', s.luan, luanAvg)}${subj('KTTH (hệ số 0,6)', s.ktth, ktthAvg)}</div>
+  </div>
+  ${admCard}
+  ${ranks}
+  <div class="grid g2" style="margin-top:16px">
+    <div class="card"><h2>So sánh điểm xét tuyển</h2><p class="desc">Thang 0–10</p>
+      <div class="cmp">${cmpRows.map(r => `<div class="cmp-row"><span class="t2">${r[0]}</span><span class="tr"><span class="fl${r[2] ? ' me' : ''}" style="width:${10 * (r[1] || 0)}%"></span></span><b class="num">${f2(r[1])}</b></div>`).join('')}</div>
+    </div>
+    <div class="card"><h2>Vị trí trong ngành ${esc(majorName(s.major))}</h2><p class="desc">Phân bố điểm XT của ${fi(majP.length)} thí sinh đủ điểm trong ngành · cột cam là khoảng điểm của thí sinh</p>
+      ${columnChart(items, { height: 190, labelEvery: 2, minBar: 2 })}
+    </div>
+  </div>
+  ${near.length ? `<div class="card" style="margin-top:16px"><h2>Xung quanh trong bảng xếp hạng ngành</h2><p class="desc">Nhấn một dòng để xem thí sinh đó</p><div class="tbl-wrap"><table id="nearTbl"></table></div></div>` : ''}`;
+  if (near.length) {
+    const t = $('#nearTbl'); t.innerHTML = table(rankCols(['rMaj', 'rAll', 'sbd', 'name', 'luan', 'ktth', 'xt']), near, { onRow: 1 });
+    t.querySelectorAll('tr[data-row]').forEach(tr => { const x = near[+tr.dataset.row]; if (x === s) tr.style.background = 'var(--accent-soft)'; tr.onclick = () => openProfile(x); });
+  }
+}
+
+/* ---------- Xếp hạng ---------- */
+const RK = { col: null, dir: -1, page: 0, rows: [] };
+function initRanking() {
+  const opt = (arr, lbl) => arr.map((x, i) => [i, lbl(i)]).sort((a, b) => cmpText(a[1], b[1])).map(([i, l]) => `<option value="${i}">${esc(l)}</option>`).join('');
+  $('#rkMajor').insertAdjacentHTML('beforeend', opt(MAJORS, majorName));
+  $('#rkNganh').insertAdjacentHTML('beforeend', NGANH.map((n, i) => `<option value="${i}">${esc(n[0])}</option>`).join(''));
+  $('#rkPlace').insertAdjacentHTML('beforeend', opt(PLACES, placeName));
+  $('#rkRoom').insertAdjacentHTML('beforeend', ROOMS.map((r, i) => `<option value="${i}">${r}</option>`).join(''));
+  for (let v = 9; v >= 5; v -= .5) $('#rkMin').insertAdjacentHTML('beforeend', `<option value="${v}">Điểm XT ≥ ${f1(v)}</option>`);
+  ['rkSearch', 'rkNganh', 'rkAdm', 'rkMajor','rkGender', 'rkNN', 'rkPlace', 'rkRoom', 'rkMisc', 'rkMin'].forEach(id => $('#' + id).addEventListener('input', () => { RK.page = 0; drawRanking(); }));
+  $('#rkPageSize').onchange = () => { RK.page = 0; drawRanking(); };
+  $('#rkPrev').onclick = () => { RK.page--; drawRanking(); };
+  $('#rkNext').onclick = () => { RK.page++; drawRanking(); };
+  $('#rkReset').onclick = () => { document.querySelectorAll('#tab-ranking .filters input, #tab-ranking .filters select').forEach(e => e.value = ''); RK.page = 0; RK.col = null; drawRanking(); };
+  $('#rkExport').onclick = exportCSV;
+}
+const RK_COLS = rankCols(['rFilter', 'rAll', 'rMaj', 'sbd', 'mdk', 'name', 'gender', 'dob', 'place', 'major', 'room', 'nn', 'luan', 'ktth', 'xt', 'rNg', 'adm']);
+const RK_XT = RK_COLS.indexOf(COLS.xt);
+function filteredRanking() {
+  const q = $('#rkSearch').value, terms = strip(q.trim()).split(/\s+/).filter(Boolean);
+  const v = id => $('#' + id).value;
+  const misc = v('rkMisc'), min = v('rkMin');
+  const rows = S.filter(s =>
+    (!terms.length || terms.every(t => s.key.includes(t))) &&
+    (v('rkMajor') === '' || s.major === +v('rkMajor')) &&
+    (v('rkNganh') === '' || s.ng === +v('rkNganh')) &&
+    (v('rkAdm') === '' || (v('rkAdm') === 'yes' ? s.adm : v('rkAdm') === 'no' ? !s.adm && !s.why : !!s.why)) &&
+    (v('rkGender') === '' || s.female === +v('rkGender')) &&
+    (v('rkNN') === '' || s.mien === +v('rkNN')) &&
+    (v('rkPlace') === '' || s.place === +v('rkPlace')) &&
+    (v('rkRoom') === '' || s.room === +v('rkRoom')) &&
+    (misc !== 'prio' || s.prio) && (misc !== 'full' || s.full) && (misc !== 'absent' || !s.full) &&
+    (min === '' || (s.full && s.xt >= +min)));
+  // Hạng trong nhóm lọc
+  const fr = rows.filter(s => s.full).sort((a, b) => b.xt - a.xt);
+  rows.forEach(s => s._rf = null);
+  fr.forEach((s, i) => s._rf = i > 0 && fr[i - 1].xt === s.xt ? fr[i - 1]._rf : i + 1);
+  // Mặc định: điểm XT giảm dần, đồng điểm xếp theo tên
+  const c = RK.col == null ? null : RK_COLS[RK.col];
+  rows.sort(c ? (a, b) => RK.dir * c.sort(a, b) || cmpName(a, b) : (a, b) => (b.full - a.full) || b.xt - a.xt || cmpName(a, b));
+  return rows;
+}
+function drawRanking() {
+  const rows = RK.rows = filteredRanking();
+  const size = +$('#rkPageSize').value, pages = Math.max(1, Math.ceil(rows.length / size));
+  RK.page = Math.min(Math.max(0, RK.page), pages - 1);
+  const pageRows = rows.slice(RK.page * size, RK.page * size + size);
+  const t = $('#rkTable');
+  t.innerHTML = table(RK_COLS, pageRows, { onRow: 1, sortState: { col: RK.col ?? RK_XT, dir: RK.col == null ? -1 : RK.dir } });
+  t.querySelectorAll('th.sortable').forEach(th => th.onclick = () => {
+    const i = +th.dataset.col;
+    if (RK.col === i) RK.dir = -RK.dir; else { RK.col = i; RK.dir = RK_COLS[i].defDir || 1; }
+    drawRanking();
+  });
+  t.querySelectorAll('tr[data-row]').forEach(tr => tr.onclick = () => openProfile(pageRows[+tr.dataset.row]));
+  const full = rows.filter(s => s.full), st = stats(full.map(s => s.xt));
+  $('#rkSummary').innerHTML = rows.length ? `<b>${fi(rows.length)}</b> thí sinh${full.length < rows.length ? ` (${fi(rows.length - full.length)} vắng/thiếu điểm)` : ''} · Điểm XT TB <b>${f2(st.mean)}</b> · trung vị ${f2(st.med)} · cao nhất ${f2(st.max)} · thấp nhất ${f2(st.min)}` : 'Không có thí sinh phù hợp';
+  $('#rkPageInfo').textContent = rows.length ? `Hiển thị ${fi(RK.page * size + 1)}–${fi(RK.page * size + pageRows.length)} / ${fi(rows.length)}` : '';
+  $('#rkPageNo').textContent = `Trang ${RK.page + 1}/${pages}`;
+  $('#rkPrev').disabled = RK.page === 0; $('#rkNext').disabled = RK.page >= pages - 1;
+}
+function exportCSV() {
+  const head = ['Hạng lọc', 'Hạng chung', 'Hạng ngành', 'SBD', 'Mã ĐK', 'Họ tên', 'Giới tính', 'Ngày sinh', 'Nơi sinh', 'Chuyên ngành', 'Phòng thi', 'Ngoại ngữ', 'Môn luận', 'KTTH', 'Điểm XT', 'Ghi chú', 'Ngành (chỉ tiêu)', 'Hạng xét tuyển', 'Dự kiến', 'Lý do'];
+  const q = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
+  const lines = [head.map(q).join(',')].concat(RK.rows.map(s => [s._rf, s.rAll, s.rMaj, s.sbd, s.mdk, s.name, genderName(s), s.dob, PLACES[s.place], majorName(s.major), roomName(s.room), s.mien ? 'Miễn NN' : 'Thi đạt NN', s.luan.toFixed(2), s.ktth == null ? '---' : s.ktth.toFixed(2), s.xt.toFixed(2), s.prio ? 'Ưu tiên' : '', NGANH[s.ng][0], s.rNg, s.adm ? 'Trúng tuyển' : s.why ? 'Không đủ điều kiện' : 'Không trúng tuyển', s.why].map(q).join(',')));
+  const blob = new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'XepHang_CaoHoc_K35.csv'; a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+function gotoRanking(filters) {
+  if (!rendered.ranking) { RENDER.ranking(); rendered.ranking = true; }
+  document.querySelectorAll('#tab-ranking .filters input, #tab-ranking .filters select').forEach(e => { if (e.id !== 'rkPageSize') e.value = ''; });
+  for (const [k, v] of Object.entries(filters)) $('#' + k).value = v;
+  RK.page = 0; RK.col = null; drawRanking(); showTab('ranking');
+}
+
+/* ---------- Trúng tuyển dự kiến ---------- */
+const openNg = new Set();
+function initAdmit() {
+  const ids = { admFloor: 'floor', admTie: 'tie', admBonus: 'bonus' };
+  for (const [id, k] of Object.entries(ids)) { $('#' + id).value = ADM[k]; $('#' + id).onchange = () => { ADM[k] = $('#' + id).value; admChanged(); }; }
+  $('#admReset').onclick = () => {
+    Object.assign(ADM, ADM_DEFAULT, { map: MAJORS.map(m => Math.max(0, NGANH.findIndex(n => n[0] === DEFAULT_MAP[m]))), quota: NGANH.map(n => n[1]) });
+    for (const [id, k] of Object.entries(ids)) $('#' + id).value = ADM[k];
+    admChanged();
+  };
+  renderAdmit();
+}
+/* Đổi điều kiện → tính lại và vẽ lại mọi nơi có dùng kết quả */
+function admChanged() {
+  saveAdm(); predict(); renderAdmit();
+  if (rendered.ranking) drawRanking();
+  if (CUR && $('#tab-lookup').classList.contains('active')) openProfile(CUR);
+}
+function renderAdmit() {
+  const totQ = sum(NG.map(g => g.q)), totAdm = sum(NG.map(g => g.adm.length)), totElig = sum(NG.map(g => g.elig.length));
+  const cuts = NG.filter(g => g.cutoff != null).map(g => g.cutoff);
+  const short = NG.filter(g => g.adm.length < g.q), over = NG.filter(g => g.adm.length > g.q);
+  $('#admKpis').innerHTML = [
+    ['Tổng chỉ tiêu', fi(totQ), `${NG.length} ngành`],
+    ['Dự kiến trúng tuyển', fi(totAdm), `${pct(totAdm, totQ)} chỉ tiêu · ${pct(totAdm, S.length)} thí sinh dự thi`],
+    ['Đủ điều kiện xét', fi(totElig), `${fi(S.length - totElig)} không đủ điều kiện`],
+    ['Tỷ lệ chọi chung', totQ ? '1 : ' + f2(S.length / totQ) : '—', 'Số dự thi / chỉ tiêu'],
+    ['Điểm chuẩn dự kiến', cuts.length ? `${f2(Math.min(...cuts))} – ${f2(Math.max(...cuts))}` : '—', 'Thấp nhất – cao nhất giữa các ngành'],
+    ['Ngành thiếu / vượt', `${short.length} / ${over.length}`, `Thiếu ${fi(sum(short.map(g => g.q - g.adm.length)))} · vượt ${fi(sum(over.map(g => g.adm.length - g.q)))} chỉ tiêu`],
+  ].map(k => `<div class="card kpi"><div class="lbl">${k[0]}</div><div class="val">${k[1]}</div><div class="note">${k[2]}</div></div>`).join('');
+
+  // Bảng theo ngành, mở rộng ra chuyên ngành
+  const head = ['Ngành', 'Chỉ tiêu', 'Dự thi', 'Đủ ĐK', 'Trúng tuyển', 'Tỷ lệ chọi', 'Điểm chuẩn', 'TB trúng tuyển', 'Cao nhất', ''];
+  let body = '';
+  for (const g of NG) {
+    const diff = g.adm.length - g.q;
+    const state = !g.q ? '' : diff > 0 ? `<span class="badge" style="color:var(--warn)" title="Do đồng điểm ở ngưỡng">+${diff} vượt</span>` : diff < 0 ? `<span class="badge bad" title="Không đủ thí sinh đủ điều kiện">thiếu ${-diff}</span>` : '<span class="badge good">đủ</span>';
+    const scores = g.adm.map(s => s.score);
+    body += `<tr class="clickable" data-ng="${g.i}"><td><span class="muted">${openNg.has(g.i) ? '▾' : '▸'}</span> <b>${esc(g.name)}</b></td><td class="num">${fi(g.q)}</td><td class="num">${fi(g.reg.length)}</td><td class="num">${fi(g.elig.length)}</td>
+      <td class="num"><b>${fi(g.adm.length)}</b> ${state}</td><td class="num">${g.q ? '1 : ' + f2(g.reg.length / g.q) : '—'}</td>
+      <td class="num"><b style="color:var(--accent);font-size:15px">${f2(g.cutoff)}</b></td><td class="num">${f2(mean(scores))}</td><td class="num">${scores.length ? f2(Math.max(...scores)) : '—'}</td>
+      <td><a href="#" data-list="${g.i}">Danh sách</a></td></tr>`;
+    if (openNg.has(g.i)) {
+      const subs = [...groupBy(g.reg, s => s.major)].sort((a, b) => b[1].length - a[1].length);
+      for (const [m, arr] of subs) {
+        const a = arr.filter(s => s.adm), e = arr.filter(s => !s.why);
+        body += `<tr class="sub"><td>${esc(majorName(m))}</td><td class="num muted">—</td><td class="num">${fi(arr.length)}</td><td class="num">${fi(e.length)}</td><td class="num"><b>${fi(a.length)}</b> <span class="muted">(${pct(a.length, arr.length)})</span></td><td></td>
+          <td class="num t2" title="Điểm thấp nhất trúng tuyển của chuyên ngành">${a.length ? f2(Math.min(...a.map(s => s.score))) : '—'}</td><td class="num">${f2(mean(a.map(s => s.score)))}</td><td class="num">${a.length ? f2(Math.max(...a.map(s => s.score))) : '—'}</td><td></td></tr>`;
+      }
+    }
+  }
+  body += `<tr><td><b>Tổng</b></td><td class="num"><b>${fi(totQ)}</b></td><td class="num"><b>${fi(S.length)}</b></td><td class="num"><b>${fi(totElig)}</b></td><td class="num"><b>${fi(totAdm)}</b></td><td class="num">1 : ${f2(S.length / (totQ || 1))}</td><td colspan="4"></td></tr>`;
+  const t = $('#admTable');
+  t.innerHTML = `<thead><tr>${head.map((h, i) => `<th class="${i && i < 9 ? 'num' : ''}">${h}</th>`).join('')}</tr></thead><tbody>${body}</tbody>`;
+  t.querySelectorAll('tr[data-ng]').forEach(tr => tr.onclick = e => {
+    const i = +tr.dataset.ng;
+    if (e.target.dataset.list != null) { e.preventDefault(); gotoRanking({ rkNganh: i }); return; }
+    openNg.has(i) ? openNg.delete(i) : openNg.add(i); renderAdmit();
+  });
+
+  // Biểu đồ điểm chuẩn
+  const withCut = NG.filter(g => g.cutoff != null).sort((a, b) => b.cutoff - a.cutoff);
+  $('#admCutChart').innerHTML = `<div class="hbars">${withCut.map(g => `<div class="hbar" data-tip="<b>${esc(g.name)}</b><br>Điểm chuẩn dự kiến ${f2(g.cutoff)}<br>${fi(g.adm.length)}/${fi(g.q)} chỉ tiêu"><span class="nm">${esc(g.name)}</span><span class="tr"><span class="fl" style="width:${10 * g.cutoff}%"></span></span><span class="v"><b>${f2(g.cutoff)}</b></span></div>`).join('')}</div>` +
+    (NG.length > withCut.length ? `<p class="muted" style="font-size:12px;margin:8px 0 0">Không có thí sinh đủ điều kiện: ${NG.filter(g => g.cutoff == null).map(g => esc(g.name)).join(', ')}</p>` : '');
+  const maxQ = Math.max(...NG.map(g => Math.max(g.q, g.adm.length)));
+  $('#admFillChart').innerHTML = `<div class="legend"><span><i style="background:var(--s1)"></i>Trúng tuyển dự kiến</span><span><i style="background:var(--surface-2);border:1px solid var(--border)"></i>Chỉ tiêu</span></div><div class="hbars">${NG.slice().sort((a, b) => b.q - a.q).map(g => `
+    <div class="hbar" data-tip="<b>${esc(g.name)}</b><br>${fi(g.adm.length)} trúng tuyển / ${fi(g.q)} chỉ tiêu<br>${fi(g.elig.length)} đủ điều kiện · ${fi(g.reg.length)} dự thi">
+      <span class="nm">${esc(g.name)}</span>
+      <span class="tr" style="width:${100 * Math.max(g.q, g.adm.length) / maxQ}%"><span class="fl" style="width:${100 * g.adm.length / Math.max(g.q, g.adm.length, 1)}%"></span></span>
+      <span class="v">${fi(g.adm.length)}<span class="muted">/${fi(g.q)}</span></span>
+    </div>`).join('')}</div>`;
+
+  // Gán chuyên ngành → ngành; chỉ tiêu
+  const ngOpts = sel => NGANH.map((n, i) => `<option value="${i}"${i === sel ? ' selected' : ''}>${esc(n[0])}</option>`).join('');
+  const mt = $('#admMapTable');
+  const majorsSorted = MAJORS.map((m, i) => i).sort((a, b) => cmpText(MAJORS[a], MAJORS[b]));
+  mt.innerHTML = `<thead><tr><th>Chuyên ngành</th><th class="num">Số TS</th><th>Ngành chỉ tiêu</th></tr></thead><tbody>${majorsSorted.map(i => {
+    const changed = NGANH[ADM.map[i]][0] !== DEFAULT_MAP[MAJORS[i]];
+    return `<tr><td>${esc(MAJORS[i])}${changed ? ' <span class="badge acc">đã sửa</span>' : ''}</td><td class="num">${fi(S.filter(s => s.major === i).length)}</td><td><select data-m="${i}" class="btn" style="max-width:220px">${ngOpts(ADM.map[i])}</select></td></tr>`;
+  }).join('')}</tbody>`;
+  mt.querySelectorAll('select[data-m]').forEach(sel => sel.onchange = () => { ADM.map[+sel.dataset.m] = +sel.value; admChanged(); });
+  const qt = $('#admQuotaTable');
+  qt.innerHTML = `<thead><tr><th>Ngành</th><th class="num">Chỉ tiêu</th><th class="num">Dự thi</th></tr></thead><tbody>${NG.map(g => `<tr><td>${esc(g.name)}${g.q !== NGANH[g.i][1] ? ` <span class="badge acc" title="Gốc: ${NGANH[g.i][1]}">đã sửa</span>` : ''}</td><td class="num"><input type="number" min="0" step="1" value="${g.q}" data-q="${g.i}" class="btn" style="width:80px;text-align:right"></td><td class="num">${fi(g.reg.length)}</td></tr>`).join('')}</tbody>`;
+  qt.querySelectorAll('input[data-q]').forEach(inp => inp.onchange = () => { ADM.quota[+inp.dataset.q] = Math.max(0, Math.round(+inp.value || 0)); admChanged(); });
+}
+
+/* ---------- Chuyên ngành ---------- */
+function majorStats() {
+  return MAJORS.map((m, i) => {
+    const all = S.filter(s => s.major === i), P = pool(all), st = stats(P.map(s => s.xt));
+    return { i, name: m, total: all.length, full: all.filter(s => s.full).length, female: all.filter(s => s.female).length, mien: all.filter(s => s.mien).length,
+      ge7: P.filter(s => s.xt >= 7).length, ge8: P.filter(s => s.xt >= 8).length, n: P.length, luan: mean(P.map(s => s.luan)), ktth: mean(all.filter(s => s.full).map(s => s.ktth)), ...st };
+  });
+}
+let drawMajorTable;
+function renderMajors() {
+  const M = majorStats().filter(m => m.n);
+  const sorted = M.slice().sort((a, b) => b.med - a.med || b.mean - a.mean);
+  const lo = Math.floor(Math.min(...sorted.map(m => m.min))), hi = 10;
+  const X = v => 100 * (v - lo) / (hi - lo);
+  const ticks = []; for (let t = lo; t <= hi; t++) ticks.push(t);
+  $('#boxplot').innerHTML = `<div class="box-rows">${sorted.map(m => `
+    <div class="box-row" data-i="${m.i}" data-tip="<b>${esc(m.name)}</b><br>${fi(m.n)} thí sinh<br>TB ${f2(m.mean)} · Trung vị ${f2(m.med)}<br>25%–75%: ${f2(m.q1)} – ${f2(m.q3)}<br>Thấp nhất ${f2(m.min)} · Cao nhất ${f2(m.max)}">
+      <span class="nm"><b>${esc(m.name)}</b> <span class="muted">(${m.n})</span></span>
+      <span class="box"><span class="wh" style="left:${X(m.min)}%;width:${X(m.max) - X(m.min)}%"></span><span class="bx" style="left:${X(m.q1)}%;width:${Math.max(.5, X(m.q3) - X(m.q1))}%"></span><span class="md" style="left:${X(m.med)}%"></span><span class="mn" style="left:${X(m.mean)}%"></span></span>
+    </div>`).join('')}</div>
+    <div class="box-axis"><span></span><span class="ticks">${ticks.map(t => `<span style="left:${X(t)}%">${t}</span>`).join('')}</span></div>`;
+  $('#boxplot').querySelectorAll('.box-row').forEach(r => r.onclick = () => gotoRanking({ rkMajor: r.dataset.i }));
+
+  const cut = $('#cutoff');
+  const drawCut = () => {
+    const c = +cut.value; $('#cutoffVal').textContent = f2(c);
+    const rows = MAJORS.map((m, i) => { const P = FULL.filter(s => s.major === i); return { i, name: m, tot: P.length, ok: P.filter(s => s.xt >= c).length }; }).filter(r => r.tot).sort((a, b) => b.ok - a.ok || b.tot - a.tot);
+    const tot = sum(rows.map(r => r.ok)), maxT = Math.max(...rows.map(r => r.tot));
+    $('#cutoffSum').innerHTML = `<b>${fi(tot)}</b> / ${fi(FULL.length)} thí sinh đạt (${pct(tot, FULL.length)})`;
+    $('#cutoffBars').innerHTML = `<div class="legend"><span><i style="background:var(--s1)"></i>Đạt ngưỡng</span><span><i style="background:var(--surface-2);border:1px solid var(--border)"></i>Tổng số TS đủ điểm</span></div><div class="hbars">${rows.map(r => `
+      <div class="hbar" data-tip="<b>${esc(r.name)}</b><br>${fi(r.ok)}/${fi(r.tot)} đạt ngưỡng ${f2(c)} (${pct(r.ok, r.tot)})">
+        <span class="nm">${esc(r.name)}</span>
+        <span class="tr" style="width:${100 * r.tot / maxT}%"><span class="fl" style="width:${100 * r.ok / r.tot}%"></span></span>
+        <span class="v">${fi(r.ok)}<span class="muted">/${fi(r.tot)}</span></span>
+      </div>`).join('')}</div>`;
+  };
+  cut.oninput = drawCut; drawCut();
+
+  drawMajorTable = sortableTable($('#majorTable'), [
+    { h: 'Chuyên ngành', v: m => `<b>${esc(m.name)}</b>`, sort: byText(m => m.name) },
+    { h: 'Số TS', num: 1, v: m => fi(m.total), sort: byNum(m => m.total), defDir: -1 },
+    { h: 'Đủ điểm', num: 1, v: m => fi(m.full), sort: byNum(m => m.full), defDir: -1 },
+    { h: 'Nữ', num: 1, cls: 'hide-sm', v: m => pct(m.female, m.total), sort: byNum(m => m.female / m.total), defDir: -1 },
+    { h: 'Miễn NN', num: 1, cls: 'hide-sm', v: m => pct(m.mien, m.total), sort: byNum(m => m.mien / m.total), defDir: -1 },
+    { h: 'TB Luận', num: 1, cls: 'hide-sm', v: m => f2(m.luan), sort: byNum(m => m.luan), defDir: -1 },
+    { h: 'TB KTTH', num: 1, cls: 'hide-sm', v: m => f2(m.ktth), sort: byNum(m => m.ktth), defDir: -1 },
+    { h: 'TB XT', num: 1, v: m => `<b>${f2(m.mean)}</b>`, sort: byNum(m => m.mean), defDir: -1 },
+    { h: 'Trung vị', num: 1, v: m => f2(m.med), sort: byNum(m => m.med), defDir: -1 },
+    { h: 'ĐLC', num: 1, cls: 'hide-sm', title: 'Độ lệch chuẩn', v: m => f2(m.sd), sort: byNum(m => m.sd), defDir: -1 },
+    { h: 'Cao nhất', num: 1, v: m => f2(m.max), sort: byNum(m => m.max), defDir: -1 },
+    { h: 'Thấp nhất', num: 1, v: m => f2(m.min), sort: byNum(m => m.min), defDir: -1 },
+    { h: '≥ 7', num: 1, v: m => `${fi(m.ge7)} <span class="muted">(${pct(m.ge7, m.n)})</span>`, sort: byNum(m => m.ge7 / m.n), defDir: -1 },
+    { h: '≥ 8', num: 1, v: m => `${fi(m.ge8)} <span class="muted">(${pct(m.ge8, m.n)})</span>`, sort: byNum(m => m.ge8 / m.n), defDir: -1 },
+  ], () => majorStats(), { initial: { col: 1, dir: -1 }, onRow: m => gotoRanking({ rkMajor: m.i }) });
+}
+
+/* ---------- Phân tích ---------- */
+const BANDS = [['<5', 0, 5], ['5–6', 5, 6], ['6–7', 6, 7], ['7–8', 7, 8], ['8–10', 8, 10.01]];
+function compareGroups(groups) {
+  const series = groups.map(g => ({ name: g.name, color: g.color, cnt: BANDS.map(b => g.P.filter(s => s.xt >= b[1] && s.xt < b[2]).length) }));
+  series.forEach((s, i) => s.vals = s.cnt.map(c => 100 * c / (groups[i].P.length || 1)));
+  const legend = `<div class="legend">${groups.map(g => `<span><i style="background:${g.color}"></i>${g.name}</span>`).join('')}</div>`;
+  const rows = groups.map(g => ({ name: g.name, color: g.color, ...stats(g.P.map(s => s.xt)), luan: mean(g.P.map(s => s.luan)), ktth: mean(g.P.filter(s => s.full).map(s => s.ktth)), ge7: g.P.filter(s => s.xt >= 7).length }));
+  return legend + groupedChart(BANDS.map(b => b[0]), series, { height: 200 }) + `<div class="tbl-wrap" style="margin-top:10px"><table>${table([
+    { h: 'Nhóm', v: r => `<i style="display:inline-block;width:10px;height:10px;border-radius:3px;background:${r.color};margin-right:6px"></i>${r.name}` },
+    { h: 'Số TS', num: 1, v: r => fi(r.n) }, { h: 'TB Luận', num: 1, v: r => f2(r.luan) }, { h: 'TB KTTH', num: 1, v: r => f2(r.ktth) },
+    { h: 'TB XT', num: 1, v: r => `<b>${f2(r.mean)}</b>` }, { h: 'Trung vị', num: 1, v: r => f2(r.med) }, { h: '≥ 7', num: 1, v: r => pct(r.ge7, r.n) },
+  ], rows)}</table></div>`;
+}
+let drawPlaceTable;
+function renderAnalysis() {
+  const P = pool();
+  $('#genderCmp').innerHTML = compareGroups([{ name: 'Nữ', color: 'var(--s1)', P: P.filter(s => s.female) }, { name: 'Nam', color: 'var(--s2)', P: P.filter(s => !s.female) }]);
+  $('#nnCmp').innerHTML = compareGroups([{ name: 'Miễn NN', color: 'var(--s1)', P: P.filter(s => s.mien) }, { name: 'Thi đạt NN', color: 'var(--s2)', P: P.filter(s => !s.mien) }]);
+
+  // Heatmap: cột = Môn luận, hàng = KTTH (giảm dần)
+  const F = FULL;
+  const lv = [...new Set(F.map(s => s.luan))].sort((a, b) => a - b);
+  const kmin = Math.min(...F.map(s => s.ktth)), kmax = Math.max(...F.map(s => s.ktth));
+  const lvals = []; for (let v = lv[0]; v <= lv[lv.length - 1] + 1e-9; v += .5) lvals.push(v);
+  const kvals = []; for (let v = Math.floor(kmin * 2) / 2; v <= kmax + 1e-9; v += .5) kvals.push(v);
+  const cell = new Map(); let maxC = 0;
+  for (const s of F) { const k = Math.floor(s.ktth * 2) / 2; const key = s.luan + '|' + k; const c = (cell.get(key) || 0) + 1; cell.set(key, c); maxC = Math.max(maxC, c); }
+  const shade = c => !c ? 'var(--seq-0)' : `var(--seq-${Math.min(7, 1 + Math.floor(6.999 * Math.sqrt(c / maxC)))})`;
+  let h = `<div class="heat" style="grid-template-columns:34px repeat(${lvals.length}, 1fr)">`;
+  for (const k of kvals.slice().reverse()) {
+    h += `<span class="lab">${f1(k)}</span>`;
+    for (const l of lvals) { const c = cell.get(l + '|' + k) || 0; h += `<span class="c" style="background:${shade(c)}" data-tip="Môn luận <b>${f2(l)}</b> · KTTH <b>${f2(k)}–${f2(k + .25)}</b><br>${fi(c)} thí sinh"></span>`; }
+  }
+  h += `<span></span>${lvals.map((l, i) => `<span class="lab">${i % 2 ? '' : String(l).replace('.', ',')}</span>`).join('')}</div>`;
+  const xs = F.map(s => s.luan), ys = F.map(s => s.ktth), mx = mean(xs), my = mean(ys);
+  const r = sum(xs.map((x, i) => (x - mx) * (ys[i] - my))) / Math.sqrt(sum(xs.map(x => (x - mx) ** 2)) * sum(ys.map(y => (y - my) ** 2)));
+  const luanHigher = F.filter(s => s.luan > s.ktth).length;
+  $('#heat').innerHTML = h + `<div class="t2" style="display:flex;justify-content:space-between;font-size:12px;margin-top:4px"><span>↑ KTTH</span><span>Môn luận →</span></div>
+    <p class="t2" style="margin:10px 0 0">Hệ số tương quan Pearson: <b>${r.toLocaleString('vi-VN', { maximumFractionDigits: 3 })}</b>. ${fi(luanHigher)} TS (${pct(luanHigher, F.length)}) có điểm Môn luận cao hơn KTTH.</p>`;
+
+  // Năm sinh
+  const yrs = [...new Set(P.map(s => s.year))].sort();
+  $('#yearChart').innerHTML = columnChart(yrs.map(y => { const g = P.filter(s => s.year === y); return { label: String(y).slice(2), v: g.length, tip: `<b>Sinh năm ${y}</b> (${2026 - y} tuổi)<br>${fi(g.length)} thí sinh<br>Điểm XT TB ${f2(mean(g.map(s => s.xt)))}` }; }), { height: 190, labelEvery: 2, minBar: 2 });
+  const ageG = [['Dưới 23 tuổi', 0, 23], ['23–25 tuổi', 23, 26], ['26–30 tuổi', 26, 31], ['31–35 tuổi', 31, 36], ['Trên 35 tuổi', 36, 99]];
+  $('#ageTable').innerHTML = `<div class="tbl-wrap"><table>${table([
+    { h: 'Nhóm tuổi', v: r => r.n }, { h: 'Số TS', num: 1, v: r => fi(r.g.length) }, { h: 'TB XT', num: 1, v: r => `<b>${f2(mean(r.g.map(s => s.xt)))}</b>` },
+    { h: 'Trung vị', num: 1, v: r => f2(stats(r.g.map(s => s.xt)).med) }, { h: '≥ 7', num: 1, v: r => pct(r.g.filter(s => s.xt >= 7).length, r.g.length) },
+  ], ageG.map(([n, a, b]) => ({ n, g: P.filter(s => 2026 - s.year >= a && 2026 - s.year < b) })).filter(r => r.g.length))}</table></div>`;
+
+  drawPlaceTable = sortableTable($('#placeTable'), [
+    { h: 'Nơi sinh', v: r => `<b>${esc(r.name)}</b>`, sort: byText(r => r.name) },
+    { h: 'Số TS', num: 1, v: r => fi(r.n), sort: byNum(r => r.n), defDir: -1 },
+    { h: 'Tỷ lệ', num: 1, cls: 'hide-sm', v: r => `<div style="display:flex;gap:8px;align-items:center;justify-content:flex-end"><span class="inbar" style="width:80px"><span style="width:${100 * r.n / r.maxN}%"></span></span>${pct(r.n, r.tot)}</div>`, sort: byNum(r => r.n), defDir: -1 },
+    { h: 'Nữ', num: 1, cls: 'hide-sm', v: r => pct(r.f, r.n), sort: byNum(r => r.f / r.n), defDir: -1 },
+    { h: 'TB XT', num: 1, v: r => `<b>${f2(r.mean)}</b>`, sort: byNum(r => r.mean), defDir: -1 },
+    { h: 'Trung vị', num: 1, v: r => f2(r.med), sort: byNum(r => r.med), defDir: -1 },
+    { h: 'Cao nhất', num: 1, v: r => f2(r.max), sort: byNum(r => r.max), defDir: -1 },
+    { h: '≥ 7', num: 1, v: r => pct(r.ge7, r.n), sort: byNum(r => r.ge7 / r.n), defDir: -1 },
+  ], () => {
+    const Q = pool(); const rows = PLACES.map((p, i) => { const g = Q.filter(s => s.place === i); return { i, name: placeName(i), n: g.length, f: g.filter(s => s.female).length, ge7: g.filter(s => s.xt >= 7).length, tot: Q.length, ...stats(g.map(s => s.xt)) }; }).filter(r => r.n);
+    const maxN = Math.max(...rows.map(r => r.n)); rows.forEach(r => r.maxN = maxN); return rows;
+  }, { initial: { col: 1, dir: -1 }, onRow: r => gotoRanking({ rkPlace: r.i }) });
+
+  const grp = [
+    ['Tất cả', S], ['Có đủ điểm', FULL], ['Diện ưu tiên', P.filter(s => s.prio)], ['Không ưu tiên', P.filter(s => !s.prio)],
+    ['Miễn NN', P.filter(s => s.mien)], ['Thi đạt NN', P.filter(s => !s.mien)], ['Vắng/thiếu điểm KTTH', S.filter(s => !s.full)],
+  ];
+  $('#groupTable').innerHTML = `<div class="tbl-wrap"><table>${table([
+    { h: 'Nhóm', v: r => r[0] }, { h: 'Số TS', num: 1, v: r => fi(r[1].length) },
+    { h: 'TB Luận', num: 1, v: r => f2(mean(r[1].map(s => s.luan))) }, { h: 'TB KTTH', num: 1, v: r => f2(mean(r[1].filter(s => s.full).map(s => s.ktth))) },
+    { h: 'TB XT', num: 1, v: r => `<b>${f2(mean(r[1].map(s => s.xt)))}</b>` }, { h: 'Cao nhất', num: 1, v: r => f2(Math.max(...r[1].map(s => s.xt))) },
+    { h: '≥ 7', num: 1, v: r => pct(r[1].filter(s => s.xt >= 7).length, r[1].length) },
+  ], grp)}</table></div>`;
+}
+
+/* ---------- Phòng thi ---------- */
+let drawRoomTable;
+function roomRows() {
+  return ROOMS.map((r, i) => { const all = S.filter(s => s.room === i), P = pool(all); return { i, name: r, total: all.length, absent: all.filter(s => !s.full).length, n: P.length, luan: mean(P.map(s => s.luan)), ktth: mean(all.filter(s => s.full).map(s => s.ktth)), ge7: P.filter(s => s.xt >= 7).length, ...stats(P.map(s => s.xt)) }; });
+}
+function renderRooms() {
+  const R = roomRows(), avg = mean(pool().map(s => s.xt));
+  $('#roomChart').innerHTML = columnChart(R.map(r => ({ label: r.name.slice(0, 2), v: r.mean, tip: `<b>Phòng ${r.name}</b><br>${fi(r.total)} TS · ${fi(r.absent)} vắng/thiếu<br>TB XT ${f2(r.mean)} · Cao nhất ${f2(r.max)}` })), { height: 220, labelEvery: 2, refLine: avg, refLabel: 'TB chung ' + f2(avg), yFmt: v => f1(v) });
+  drawRoomTable = sortableTable($('#roomTable'), [
+    { h: 'Phòng', v: r => `<b>${r.name}</b>`, sort: byText(r => r.name) },
+    { h: 'Số TS', num: 1, v: r => fi(r.total), sort: byNum(r => r.total), defDir: -1 },
+    { h: 'Vắng/thiếu', num: 1, v: r => r.absent ? `<span style="color:var(--bad)">${r.absent}</span>` : '0', sort: byNum(r => r.absent), defDir: -1 },
+    { h: 'TB Luận', num: 1, cls: 'hide-sm', v: r => f2(r.luan), sort: byNum(r => r.luan), defDir: -1 },
+    { h: 'TB KTTH', num: 1, cls: 'hide-sm', v: r => f2(r.ktth), sort: byNum(r => r.ktth), defDir: -1 },
+    { h: 'TB XT', num: 1, v: r => `<b>${f2(r.mean)}</b>`, sort: byNum(r => r.mean), defDir: -1 },
+    { h: 'Trung vị', num: 1, v: r => f2(r.med), sort: byNum(r => r.med), defDir: -1 },
+    { h: 'Cao nhất', num: 1, v: r => f2(r.max), sort: byNum(r => r.max), defDir: -1 },
+    { h: 'Thấp nhất', num: 1, v: r => f2(r.min), sort: byNum(r => r.min), defDir: -1 },
+    { h: '≥ 7', num: 1, v: r => pct(r.ge7, r.n), sort: byNum(r => r.ge7 / r.n), defDir: -1 },
+  ], roomRows, { onRow: r => gotoRanking({ rkRoom: r.i }) });
+}
+
+const RENDER = {
+  overview: renderOverview,
+  lookup: initLookup,
+  ranking: () => { initRanking(); drawRanking(); },
+  admit: initAdmit,
+  majors: renderMajors,
+  analysis: renderAnalysis,
+  rooms: renderRooms,
+};
+
+/* Bật/tắt bỏ qua TS vắng: vẽ lại các tab thống kê */
+$('#exclAbsent').onchange = () => {
+  for (const k of ['overview', 'majors', 'analysis', 'rooms']) if (rendered[k]) RENDER[k]();
+};
+
+/* Giao diện sáng/tối */
+(function () {
+  const root = document.documentElement;
+  let saved = null; try { saved = localStorage.getItem('theme'); } catch (e) {}
+  if (saved) root.dataset.theme = saved;
+  $('#themeBtn').onclick = () => {
+    const dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+    root.dataset.theme = dark ? 'light' : 'dark';
+    try { localStorage.setItem('theme', root.dataset.theme); } catch (e) {}
+  };
+})();
+
+/* Khởi động theo hash */
+(function () {
+  const h = decodeURIComponent(location.hash.slice(1));
+  if (h.startsWith('sbd=')) { const s = S.find(x => x.sbd === h.slice(4).toUpperCase()); if (s) { RENDER.overview(); rendered.overview = true; openProfile(s); return; } }
+  showTab(RENDER[h] ? h : 'overview', false);
+})();
+</script>
+</body>
+</html>

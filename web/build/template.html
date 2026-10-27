@@ -1,0 +1,1288 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Điểm thi Cao học K35</title>
+<style>
+:root {
+  color-scheme: light;
+  --bg: #f4f3ef;
+  --surface: #fcfcfb;
+  --surface-2: #f0efea;
+  --border: #e2e0d8;
+  --text: #0b0b0b;
+  --text-2: #52514e;
+  --muted: #8a8880;
+  --accent: #2a78d6;
+  --accent-soft: #e3eefb;
+  --s1: #2a78d6;
+  --s2: #eb6834;
+  --grid: #e6e4dc;
+  --good: #1a7f37;
+  --bad: #c62828;
+  --warn: #9a6700;
+  --seq-0: #f0efea;
+  --seq-1: #cde2fb; --seq-2: #9ec5f4; --seq-3: #6da7ec; --seq-4: #3987e5; --seq-5: #256abf; --seq-6: #184f95; --seq-7: #0d366b;
+  --shadow: 0 1px 2px rgba(0,0,0,.05), 0 2px 8px rgba(0,0,0,.04);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #121211; --surface: #1a1a19; --surface-2: #232321; --border: #2f2f2c;
+    --text: #f0efec; --text-2: #c3c2b7; --muted: #8d8c84;
+    --accent: #3987e5; --accent-soft: #1b2d44; --s1: #3987e5; --s2: #d95926; --grid: #2b2b28;
+    --good: #4ac26b; --bad: #f47067; --warn: #d4a72c;
+    --seq-0: #232321; --seq-1: #104281; --seq-2: #184f95; --seq-3: #1c5cab; --seq-4: #256abf; --seq-5: #3987e5; --seq-6: #6da7ec; --seq-7: #b7d3f6;
+    --shadow: none;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #121211; --surface: #1a1a19; --surface-2: #232321; --border: #2f2f2c;
+  --text: #f0efec; --text-2: #c3c2b7; --muted: #8d8c84;
+  --accent: #3987e5; --accent-soft: #1b2d44; --s1: #3987e5; --s2: #d95926; --grid: #2b2b28;
+  --good: #4ac26b; --bad: #f47067; --warn: #d4a72c;
+  --seq-0: #232321; --seq-1: #104281; --seq-2: #184f95; --seq-3: #1c5cab; --seq-4: #256abf; --seq-5: #3987e5; --seq-6: #6da7ec; --seq-7: #b7d3f6;
+  --shadow: none;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--bg); color: var(--text);
+  font: 14px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+a { color: var(--accent); }
+button, input, select { font: inherit; color: inherit; }
+.wrap { max-width: 1240px; margin: 0 auto; padding: 0 16px; }
+header.top { background: var(--surface); border-bottom: 1px solid var(--border); z-index: 20; }
+@media (min-width: 900px) and (min-height: 600px) { header.top { position: sticky; top: 0; } }
+.top-row { display: flex; align-items: center; gap: 12px; padding: 12px 0 6px; flex-wrap: wrap; }
+.top-row h1 { font-size: 18px; margin: 0; letter-spacing: -.01em; }
+.top-row .sub { color: var(--text-2); font-size: 13px; }
+.top-row .spacer { flex: 1; }
+nav.tabs { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; }
+nav.tabs button {
+  border: 0; background: none; padding: 9px 14px; cursor: pointer; color: var(--text-2);
+  border-bottom: 2px solid transparent; white-space: nowrap; font-weight: 500;
+}
+nav.tabs button:hover { color: var(--text); }
+nav.tabs button[aria-selected="true"] { color: var(--accent); border-bottom-color: var(--accent); }
+.btn {
+  border: 1px solid var(--border); background: var(--surface); border-radius: 8px; padding: 6px 12px; cursor: pointer;
+}
+.btn:hover { background: var(--surface-2); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.toggle { display: inline-flex; align-items: center; gap: 6px; color: var(--text-2); font-size: 13px; cursor: pointer; user-select: none; }
+main { padding: 20px 0 48px; }
+section.tab { display: none; }
+section.tab.active { display: block; }
+.grid { display: grid; gap: 16px; }
+.g2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.g3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.kpis { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); margin-bottom: 16px; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; box-shadow: var(--shadow); min-width: 0; }
+.card h2 { font-size: 15px; margin: 0 0 2px; }
+.card .desc { color: var(--text-2); font-size: 12.5px; margin: 0 0 12px; }
+.kpi .lbl { color: var(--text-2); font-size: 12.5px; }
+.kpi .val { font-size: 26px; font-weight: 650; letter-spacing: -.02em; line-height: 1.2; margin-top: 2px; }
+.kpi .note { color: var(--muted); font-size: 12px; }
+.muted { color: var(--muted); }
+.t2 { color: var(--text-2); }
+.num { text-align: right; }
+table { border-collapse: collapse; width: 100%; }
+th, td { padding: 7px 8px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: middle; }
+th { font-weight: 600; font-size: 12.5px; color: var(--text-2); background: var(--surface); position: sticky; top: 0; z-index: 1; white-space: nowrap; }
+th.sortable { cursor: pointer; user-select: none; }
+th.sortable:hover { color: var(--text); }
+th .arr { color: var(--accent); font-size: 10px; margin-left: 3px; }
+tbody tr:hover { background: var(--surface-2); }
+tr.clickable { cursor: pointer; }
+.tbl-wrap { overflow: auto; max-width: 100%; border: 1px solid var(--border); border-radius: 10px; }
+.tbl-wrap table th:first-child, .tbl-wrap table td:first-child { padding-left: 12px; }
+.badge { display: inline-block; font-size: 11.5px; padding: 1px 7px; border-radius: 99px; background: var(--surface-2); color: var(--text-2); white-space: nowrap; border: 1px solid var(--border); }
+.badge.acc { background: var(--accent-soft); color: var(--accent); border-color: transparent; }
+.badge.bad { color: var(--bad); }
+.badge.good { color: var(--good); }
+.medal { display: inline-grid; place-items: center; min-width: 26px; height: 22px; border-radius: 6px; font-weight: 650; padding: 0 5px; }
+.medal.r1 { background: #f5c542; color: #3d2c00; }
+.medal.r2 { background: #cfd4da; color: #24292f; }
+.medal.r3 { background: #e0a370; color: #3b1d00; }
+.filters { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 12px; }
+.filters input[type=search], .filters select {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 6px 10px; min-width: 0;
+}
+.filters input[type=search] { flex: 1 1 220px; }
+.filters select { flex: 0 1 auto; max-width: 260px; }
+.pager { display: flex; gap: 6px; align-items: center; justify-content: space-between; margin-top: 10px; flex-wrap: wrap; }
+.pager .pg { display: flex; gap: 4px; align-items: center; }
+.chart { width: 100%; display: block; }
+.chart text { fill: var(--text-2); font-size: 11px; }
+.chart .ax { stroke: var(--border); }
+.chart .gl { stroke: var(--grid); }
+.chart .bar { fill: var(--s1); }
+.chart .bar:hover, .chart .hit:hover + .bar { opacity: .8; }
+.chart .hl { fill: var(--s2); }
+.legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12.5px; color: var(--text-2); margin-bottom: 8px; }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; }
+.hbars { display: grid; gap: 6px; }
+.hbar { display: grid; grid-template-columns: minmax(90px, 210px) 1fr 70px; gap: 10px; align-items: center; font-size: 13px; }
+.hbar .nm, .box-row .nm { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; line-height: 1.25; color: var(--text-2); }
+.hbar .tr { height: 14px; background: var(--surface-2); border-radius: 4px; position: relative; overflow: hidden; }
+.hbar .fl { position: absolute; inset: 0 auto 0 0; background: var(--s1); border-radius: 0 4px 4px 0; }
+.hbar .v { text-align: right; }
+.inbar { position: relative; height: 8px; background: var(--surface-2); border-radius: 4px; min-width: 60px; }
+.inbar > span { position: absolute; inset: 0 auto 0 0; background: var(--s1); border-radius: 4px; }
+.box-rows { display: grid; gap: 4px; }
+.box-row { display: grid; grid-template-columns: minmax(110px, 260px) 1fr; gap: 12px; align-items: center; font-size: 13px; cursor: pointer; padding: 2px 4px; border-radius: 6px; }
+.box-row:hover { background: var(--surface-2); }
+.box-row .nm b { color: var(--text); font-weight: 500; }
+.box { position: relative; height: 22px; }
+.box .wh { position: absolute; top: 10px; height: 2px; background: var(--muted); }
+.box .bx { position: absolute; top: 4px; height: 14px; background: var(--accent-soft); border: 1.5px solid var(--s1); border-radius: 3px; }
+.box .md { position: absolute; top: 3px; width: 2px; height: 16px; background: var(--s1); }
+.box .mn { position: absolute; top: 7px; width: 8px; height: 8px; margin-left: -4px; border-radius: 50%; background: var(--s2); box-shadow: 0 0 0 2px var(--surface); }
+.box-axis { display: grid; grid-template-columns: minmax(110px, 260px) 1fr; gap: 12px; font-size: 11px; color: var(--muted); padding: 0 4px; }
+.box-axis .ticks { position: relative; height: 16px; }
+.box-axis .ticks span { position: absolute; transform: translateX(-50%); }
+.heat { display: grid; gap: 2px; font-size: 10.5px; }
+.heat .c { aspect-ratio: 1.6; border-radius: 2px; background: var(--seq-0); min-width: 0; }
+.heat .lab { color: var(--muted); display: flex; align-items: center; justify-content: center; }
+.search-big { display: flex; gap: 8px; margin-bottom: 8px; position: relative; }
+.search-big input { flex: 1; font-size: 16px; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface); }
+.search-big input:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+.sugg { position: absolute; top: 100%; left: 0; right: 0; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; margin-top: 4px; box-shadow: 0 8px 24px rgba(0,0,0,.12); z-index: 10; max-height: 380px; overflow: auto; display: none; }
+.sugg.open { display: block; }
+.sugg div { padding: 8px 12px; cursor: pointer; display: flex; gap: 10px; justify-content: space-between; border-bottom: 1px solid var(--border); }
+.sugg div:last-child { border-bottom: 0; }
+.sugg div.on, .sugg div:hover { background: var(--accent-soft); }
+.profile-head { display: flex; gap: 16px; align-items: flex-start; flex-wrap: wrap; }
+.avatar { width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; font-size: 22px; font-weight: 650; background: var(--accent-soft); color: var(--accent); flex: none; }
+.profile-head h2 { font-size: 22px; margin: 0; }
+.info-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px 20px; margin-top: 14px; }
+.info-grid .k { font-size: 12px; color: var(--muted); }
+.score-tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.score-tile { background: var(--surface-2); border-radius: 10px; padding: 12px 14px; }
+.score-tile .val { font-size: 30px; font-weight: 700; letter-spacing: -.02em; }
+.score-tile.main { background: var(--accent-soft); }
+.score-tile.main .val { color: var(--accent); }
+.rank-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; }
+.rank-tile { border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; }
+.rank-tile .val { font-size: 22px; font-weight: 650; }
+.rank-tile .val small { font-size: 13px; color: var(--muted); font-weight: 400; }
+.cmp { display: grid; gap: 8px; }
+.cmp-row { display: grid; grid-template-columns: 130px 1fr 48px; gap: 10px; align-items: center; font-size: 13px; }
+.cmp-row .tr { height: 12px; background: var(--surface-2); border-radius: 4px; position: relative; }
+.cmp-row .fl { position: absolute; inset: 0 auto 0 0; border-radius: 4px; background: var(--muted); opacity: .55; }
+.cmp-row .fl.me { background: var(--s1); opacity: 1; }
+.delta-up { color: var(--good); }
+.delta-down { color: var(--bad); }
+.empty { padding: 40px 16px; text-align: center; color: var(--muted); }
+#tip {
+  position: fixed; pointer-events: none; z-index: 100; background: var(--text); color: var(--surface);
+  padding: 6px 9px; border-radius: 6px; font-size: 12px; line-height: 1.4; max-width: 280px; opacity: 0; transition: opacity .08s;
+}
+#tip.on { opacity: 1; }
+.range-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
+.range-row input[type=range] { flex: 1 1 200px; accent-color: var(--accent); }
+.range-row .big { font-size: 22px; font-weight: 700; color: var(--accent); min-width: 50px; }
+.notice { background: var(--accent-soft); border-color: transparent; line-height: 1.6; }
+.filters label { display: inline-flex; flex-direction: column; gap: 2px; font-size: 12px; }
+details.card > summary { cursor: pointer; }
+.adm-yes { color: var(--good); border-color: currentColor; background: transparent; }
+.adm-no { color: var(--bad); border-color: currentColor; background: transparent; }
+.adm-inel { color: var(--muted); }
+.result-banner { display: flex; gap: 14px; align-items: center; padding: 14px 16px; border-radius: 10px; border: 1px solid var(--border); margin-bottom: 12px; }
+.result-banner .ic { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; color: #fff; flex: none; }
+.result-banner.yes .ic { background: var(--good); }
+.result-banner.no .ic { background: var(--bad); }
+.result-banner.inel .ic { background: var(--muted); }
+.result-banner .big { font-size: 17px; font-weight: 650; }
+tr.sub td { background: var(--surface-2); font-size: 13px; }
+#admTable td:first-child { min-width: 190px; }
+tr.sub td:first-child { padding-left: 28px; }
+footer { color: var(--muted); font-size: 12px; padding: 24px 0; border-top: 1px solid var(--border); }
+.hide-sm {}
+@media (max-width: 900px) {
+  .g2, .g3 { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .hide-sm { display: none; }
+  .score-tiles { grid-template-columns: 1fr 1fr; }
+  .score-tile.main { grid-column: 1 / -1; }
+  .hbar { grid-template-columns: 100px 1fr 56px; }
+  .box-row, .box-axis { grid-template-columns: 100px 1fr; }
+  .cmp-row { grid-template-columns: 96px 1fr 40px; }
+  .kpi .val { font-size: 22px; }
+}
+@media print {
+  header.top { position: static; }
+  nav.tabs, .filters, .pager, #themeBtn { display: none; }
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="top-row">
+      <div>
+        <h1>Kết quả thi Cao học Khóa 35</h1>
+        <div class="sub">Đợt 2/2026 · Điểm xét tuyển = 0,4 × Môn luận + 0,6 × KTTH</div>
+      </div>
+      <div class="spacer"></div>
+      <label class="toggle" title="Thí sinh vắng thi hoặc không có điểm KTTH (---)"><input type="checkbox" id="exclAbsent" checked> Bỏ qua TS vắng/thiếu điểm khi thống kê</label>
+      <button class="btn" id="themeBtn" type="button" aria-label="Đổi giao diện sáng/tối">◐</button>
+    </div>
+    <nav class="tabs" role="tablist">
+      <button role="tab" data-tab="overview" aria-selected="true">Tổng quan</button>
+      <button role="tab" data-tab="lookup">Tra cứu</button>
+      <button role="tab" data-tab="ranking">Xếp hạng</button>
+      <button role="tab" data-tab="admit">Trúng tuyển (dự kiến)</button>
+      <button role="tab" data-tab="majors">Chuyên ngành</button>
+      <button role="tab" data-tab="analysis">Phân tích</button>
+      <button role="tab" data-tab="rooms">Phòng thi</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- TỔNG QUAN -->
+  <section class="tab active" id="tab-overview">
+    <div class="kpis" id="kpis"></div>
+    <div class="grid g2">
+      <div class="card">
+        <h2>Phân bố điểm xét tuyển</h2>
+        <p class="desc">Số thí sinh theo khoảng 0,5 điểm</p>
+        <div id="histXT"></div>
+      </div>
+      <div class="card">
+        <h2>Phổ điểm theo mức</h2>
+        <p class="desc">Tỷ lệ thí sinh theo khoảng điểm xét tuyển</p>
+        <div id="bandTable"></div>
+      </div>
+      <div class="card">
+        <h2>Phổ điểm Môn luận</h2>
+        <p class="desc">Số thí sinh ở từng mức điểm (bước 0,5)</p>
+        <div id="histLuan"></div>
+      </div>
+      <div class="card">
+        <h2>Phổ điểm Kiến thức tổng hợp (KTTH)</h2>
+        <p class="desc">Số thí sinh ở từng mức điểm (bước 0,25)</p>
+        <div id="histKTTH"></div>
+      </div>
+    </div>
+    <div class="grid g2" style="margin-top:16px">
+      <div class="card">
+        <h2>Chỉ số thống kê từng môn</h2>
+        <p class="desc">Tính trên các thí sinh có điểm</p>
+        <div id="statTable"></div>
+      </div>
+      <div class="card">
+        <h2>Ngưỡng điểm & phân vị</h2>
+        <p class="desc">Điểm xét tuyển tối thiểu để lọt vào nhóm đầu</p>
+        <div id="pctTable"></div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <h2>Top 20 thí sinh điểm xét tuyển cao nhất</h2>
+      <p class="desc">Nhấn vào một dòng để xem chi tiết thí sinh</p>
+      <div id="top20"></div>
+    </div>
+  </section>
+
+  <!-- TRA CỨU -->
+  <section class="tab" id="tab-lookup">
+    <div class="card" style="margin-bottom:16px">
+      <h2>Tra cứu điểm thí sinh</h2>
+      <p class="desc">Nhập số báo danh (VD: CH0516), mã đăng ký hoặc họ tên — có thể gõ không dấu</p>
+      <div class="search-big">
+        <input type="search" id="lookupInput" placeholder="Số báo danh, mã đăng ký hoặc họ tên…" autocomplete="off">
+        <div class="sugg" id="sugg"></div>
+      </div>
+    </div>
+    <div id="profile"><div class="card empty">Nhập thông tin để tra cứu. Kết quả gồm điểm từng môn, thứ hạng toàn khóa, trong chuyên ngành, phòng thi và so sánh với mặt bằng chung.</div></div>
+  </section>
+
+  <!-- XẾP HẠNG -->
+  <section class="tab" id="tab-ranking">
+    <div class="card">
+      <h2>Bảng xếp hạng</h2>
+      <p class="desc">Xếp hạng theo điểm xét tuyển, đồng điểm thì đồng hạng. “Hạng lọc” là thứ hạng trong nhóm đang lọc. Nhấn tiêu đề cột để sắp xếp; cột Họ tên sắp theo chuẩn tiếng Việt (Tên → Họ → Đệm).</p>
+      <div class="filters">
+        <input type="search" id="rkSearch" placeholder="Tìm SBD, mã ĐK, họ tên…">
+        <select id="rkNganh"><option value="">Tất cả ngành (chỉ tiêu)</option></select>
+        <select id="rkMajor"><option value="">Tất cả chuyên ngành</option></select>
+        <select id="rkAdm"><option value="">Kết quả dự kiến</option><option value="yes">Trúng tuyển</option><option value="no">Không trúng tuyển</option><option value="inel">Không đủ điều kiện</option></select>
+        <select id="rkGender"><option value="">Giới tính</option><option value="1">Nữ</option><option value="0">Nam</option></select>
+        <select id="rkNN"><option value="">Ngoại ngữ</option><option value="1">Miễn NN</option><option value="0">Thi đạt NN</option></select>
+        <select id="rkPlace"><option value="">Tất cả nơi sinh</option></select>
+        <select id="rkRoom"><option value="">Tất cả phòng</option></select>
+        <select id="rkMisc"><option value="">Tất cả</option><option value="prio">Diện ưu tiên</option><option value="full">Có đủ điểm</option><option value="absent">Vắng/thiếu điểm</option></select>
+        <select id="rkMin" title="Điểm XT tối thiểu"><option value="">Điểm XT ≥ …</option></select>
+        <button class="btn" id="rkReset" type="button">Xóa lọc</button>
+        <button class="btn" id="rkExport" type="button">Tải CSV</button>
+      </div>
+      <div class="t2" id="rkSummary" style="margin-bottom:8px;font-size:13px"></div>
+      <div class="tbl-wrap"><table id="rkTable"></table></div>
+      <div class="pager">
+        <div class="t2" id="rkPageInfo"></div>
+        <div class="pg">
+          <select id="rkPageSize" class="btn"><option>25</option><option selected>50</option><option>100</option><option value="10000">Tất cả</option></select>
+          <button class="btn" id="rkPrev" type="button">‹ Trước</button>
+          <span id="rkPageNo" class="t2"></span>
+          <button class="btn" id="rkNext" type="button">Sau ›</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRÚNG TUYỂN DỰ KIẾN -->
+  <section class="tab" id="tab-admit">
+    <div class="card notice" style="margin-bottom:16px">
+      <b>Đây là kết quả mô phỏng, không phải kết quả chính thức.</b>
+      Chỉ tiêu theo thông báo tuyển sinh thạc sĩ K35 đợt 2/2026 của ĐH Kinh tế Quốc dân (tổng 624). Chỉ tiêu tính theo <b>ngành</b>, còn danh sách điểm ghi theo <b>chuyên ngành</b>, nên mỗi chuyên ngành được gán vào một ngành (xem và sửa ở mục “Gán chuyên ngành → ngành” bên dưới).
+      Trong mỗi ngành, thí sinh đủ điều kiện được xếp theo điểm xét tuyển từ cao xuống thấp cho đến hết chỉ tiêu.
+      Điểm công bố đã cộng điểm ưu tiên (1 điểm môn cơ bản) và trừ điểm vi phạm quy chế.
+    </div>
+    <div class="card" style="margin-bottom:16px">
+      <h2>Điều kiện xét tuyển</h2>
+      <p class="desc">Thay đổi để xem kết quả theo các giả định khác nhau; lựa chọn được lưu trên trình duyệt này</p>
+      <div class="filters" style="margin-bottom:0">
+        <label class="t2">Điểm sàn mỗi môn
+          <select id="admFloor"><option value="">Không áp dụng</option><option value="5">≥ 5,0</option><option value="4">≥ 4,0</option><option value="1">≥ 1,0 (không bị điểm liệt)</option></select></label>
+        <label class="t2">Đồng điểm ở cuối danh sách
+          <select id="admTie"><option value="all">Lấy hết (có thể vượt chỉ tiêu)</option><option value="ktth">Ưu tiên KTTH, rồi Môn luận</option><option value="cut">Không lấy nhóm đồng điểm (không vượt)</option></select></label>
+        <label class="t2" title="Điểm công bố đã cộng điểm ưu tiên (1 điểm môn cơ bản); chỉ chọn nếu muốn thử cộng thêm">Cộng thêm cho diện ưu tiên
+          <select id="admBonus"><option value="0">Không (đã cộng sẵn)</option><option value="0.5">+0,5</option><option value="1">+1,0</option></select></label>
+        <button class="btn" id="admReset" type="button">Khôi phục mặc định</button>
+      </div>
+    </div>
+    <div class="kpis" id="admKpis"></div>
+    <div class="card" style="margin-bottom:16px">
+      <h2>Điểm chuẩn dự kiến theo ngành</h2>
+      <p class="desc">Nhấn một dòng để xem chi tiết từng chuyên ngành; nhấn “Danh sách” để mở bảng xếp hạng của ngành</p>
+      <div class="tbl-wrap"><table id="admTable"></table></div>
+    </div>
+    <div class="grid g2" style="margin-bottom:16px">
+      <div class="card">
+        <h2>Điểm chuẩn dự kiến</h2>
+        <p class="desc">Thang 0–10 · ngành chưa đủ thí sinh để lấp chỉ tiêu thì điểm chuẩn là điểm thấp nhất của thí sinh đủ điều kiện</p>
+        <div id="admCutChart"></div>
+      </div>
+      <div class="card">
+        <h2>Chỉ tiêu và số trúng tuyển dự kiến</h2>
+        <p class="desc">Phần tô màu là số trúng tuyển dự kiến trên tổng chỉ tiêu</p>
+        <div id="admFillChart"></div>
+      </div>
+    </div>
+    <details class="card" id="admMapBox">
+      <summary><b>Gán chuyên ngành → ngành &amp; chỉ tiêu</b> <span class="t2">— sửa nếu cách gán mặc định chưa đúng</span></summary>
+      <div class="grid g2" style="margin-top:12px">
+        <div><div class="tbl-wrap"><table id="admMapTable"></table></div></div>
+        <div><div class="tbl-wrap"><table id="admQuotaTable"></table></div></div>
+      </div>
+    </details>
+  </section>
+
+  <!-- CHUYÊN NGÀNH -->
+  <section class="tab" id="tab-majors">
+    <div class="card" style="margin-bottom:16px">
+      <h2>Phân bố điểm xét tuyển theo chuyên ngành</h2>
+      <p class="desc">Hộp = khoảng tứ phân vị (25%–75%), vạch = trung vị, chấm cam = trung bình, râu = thấp nhất–cao nhất. Nhấn một ngành để mở bảng xếp hạng của ngành.</p>
+      <div class="legend"><span><i style="background:var(--accent-soft);border:1.5px solid var(--s1)"></i>Khoảng 25%–75%</span><span><i style="background:var(--s1);width:3px"></i>Trung vị</span><span><i style="background:var(--s2);border-radius:50%"></i>Trung bình</span></div>
+      <div id="boxplot"></div>
+    </div>
+    <div class="card" style="margin-bottom:16px">
+      <h2>Mô phỏng điểm chuẩn</h2>
+      <p class="desc">Kéo để đặt ngưỡng điểm xét tuyển — xem mỗi ngành có bao nhiêu thí sinh đạt ngưỡng (chỉ mang tính tham khảo, không phải điểm chuẩn chính thức).</p>
+      <div class="range-row">
+        <span class="t2">Ngưỡng</span>
+        <input type="range" id="cutoff" min="0" max="9" step="0.05" value="7">
+        <span class="big" id="cutoffVal">7,00</span>
+        <span class="t2" id="cutoffSum"></span>
+      </div>
+      <div id="cutoffBars"></div>
+    </div>
+    <div class="card">
+      <h2>Bảng thống kê chi tiết theo chuyên ngành</h2>
+      <p class="desc">Nhấn tiêu đề cột để sắp xếp</p>
+      <div class="tbl-wrap"><table id="majorTable"></table></div>
+    </div>
+  </section>
+
+  <!-- PHÂN TÍCH -->
+  <section class="tab" id="tab-analysis">
+    <div class="grid g2">
+      <div class="card">
+        <h2>Theo giới tính</h2>
+        <p class="desc">So sánh phân bố điểm xét tuyển (tỷ lệ % trong mỗi nhóm)</p>
+        <div id="genderCmp"></div>
+      </div>
+      <div class="card">
+        <h2>Theo tình trạng ngoại ngữ</h2>
+        <p class="desc">Miễn NN so với thí sinh phải thi và đã thi đạt NN (tỷ lệ % trong mỗi nhóm)</p>
+        <div id="nnCmp"></div>
+      </div>
+      <div class="card">
+        <h2>Tương quan Môn luận × KTTH</h2>
+        <p class="desc">Mỗi ô là số thí sinh có cùng cặp điểm; màu càng đậm càng nhiều</p>
+        <div id="heat"></div>
+      </div>
+      <div class="card">
+        <h2>Theo năm sinh</h2>
+        <p class="desc">Số thí sinh theo năm sinh (di chuột để xem điểm TB)</p>
+        <div id="yearChart"></div>
+        <div id="ageTable" style="margin-top:12px"></div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <h2>Theo nơi sinh</h2>
+      <p class="desc">Nhấn tiêu đề cột để sắp xếp · nhấn một dòng để xem danh sách</p>
+      <div class="tbl-wrap"><table id="placeTable"></table></div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <h2>Nhóm đặc biệt</h2>
+      <p class="desc">So sánh các nhóm thí sinh</p>
+      <div id="groupTable"></div>
+    </div>
+  </section>
+
+  <!-- PHÒNG THI -->
+  <section class="tab" id="tab-rooms">
+    <div class="card" style="margin-bottom:16px">
+      <h2>Điểm trung bình theo phòng thi</h2>
+      <p class="desc">Di chuột để xem chi tiết · đường ngang là trung bình chung</p>
+      <div id="roomChart"></div>
+    </div>
+    <div class="card">
+      <h2>Bảng thống kê phòng thi</h2>
+      <p class="desc">Nhấn tiêu đề cột để sắp xếp · nhấn một dòng để xem danh sách phòng</p>
+      <div class="tbl-wrap"><table id="roomTable"></table></div>
+    </div>
+  </section>
+</main>
+<footer><div class="wrap">Nguồn: DiemThi_CaoHoc_K35.csv (1.316 thí sinh). Trang chạy hoàn toàn trên máy, không gửi dữ liệu đi đâu.</div></footer>
+<div id="tip"></div>
+
+<script>
+const RAW = /*__DATA__*/null;
+
+/* ---------- Dữ liệu ---------- */
+const { places: PLACES, majors: MAJORS, rooms: ROOMS } = RAW;
+const strip = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').toLowerCase();
+/* Sắp xếp tên kiểu Việt Nam: Tên → Họ → Đệm.
+   Mỗi phần so chữ cái trước theo bảng chữ cái tiếng Việt (a ă â b c d đ e ê … o ô ơ … u ư …),
+   bằng nhau mới so dấu thanh theo thứ tự: ngang, huyền, hỏi, ngã, sắc, nặng.
+   Tách dấu thanh ra nên “Hoà”/“Hòa”, “Thuỳ”/“Thùy” (bỏ dấu kiểu cũ/mới) được coi là một. */
+const viColl = new Intl.Collator('vi', { sensitivity: 'base', numeric: true });
+const TONES = { '̀': 1, '̉': 2, '̃': 3, '́': 4, '̣': 5 };
+function viKey(str) {
+  let base = '', tones = '';
+  for (const syl of str.normalize('NFC').split(/\s+/)) {
+    let t = 0;
+    const b = syl.normalize('NFD').replace(/[̣̀́̃̉]/g, m => { t = TONES[m]; return ''; }).normalize('NFC');
+    base += (base ? ' ' : '') + b; tones += t;
+  }
+  return { base, tones };
+}
+const cmpKey = (a, b) => viColl.compare(a.base, b.base) || (a.tones < b.tones ? -1 : a.tones > b.tones ? 1 : 0) ||
+  (a.base < b.base ? -1 : a.base > b.base ? 1 : 0); // cùng chữ khác hoa/thường
+const S = RAW.rows.map(r => {
+  const name = r[2].normalize('NFC').trim().replace(/\s+/g, ' ');
+  const parts = name.split(' ');
+  const yr = r[4].match(/(\d{4})$/);
+  return {
+    sbd: r[0], mdk: r[1], name, female: r[3], dob: r[4], year: yr ? +yr[1] : NaN,
+    place: r[5], major: r[6], room: r[7], mien: r[8], luan: r[9], ktth: r[10], xt: r[11], prio: r[12],
+    full: r[10] !== null,
+    ten: parts[parts.length - 1], ho: parts[0], dem: parts.slice(1, -1).join(' '),
+    kTen: viKey(parts[parts.length - 1]), kHo: viKey(parts.length > 1 ? parts[0] : ''), kDem: viKey(parts.slice(1, -1).join(' ')),
+    key: strip(r[0] + ' ' + r[1] + ' ' + name),
+  };
+});
+const cmpName = (a, b) => cmpKey(a.kTen, b.kTen) || cmpKey(a.kHo, b.kHo) || cmpKey(a.kDem, b.kDem) || a.sbd.localeCompare(b.sbd);
+const cmpText = (a, b) => cmpKey(viKey(a), viKey(b));
+
+/* Xếp hạng (đồng điểm đồng hạng) — chỉ thí sinh đủ điểm */
+function rankBy(list, out) {
+  const sorted = list.slice().sort((a, b) => b.xt - a.xt);
+  sorted.forEach((s, i) => { s[out] = i > 0 && sorted[i - 1].xt === s.xt ? sorted[i - 1][out] : i + 1; });
+  return sorted.length;
+}
+const FULL = S.filter(s => s.full);
+const N_FULL = rankBy(FULL, 'rAll');
+const groupBy = (arr, f) => { const m = new Map(); for (const x of arr) { const k = f(x); if (!m.has(k)) m.set(k, []); m.get(k).push(x); } return m; };
+const majorCount = new Map(), roomCount = new Map();
+for (const [k, g] of groupBy(FULL, s => s.major)) majorCount.set(k, rankBy(g, 'rMaj'));
+for (const [k, g] of groupBy(FULL, s => s.room)) roomCount.set(k, rankBy(g, 'rRoom'));
+const xtSortedAsc = FULL.map(s => s.xt).sort((a, b) => a - b);
+for (const s of FULL) {
+  let lo = 0, hi = xtSortedAsc.length;
+  while (lo < hi) { const m = (lo + hi) >> 1; if (xtSortedAsc[m] < s.xt) lo = m + 1; else hi = m; }
+  s.below = lo; // số thí sinh điểm thấp hơn
+}
+
+/* ---------- Tiện ích ---------- */
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const f2 = v => v == null || isNaN(v) ? '—' : v.toLocaleString('vi-VN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const f1 = v => v == null || isNaN(v) ? '—' : v.toLocaleString('vi-VN', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+const fi = v => v.toLocaleString('vi-VN');
+const pct = (a, b) => b ? f1(100 * a / b) + '%' : '—';
+const sum = a => a.reduce((x, y) => x + y, 0);
+const mean = a => a.length ? sum(a) / a.length : NaN;
+const quant = (sorted, q) => { if (!sorted.length) return NaN; const p = (sorted.length - 1) * q, l = Math.floor(p), h = Math.ceil(p); return sorted[l] + (sorted[h] - sorted[l]) * (p - l); };
+const sd = a => { if (a.length < 2) return NaN; const m = mean(a); return Math.sqrt(sum(a.map(x => (x - m) ** 2)) / (a.length - 1)); };
+function stats(vals) {
+  const s = vals.slice().sort((a, b) => a - b);
+  const counts = new Map(); for (const v of s) counts.set(v, (counts.get(v) || 0) + 1);
+  let mode = NaN, mc = 0; for (const [v, c] of counts) if (c > mc) { mc = c; mode = v; }
+  return { n: s.length, mean: mean(s), med: quant(s, .5), sd: sd(s), min: s[0], max: s[s.length - 1], q1: quant(s, .25), q3: quant(s, .75), mode, modeN: mc, sorted: s };
+}
+const exclAbsent = () => $('#exclAbsent').checked;
+const pool = (arr = S) => exclAbsent() ? arr.filter(s => s.full) : arr;
+const majorName = i => MAJORS[i];
+const roomName = i => ROOMS[i];
+const placeName = i => PLACES[i].replace(/^(Tỉnh|Thành phố)\s+/, '');
+const genderName = s => s.female ? 'Nữ' : 'Nam';
+const scoreCell = v => v == null ? '<span class="muted">---</span>' : f2(v);
+function medal(r) { return r <= 3 ? `<span class="medal r${r}">${r}</span>` : r; }
+const hashOf = arr => arr.map(x => x).join('|');
+
+/* Tooltip dùng chung: phần tử có data-tip */
+const tip = $('#tip');
+document.addEventListener('mouseover', e => { const t = e.target.closest('[data-tip]'); if (t) { tip.innerHTML = t.dataset.tip; tip.classList.add('on'); } });
+document.addEventListener('mouseout', e => { if (e.target.closest('[data-tip]')) tip.classList.remove('on'); });
+document.addEventListener('mousemove', e => {
+  if (!tip.classList.contains('on')) return;
+  const w = tip.offsetWidth, h = tip.offsetHeight;
+  let x = e.clientX + 14, y = e.clientY + 14;
+  if (x + w > innerWidth - 8) x = e.clientX - w - 14;
+  if (y + h > innerHeight - 8) y = e.clientY - h - 14;
+  tip.style.left = x + 'px'; tip.style.top = y + 'px';
+});
+
+/* ---------- Biểu đồ cột dọc (SVG) ---------- */
+function columnChart(items, { height = 220, hlIndex = -1, refLine = null, refLabel = '', yFmt = fi, labelEvery = 1, minBar = 0 } = {}) {
+  const W = 640, H = height, ml = 36, mr = 8, mt = 12, mb = 26;
+  const iw = W - ml - mr, ih = H - mt - mb;
+  const maxV = Math.max(1, ...items.map(d => d.v), refLine || 0);
+  const step = niceStep(maxV / 4);
+  const top = Math.ceil(maxV / step) * step;
+  const bw = iw / items.length, gap = Math.min(2, bw * .2);
+  let g = '';
+  for (let t = 0; t <= top + 1e-9; t += step) {
+    const y = mt + ih - ih * t / top;
+    g += `<line class="gl" x1="${ml}" x2="${W - mr}" y1="${y}" y2="${y}"/><text x="${ml - 6}" y="${y + 3.5}" text-anchor="end">${yFmt(t)}</text>`;
+  }
+  items.forEach((d, i) => {
+    const x = ml + i * bw, h = d.v ? Math.max(minBar, ih * d.v / top) : 0, y = mt + ih - h;
+    const r = Math.min(4, (bw - gap) / 2, h);
+    const path = h ? `M${x + gap / 2},${y + h}V${y + r}q0,-${r} ${r},-${r}H${x + bw - gap / 2 - r}q${r},0 ${r},${r}V${y + h}Z` : '';
+    g += `<g data-tip="${esc(d.tip || d.label + ': ' + fi(d.v))}"><rect x="${x}" y="${mt}" width="${bw}" height="${ih}" fill="transparent"/>${path ? `<path class="bar${i === hlIndex || d.hl ? ' hl' : ''}" d="${path}"/>` : ''}</g>`;
+    if (i % labelEvery === 0) g += `<text x="${x + bw / 2}" y="${H - 8}" text-anchor="middle">${esc(d.label)}</text>`;
+  });
+  if (refLine != null) {
+    const y = mt + ih - ih * refLine / top;
+    g += `<line x1="${ml}" x2="${W - mr}" y1="${y}" y2="${y}" stroke="var(--s2)" stroke-width="1.5" stroke-dasharray="4 3"/><text x="${W - mr}" y="${y - 5}" text-anchor="end" style="fill:var(--text)">${esc(refLabel)}</text>`;
+  }
+  g += `<line class="ax" x1="${ml}" x2="${W - mr}" y1="${mt + ih}" y2="${mt + ih}"/>`;
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img">${g}</svg>`;
+}
+function niceStep(x) { const p = 10 ** Math.floor(Math.log10(x || 1)); const n = x / p; return (n <= 1 ? 1 : n <= 2 ? 2 : n <= 2.5 ? 2.5 : n <= 5 ? 5 : 10) * p; }
+
+/* Cột nhóm 2 chuỗi (tỷ lệ %) */
+function groupedChart(bins, series, { height = 220 } = {}) {
+  const W = 640, H = height, ml = 36, mr = 8, mt = 12, mb = 26, iw = W - ml - mr, ih = H - mt - mb;
+  const maxV = Math.max(...series.flatMap(s => s.vals));
+  const step = niceStep(maxV / 4), top = Math.ceil(maxV / step) * step;
+  const gw = iw / bins.length, bw = (gw - 6) / series.length;
+  let g = '';
+  for (let t = 0; t <= top + 1e-9; t += step) { const y = mt + ih - ih * t / top; g += `<line class="gl" x1="${ml}" x2="${W - mr}" y1="${y}" y2="${y}"/><text x="${ml - 6}" y="${y + 3.5}" text-anchor="end">${fi(t)}%</text>`; }
+  bins.forEach((b, i) => {
+    series.forEach((s, j) => {
+      const v = s.vals[i], h = ih * v / top, x = ml + i * gw + 3 + j * bw, y = mt + ih - h, r = Math.min(3, h, (bw - 2) / 2);
+      g += `<g data-tip="<b>${esc(s.name)}</b> · ${esc(b)}<br>${f1(v)}% (${fi(s.cnt[i])} TS)"><rect x="${x}" y="${mt}" width="${bw}" height="${ih}" fill="transparent"/>${h ? `<path fill="${s.color}" d="M${x + 1},${y + h}V${y + r}q0,-${r} ${r},-${r}H${x + bw - 1 - r}q${r},0 ${r},${r}V${y + h}Z"/>` : ''}</g>`;
+    });
+    g += `<text x="${ml + i * gw + gw / 2}" y="${H - 8}" text-anchor="middle">${esc(b)}</text>`;
+  });
+  g += `<line class="ax" x1="${ml}" x2="${W - mr}" y1="${mt + ih}" y2="${mt + ih}"/>`;
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img">${g}</svg>`;
+}
+
+function table(cols, rows, { onRow, sortState, sortKey } = {}) {
+  const head = cols.map((c, i) => {
+    const s = sortState && c.sort ? (sortState.col === i ? `<span class="arr">${sortState.dir > 0 ? '▲' : '▼'}</span>` : '') : '';
+    return `<th class="${c.num ? 'num ' : ''}${c.sort && sortState ? 'sortable ' : ''}${c.cls || ''}" data-col="${i}" ${c.title ? `title="${esc(c.title)}"` : ''}>${c.h}${s}</th>`;
+  }).join('');
+  const body = rows.map((r, ri) => `<tr${onRow ? ` class="clickable" data-row="${ri}"` : ''}>${cols.map(c => `<td class="${c.num ? 'num ' : ''}${c.cls || ''}">${c.v(r)}</td>`).join('')}</tr>`).join('');
+  return `<thead><tr>${head}</tr></thead><tbody>${body || `<tr><td colspan="${cols.length}" class="empty">Không có dữ liệu</td></tr>`}</tbody>`;
+}
+/* Bảng có sắp xếp: render vào <table>, gắn sự kiện */
+function sortableTable(el, cols, getRows, { initial = { col: 0, dir: 1 }, onRow } = {}) {
+  const st = { ...initial };
+  function draw() {
+    const rows = getRows().slice();
+    const c = cols[st.col];
+    if (c && c.sort) rows.sort((a, b) => st.dir * c.sort(a, b));
+    el.innerHTML = table(cols, rows, { onRow, sortState: st });
+    el.querySelectorAll('th.sortable').forEach(th => th.onclick = () => {
+      const i = +th.dataset.col; if (st.col === i) st.dir = -st.dir; else { st.col = i; st.dir = cols[i].defDir || 1; } draw();
+    });
+    if (onRow) el.querySelectorAll('tr[data-row]').forEach(tr => tr.onclick = () => onRow(rows[+tr.dataset.row]));
+  }
+  draw();
+  return draw;
+}
+const byNum = f => (a, b) => (f(a) ?? -1) - (f(b) ?? -1);
+const byText = f => (a, b) => cmpText(f(a), f(b));
+
+/* ---------- Mô phỏng trúng tuyển theo chỉ tiêu ---------- */
+/* Chỉ tiêu theo thông báo tuyển sinh thạc sĩ K35 đợt 2/2026 (theo ngành) */
+const NGANH = [
+  ['Kinh tế học', 16], ['Kinh tế chính trị', 7], ['Kinh tế đầu tư', 15], ['Kinh tế phát triển', 34], ['Kinh tế quốc tế', 12],
+  ['Quản lý kinh tế', 102], ['Quản trị kinh doanh', 185], ['Kinh doanh thương mại', 14], ['Tài chính - Ngân hàng', 142], ['Kế toán', 30],
+  ['Quản trị nhân lực', 22], ['Hệ thống thông tin quản lý', 15], ['Luật kinh tế', 25], ['Kinh tế Nông nghiệp', 5],
+];
+/* Gán chuyên ngành → ngành (mặc định, người dùng sửa được) */
+const DEFAULT_MAP = {
+  'Kinh tế học': 'Kinh tế học', 'Thống kê kinh tế': 'Kinh tế học', 'Toán Kinh tế - Tài chính': 'Kinh tế học', 'Kinh tế bảo hiểm': 'Kinh tế học',
+  'Kinh tế và quản lý môi trường': 'Kinh tế học', 'Kinh tế và quản lý địa chính': 'Kinh tế học',
+  'Kinh tế chính trị': 'Kinh tế chính trị', 'Kinh tế đầu tư': 'Kinh tế đầu tư',
+  'Kinh tế phát triển': 'Kinh tế phát triển', 'Kế hoạch phát triển': 'Kinh tế phát triển', 'Kinh tế quốc tế': 'Kinh tế quốc tế',
+  'Quản lý kinh tế và chính sách': 'Quản lý kinh tế', 'Quản lý công': 'Quản lý kinh tế',
+  'Quản trị kinh doanh': 'Quản trị kinh doanh', 'Quản trị kinh doanh (Viện)': 'Quản trị kinh doanh', 'Quản trị kinh doanh quốc tế': 'Quản trị kinh doanh',
+  'Marketing': 'Quản trị kinh doanh', 'Logistics': 'Quản trị kinh doanh', 'Quản trị kinh doanh du lịch và khách sạn': 'Quản trị kinh doanh',
+  'Quản trị kinh doanh bất động sản': 'Quản trị kinh doanh',
+  'Quản trị kinh doanh thương mại': 'Kinh doanh thương mại', 'Kinh tế và quản lý thương mại': 'Kinh doanh thương mại',
+  'Tài chính - Ngân hàng': 'Tài chính - Ngân hàng', 'Kế toán, kiểm toán và phân tích': 'Kế toán', 'Quản trị nhân lực': 'Quản trị nhân lực',
+  'Hệ thống thông tin quản lý': 'Hệ thống thông tin quản lý', 'Luật kinh tế': 'Luật kinh tế', 'Quản trị kinh doanh nông nghiệp': 'Kinh tế Nông nghiệp',
+};
+const ADM_DEFAULT = { floor: '5', tie: 'all', bonus: '0' };
+const ADM = { ...ADM_DEFAULT, map: MAJORS.map(m => Math.max(0, NGANH.findIndex(n => n[0] === DEFAULT_MAP[m]))), quota: NGANH.map(n => n[1]) };
+try {
+  const sv = JSON.parse(localStorage.getItem('adm-k35') || 'null');
+  if (sv) {
+    for (const k of Object.keys(ADM_DEFAULT)) if (sv[k] != null) ADM[k] = sv[k];
+    if (sv.map) MAJORS.forEach((m, i) => { const j = NGANH.findIndex(n => n[0] === sv.map[m]); if (j >= 0) ADM.map[i] = j; });
+    if (sv.quota) NGANH.forEach((n, i) => { if (sv.quota[n[0]] != null) ADM.quota[i] = +sv.quota[n[0]]; });
+  }
+} catch (e) {}
+function saveAdm() {
+  try {
+    localStorage.setItem('adm-k35', JSON.stringify({ floor: ADM.floor, tie: ADM.tie, bonus: ADM.bonus,
+      map: Object.fromEntries(MAJORS.map((m, i) => [m, NGANH[ADM.map[i]][0]])), quota: Object.fromEntries(NGANH.map((n, i) => [n[0], ADM.quota[i]])) }));
+  } catch (e) {}
+}
+let NG = [];
+const admScore = s => s.xt + (s.prio ? +ADM.bonus : 0);
+function predict() {
+  const floor = ADM.floor === '' ? null : +ADM.floor;
+  NG = NGANH.map((n, i) => ({ i, name: n[0], q: ADM.quota[i], reg: [], elig: [], adm: [], cutoff: null }));
+  for (const s of S) {
+    s.ng = ADM.map[s.major]; s.adm = false; s.rNg = null; s.need = null; s.score = admScore(s);
+    s.why = !s.full ? 'Vắng/thiếu điểm KTTH'
+      : floor != null && (s.luan < floor || s.ktth < floor) ? `Có môn dưới điểm sàn ${f1(floor)}` : '';
+    NG[s.ng].reg.push(s);
+    if (!s.why) NG[s.ng].elig.push(s);
+  }
+  const cmpAdm = ADM.tie === 'ktth' ? (a, b) => b.score - a.score || b.ktth - a.ktth || b.luan - a.luan : (a, b) => b.score - a.score;
+  for (const g of NG) {
+    const E = g.elig.sort((a, b) => cmpAdm(a, b) || cmpName(a, b));
+    E.forEach((s, k) => { s.rNg = k > 0 && cmpAdm(E[k - 1], s) === 0 ? E[k - 1].rNg : k + 1; });
+    if (!g.q || !E.length) { g.cutoff = null; continue; }
+    if (E.length <= g.q) g.adm = E.slice();
+    else {
+      const last = E[g.q - 1];
+      if (ADM.tie === 'cut' && cmpAdm(E[g.q], last) === 0) g.adm = E.filter(s => cmpAdm(s, last) < 0);
+      else g.adm = E.filter(s => cmpAdm(s, last) <= 0);
+    }
+    g.adm.forEach(s => s.adm = true);
+    // Điểm chuẩn: điểm thấp nhất trong nhóm trúng tuyển; nếu không lấy ai (đồng điểm) thì là điểm ngay trên nhóm đồng điểm
+    g.cutoff = g.adm.length ? g.adm[g.adm.length - 1].score : null;
+    g.firstOut = E.find(s => !s.adm) || null;
+  }
+  for (const g of NG) for (const s of g.elig) if (!s.adm) s.need = g.cutoff != null ? g.cutoff - s.score : null;
+}
+const admBadge = s => s.adm ? '<span class="badge adm-yes">Trúng tuyển</span>'
+  : s.why ? `<span class="badge adm-inel" title="${esc(s.why)}">Không đủ ĐK</span>`
+  : `<span class="badge adm-no" title="${s.need != null ? 'Thiếu ' + f2(s.need) + ' điểm' : ''}">Không trúng tuyển</span>`;
+predict();
+
+/* ---------- Tabs ---------- */
+const rendered = {};
+function showTab(name, push = true) {
+  document.querySelectorAll('nav.tabs button').forEach(b => b.setAttribute('aria-selected', b.dataset.tab === name));
+  document.querySelectorAll('section.tab').forEach(s => s.classList.toggle('active', s.id === 'tab-' + name));
+  if (!rendered[name]) { RENDER[name](); rendered[name] = true; }
+  if (push && !location.hash.startsWith('#sbd=')) history.replaceState(null, '', '#' + name);
+  window.scrollTo({ top: 0 });
+}
+document.querySelectorAll('nav.tabs button').forEach(b => b.onclick = () => showTab(b.dataset.tab));
+
+/* ---------- Tổng quan ---------- */
+function renderOverview() {
+  const P = pool();
+  const absent = S.length - FULL.length;
+  const st = stats(P.map(s => s.xt));
+  const fem = P.filter(s => s.female).length, mien = P.filter(s => s.mien).length;
+  const ge7 = P.filter(s => s.xt >= 7).length, ge8 = P.filter(s => s.xt >= 8).length, lt5 = P.filter(s => s.xt < 5).length;
+  const kp = [
+    ['Tổng số thí sinh', fi(S.length), `${fi(FULL.length)} đủ điểm · ${fi(absent)} vắng/thiếu`],
+    ['Điểm XT trung bình', f2(st.mean), `Trung vị ${f2(st.med)} · ĐLC ${f2(st.sd)}`],
+    ['Điểm XT cao nhất', f2(st.max), `Thấp nhất ${f2(st.min)}`],
+    ['Đạt từ 7 điểm', pct(ge7, P.length), `${fi(ge7)} thí sinh`],
+    ['Đạt từ 8 điểm', pct(ge8, P.length), `${fi(ge8)} thí sinh`],
+    ['Dưới 5 điểm', pct(lt5, P.length), `${fi(lt5)} thí sinh`],
+    ['Nữ / Nam', `${pct(fem, P.length)}`, `${fi(fem)} nữ · ${fi(P.length - fem)} nam`],
+    ['Miễn ngoại ngữ', pct(mien, P.length), `${fi(mien)} thí sinh · ${fi(P.filter(s => s.prio).length)} diện ưu tiên`],
+  ];
+  $('#kpis').innerHTML = kp.map(k => `<div class="card kpi"><div class="lbl">${k[0]}</div><div class="val">${k[1]}</div><div class="note">${k[2]}</div></div>`).join('');
+
+  // Histogram XT bin 0.5
+  const bins = []; for (let b = 0; b < 10; b += .5) bins.push(b);
+  const cnt = bins.map(b => P.filter(s => s.xt >= b && (b === 9.5 ? s.xt <= 10 : s.xt < b + .5)).length);
+  const lo = bins.findIndex((_, i) => cnt.slice(0, i + 1).some(Boolean));
+  const items = bins.map((b, i) => ({ label: f1(b).replace(',0', ''), v: cnt[i], tip: `<b>${f2(b)} – ${b === 9.5 ? '10,00' : '&lt;' + f2(b + .5)}</b><br>${fi(cnt[i])} thí sinh (${pct(cnt[i], P.length)})` }));
+  $('#histXT').innerHTML = columnChart(items.slice(Math.max(0, lo)), { labelEvery: 2, minBar: 2 });
+
+  const bands = [['Dưới 5', 0, 5], ['5 – dưới 6', 5, 6], ['6 – dưới 7', 6, 7], ['7 – dưới 8', 7, 8], ['8 – dưới 9', 8, 9], ['9 – 10', 9, 10.01]];
+  const maxB = Math.max(...bands.map(b => P.filter(s => s.xt >= b[1] && s.xt < b[2]).length));
+  $('#bandTable').innerHTML = `<div class="hbars">${bands.map(b => {
+    const n = P.filter(s => s.xt >= b[1] && s.xt < b[2]).length;
+    return `<div class="hbar" data-tip="${b[0]}: ${fi(n)} thí sinh"><span class="nm">${b[0]}</span><span class="tr"><span class="fl" style="width:${100 * n / maxB}%"></span></span><span class="v">${fi(n)} <span class="muted">· ${pct(n, P.length)}</span></span></div>`;
+  }).join('')}</div>
+  <div style="margin-top:14px" class="t2">Điểm XT phổ biến nhất: <b>${f2(st.mode)}</b> (${fi(st.modeN)} thí sinh). Một nửa số thí sinh nằm trong khoảng <b>${f2(st.q1)} – ${f2(st.q3)}</b>.</div>`;
+
+  const lv = pool().map(s => s.luan);
+  const lvals = []; for (let v = 0; v <= 10; v += .5) lvals.push(v);
+  $('#histLuan').innerHTML = columnChart(lvals.map(v => { const n = lv.filter(x => x === v).length; return { label: String(v).replace('.', ','), v: n, tip: `Môn luận <b>${f2(v)}</b>: ${fi(n)} TS (${pct(n, lv.length)})` }; }), { labelEvery: 2, minBar: 2 });
+  const kv = S.filter(s => s.full).map(s => s.ktth);
+  const kvals = []; for (let v = Math.floor(Math.min(...kv)); v <= 10; v += .25) kvals.push(v);
+  $('#histKTTH').innerHTML = columnChart(kvals.map(v => { const n = kv.filter(x => x === v).length; return { label: String(v).replace('.', ','), v: n, tip: `KTTH <b>${f2(v)}</b>: ${fi(n)} TS (${pct(n, kv.length)})` }; }), { labelEvery: 4, minBar: 2 });
+
+  const subj = [['Môn luận', pool().map(s => s.luan)], ['KTTH', kv], ['Điểm xét tuyển', pool().map(s => s.xt)]].map(([lbl, v]) => ({ ...stats(v), lbl }));
+  $('#statTable').innerHTML = `<div class="tbl-wrap"><table>${table([
+    { h: 'Chỉ số', v: r => r[0] },
+    ...subj.map(s => ({ h: s.lbl, num: 1, v: r => r[1](s) })),
+  ], [
+    ['Số thí sinh', s => fi(s.n)], ['Trung bình', s => f2(s.mean)], ['Trung vị', s => f2(s.med)], ['Độ lệch chuẩn', s => f2(s.sd)],
+    ['Thấp nhất', s => f2(s.min)], ['Tứ phân vị 25%', s => f2(s.q1)], ['Tứ phân vị 75%', s => f2(s.q3)], ['Cao nhất', s => f2(s.max)],
+    ['Điểm nhiều nhất', s => `${f2(s.mode)} <span class="muted">(${fi(s.modeN)})</span>`],
+  ])}</table></div>`;
+
+  const desc = FULL.map(s => s.xt).sort((a, b) => b - a);
+  const tops = [10, 20, 50, 100, 200, 300, 500, 1000];
+  const pcts = [1, 5, 10, 25, 50];
+  $('#pctTable').innerHTML = `<div class="tbl-wrap"><table>${table([
+    { h: 'Nhóm', v: r => r[0] }, { h: 'Điểm XT tối thiểu', num: 1, v: r => `<b>${f2(r[1])}</b>` }, { h: 'Số TS đạt ngưỡng', num: 1, v: r => fi(r[2]) },
+  ], [
+    ...tops.filter(t => t <= desc.length).map(t => [`Top ${fi(t)}`, desc[t - 1], desc.filter(x => x >= desc[t - 1]).length]),
+    ...pcts.map(p => { const k = Math.max(1, Math.round(desc.length * p / 100)); return [`Top ${p}%`, desc[k - 1], desc.filter(x => x >= desc[k - 1]).length]; }),
+  ])}</table></div><p class="muted" style="font-size:12px;margin:8px 0 0">Tính trên ${fi(FULL.length)} thí sinh đủ điểm; do đồng điểm, số đạt ngưỡng có thể lớn hơn nhóm.</p>`;
+
+  const top = FULL.slice().sort((a, b) => b.xt - a.xt || b.ktth - a.ktth || cmpName(a, b)).filter(s => s.rAll <= 20);
+  const t20 = $('#top20'); t20.innerHTML = `<div class="tbl-wrap"><table></table></div>`;
+  const tb = t20.querySelector('table');
+  tb.innerHTML = table(rankCols(['rAll', 'sbd', 'name', 'major', 'luan', 'ktth', 'xt']), top, { onRow: 1 });
+  tb.querySelectorAll('tr[data-row]').forEach(tr => tr.onclick = () => openProfile(top[+tr.dataset.row]));
+}
+
+/* Cột dùng chung cho bảng thí sinh */
+const COLS = {
+  rFilter: { h: 'Hạng lọc', num: 1, title: 'Thứ hạng trong nhóm đang lọc', v: s => s._rf ? medal(s._rf) : '<span class="muted">—</span>', sort: byNum(s => s._rf ?? 1e9) },
+  rAll: { h: 'Hạng chung', num: 1, title: 'Hạng toàn khóa', v: s => s.rAll ? medal(s.rAll) : '<span class="muted">—</span>', sort: byNum(s => s.rAll ?? 1e9) },
+  rMaj: { h: 'Hạng ngành', num: 1, title: 'Hạng trong chuyên ngành', v: s => s.rMaj ? `${s.rMaj}<span class="muted">/${majorCount.get(s.major)}</span>` : '<span class="muted">—</span>', sort: byNum(s => s.rMaj ?? 1e9) },
+  sbd: { h: 'SBD', v: s => `<b>${s.sbd}</b>`, sort: byText(s => s.sbd) },
+  mdk: { h: 'Mã ĐK', cls: 'hide-sm', v: s => `<span class="t2">${s.mdk}</span>`, sort: byText(s => s.mdk) },
+  name: { h: 'Họ tên', v: s => esc(s.name) + (s.prio ? ' <span class="badge acc" title="Diện ưu tiên">ƯT</span>' : ''), sort: cmpName },
+  gender: { h: 'GT', v: s => genderName(s), sort: byNum(s => s.female) },
+  dob: { h: 'Ngày sinh', cls: 'hide-sm', v: s => s.dob, sort: byText(s => s.dob.split('/').reverse().join('')) },
+  place: { h: 'Nơi sinh', cls: 'hide-sm', v: s => esc(placeName(s.place)), sort: byText(s => placeName(s.place)) },
+  major: { h: 'Chuyên ngành', v: s => esc(majorName(s.major)), sort: byText(s => majorName(s.major)) },
+  room: { h: 'Phòng', cls: 'hide-sm', v: s => roomName(s.room), sort: byText(s => roomName(s.room)) },
+  nn: { h: 'Ngoại ngữ', cls: 'hide-sm', v: s => s.mien ? '<span class="badge good">Miễn NN</span>' : '<span class="badge" title="Không được miễn, đã thi đạt ngoại ngữ">Thi đạt NN</span>', sort: byNum(s => s.mien) },
+  luan: { h: 'Môn luận', num: 1, v: s => scoreCell(s.luan), sort: byNum(s => s.luan), defDir: -1 },
+  ktth: { h: 'KTTH', num: 1, v: s => scoreCell(s.ktth), sort: byNum(s => s.ktth), defDir: -1 },
+  xt: { h: 'Điểm XT', num: 1, v: s => s.full ? `<b>${f2(s.xt)}</b>` : `<span class="muted" title="Vắng/thiếu điểm">${f2(s.xt)}</span>`, sort: byNum(s => s.full ? s.xt : -1 + s.xt / 100), defDir: -1 },
+  nganh: { h: 'Ngành', cls: 'hide-sm', v: s => esc(NGANH[s.ng][0]), sort: byText(s => NGANH[s.ng][0]) },
+  rNg: { h: 'Hạng xét', num: 1, title: 'Thứ hạng xét tuyển trong ngành (chỉ thí sinh đủ điều kiện)', v: s => s.rNg ? `${s.rNg}<span class="muted">/${NG[s.ng].q}</span>` : '<span class="muted">—</span>', sort: byNum(s => s.rNg ?? 1e9) },
+  adm: { h: 'Dự kiến', v: admBadge, sort: byNum(s => s.adm ? 2 : s.why ? 0 : 1), defDir: -1 },
+};
+const rankCols = keys => keys.map(k => COLS[k]);
+
+/* ---------- Tra cứu ---------- */
+function search(q, limit = 12) {
+  const k = strip(q.trim()); if (!k) return [];
+  const terms = k.split(/\s+/);
+  const exact = S.filter(s => s.sbd.toLowerCase() === k || s.mdk.toLowerCase() === k);
+  if (exact.length) return exact;
+  return S.filter(s => terms.every(t => s.key.includes(t)))
+    .sort((a, b) => (strip(b.ten) === terms[terms.length - 1]) - (strip(a.ten) === terms[terms.length - 1]) || cmpName(a, b))
+    .slice(0, limit);
+}
+let suggIdx = -1, suggList = [], CUR = null;
+function drawSugg() {
+  const box = $('#sugg');
+  if (!suggList.length) { box.classList.remove('open'); return; }
+  box.innerHTML = suggList.map((s, i) => `<div class="${i === suggIdx ? 'on' : ''}" data-i="${i}"><span><b>${esc(s.name)}</b> <span class="muted">· ${s.sbd} · ${s.dob}</span></span><span class="t2">${s.full ? f2(s.xt) : 'Vắng'}</span></div>`).join('');
+  box.classList.add('open');
+  box.querySelectorAll('[data-i]').forEach(d => d.onmousedown = e => { e.preventDefault(); openProfile(suggList[+d.dataset.i]); });
+}
+function initLookup() {
+  const inp = $('#lookupInput');
+  inp.oninput = () => { suggList = search(inp.value); suggIdx = suggList.length ? 0 : -1; drawSugg(); };
+  inp.onkeydown = e => {
+    if (e.key === 'ArrowDown') { suggIdx = Math.min(suggList.length - 1, suggIdx + 1); drawSugg(); e.preventDefault(); }
+    else if (e.key === 'ArrowUp') { suggIdx = Math.max(0, suggIdx - 1); drawSugg(); e.preventDefault(); }
+    else if (e.key === 'Enter' && suggList[suggIdx]) openProfile(suggList[suggIdx]);
+    else if (e.key === 'Escape') { suggList = []; drawSugg(); }
+  };
+  inp.onblur = () => setTimeout(() => $('#sugg').classList.remove('open'), 100);
+  inp.onfocus = () => suggList.length && drawSugg();
+}
+function openProfile(s) {
+  if (!rendered.lookup) { RENDER.lookup(); rendered.lookup = true; }
+  showTab('lookup', false);
+  history.replaceState(null, '', '#sbd=' + s.sbd);
+  $('#lookupInput').value = s.name; suggList = []; drawSugg();
+  const P = FULL;
+  const allSt = stats(P.map(x => x.xt));
+  const majP = P.filter(x => x.major === s.major), majSt = stats(majP.map(x => x.xt));
+  const roomP = P.filter(x => x.room === s.room), roomSt = stats(roomP.map(x => x.xt));
+  const sameGender = stats(P.filter(x => x.female === s.female).map(x => x.xt));
+  const initials = s.ten[0];
+  const delta = (v, ref) => { const d = v - ref; return `<span class="${d >= 0 ? 'delta-up' : 'delta-down'}">${d >= 0 ? '+' : ''}${f2(d)}</span>`; };
+  const subj = (lbl, v, all, w) => `<div class="score-tile${w ? ' main' : ''}"><div class="t2">${lbl}</div><div class="val">${v == null ? '---' : f2(v)}</div><div class="muted" style="font-size:12px">${v == null ? 'Không có điểm' : `TB khóa ${f2(all)} · ${delta(v, all)}`}</div></div>`;
+  const luanAvg = mean(P.map(x => x.luan)), ktthAvg = mean(P.map(x => x.ktth));
+  let ranks = '';
+  if (s.full) {
+    const pctBetter = 100 * s.below / P.length;
+    const top = 100 * (s.rAll) / P.length;
+    const sameXT = P.filter(x => x.xt === s.xt).length;
+    ranks = `<div class="card" style="margin-top:16px"><h2>Thứ hạng</h2><p class="desc">Xếp theo điểm xét tuyển, đồng điểm đồng hạng; chỉ tính ${fi(P.length)} thí sinh đủ điểm</p>
+      <div class="rank-tiles">
+        <div class="rank-tile"><div class="t2">Toàn khóa</div><div class="val">${fi(s.rAll)} <small>/ ${fi(P.length)}</small></div><div class="muted" style="font-size:12px">Top ${f1(top)}%</div></div>
+        <div class="rank-tile"><div class="t2">Trong chuyên ngành</div><div class="val">${fi(s.rMaj)} <small>/ ${fi(majorCount.get(s.major))}</small></div><div class="muted" style="font-size:12px">${esc(majorName(s.major))}</div></div>
+        <div class="rank-tile"><div class="t2">Trong phòng thi</div><div class="val">${fi(s.rRoom)} <small>/ ${fi(roomCount.get(s.room))}</small></div><div class="muted" style="font-size:12px">Phòng ${roomName(s.room)}</div></div>
+        <div class="rank-tile"><div class="t2">Cao hơn</div><div class="val">${f1(pctBetter)}%</div><div class="muted" style="font-size:12px">${fi(s.below)} thí sinh điểm thấp hơn · ${fi(sameXT - 1)} người cùng điểm</div></div>
+      </div></div>`;
+  }
+  // Kết quả xét tuyển dự kiến
+  CUR = s;
+  const G = NG[s.ng];
+  const res = s.adm ? ['yes', '✓', 'Dự kiến TRÚNG TUYỂN', `Hạng xét tuyển ${fi(s.rNg)} trong ngành ${esc(G.name)} (chỉ tiêu ${fi(G.q)}) · điểm xét ${f2(s.score)} ≥ điểm chuẩn dự kiến ${f2(G.cutoff)}`]
+    : s.why ? ['inel', '!', 'Không đủ điều kiện xét tuyển', esc(s.why) + ' (theo điều kiện đang chọn ở tab Trúng tuyển)']
+    : ['no', '✕', 'Dự kiến không trúng tuyển', `Hạng xét tuyển ${fi(s.rNg)} / chỉ tiêu ${fi(G.q)} ngành ${esc(G.name)}` + (s.need != null ? ` · thiếu <b>${f2(s.need)}</b> điểm so với điểm chuẩn dự kiến ${f2(G.cutoff)}` : '')];
+  const admCard = `<div class="card" style="margin-top:16px"><h2>Xét tuyển theo chỉ tiêu (dự kiến)</h2><p class="desc">Mô phỏng theo chỉ tiêu ngành và điều kiện đang chọn — không phải kết quả chính thức</p>
+    <div class="result-banner ${res[0]}"><span class="ic">${res[1]}</span><div><div class="big">${res[2]}</div><div class="t2">${res[3]}</div></div></div>
+    <div class="rank-tiles">
+      <div class="rank-tile"><div class="t2">Ngành xét tuyển</div><div class="val" style="font-size:17px">${esc(G.name)}</div><div class="muted" style="font-size:12px">từ chuyên ngành ${esc(majorName(s.major))}</div></div>
+      <div class="rank-tile"><div class="t2">Chỉ tiêu / đủ điều kiện</div><div class="val">${fi(G.q)} <small>/ ${fi(G.elig.length)} TS</small></div><div class="muted" style="font-size:12px">${fi(G.reg.length)} thí sinh dự thi</div></div>
+      <div class="rank-tile"><div class="t2">Điểm chuẩn dự kiến</div><div class="val">${f2(G.cutoff)}</div><div class="muted" style="font-size:12px">${fi(G.adm.length)} thí sinh trúng tuyển</div></div>
+    </div></div>`;
+  // Phân bố điểm ngành, tô cột của thí sinh
+  const bins = []; for (let b = 0; b < 10; b += .5) bins.push(b);
+  const binOf = v => Math.min(19, Math.floor(v / .5 + 1e-9));
+  const majCnt = bins.map((b, i) => majP.filter(x => binOf(x.xt) === i).length);
+  const first = Math.max(0, Math.min(majCnt.findIndex(Boolean), s.full ? binOf(s.xt) : 99));
+  const items = bins.map((b, i) => ({ label: f1(b).replace(',0', ''), v: majCnt[i], hl: s.full && binOf(s.xt) === i, tip: `${f2(b)} – ${f2(b + .5)}: ${fi(majCnt[i])} TS${s.full && binOf(s.xt) === i ? '<br><b>Thí sinh nằm ở đây</b>' : ''}` })).slice(first);
+  const cmpRows = [
+    ['Thí sinh', s.xt, 1], ['TB toàn khóa', allSt.mean], ['TB chuyên ngành', majSt.mean], ['Cao nhất ngành', majSt.max], ['TB phòng thi', roomSt.mean], [`TB thí sinh ${genderName(s).toLowerCase()}`, sameGender.mean],
+  ];
+  // Hàng xóm trong bảng xếp hạng ngành
+  const majSorted = majP.slice().sort((a, b) => b.xt - a.xt || cmpName(a, b));
+  const pos = majSorted.indexOf(s);
+  const near = pos < 0 ? [] : majSorted.slice(Math.max(0, pos - 3), pos + 4);
+
+  $('#profile').innerHTML = `
+  <div class="card">
+    <div class="profile-head">
+      <div class="avatar">${esc(initials)}</div>
+      <div style="flex:1;min-width:200px">
+        <h2>${esc(s.name)}</h2>
+        <div class="t2">SBD <b>${s.sbd}</b> · Mã ĐK ${s.mdk} ${s.prio ? '<span class="badge acc">Diện ưu tiên</span>' : ''} ${s.full ? '' : '<span class="badge bad">Vắng/thiếu điểm KTTH</span>'}</div>
+      </div>
+      <button class="btn" type="button" onclick="navigator.clipboard && navigator.clipboard.writeText(location.href); this.textContent='Đã chép liên kết'">Chép liên kết</button>
+    </div>
+    <div class="info-grid">
+      <div><div class="k">Giới tính</div>${genderName(s)}</div>
+      <div><div class="k">Ngày sinh</div>${s.dob} <span class="muted">(${2026 - s.year} tuổi)</span></div>
+      <div><div class="k">Nơi sinh</div>${esc(PLACES[s.place])}</div>
+      <div><div class="k">Chuyên ngành</div>${esc(majorName(s.major))}</div>
+      <div><div class="k">Phòng thi</div>${roomName(s.room)}</div>
+      <div><div class="k">Ngoại ngữ</div>${s.mien ? 'Miễn NN' : 'Thi đạt NN (không được miễn)'}</div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:16px"><h2>Điểm thi</h2><p class="desc">Điểm xét tuyển = 0,4 × Môn luận + 0,6 × KTTH</p>
+    <div class="score-tiles">${subj('Điểm xét tuyển', s.xt, allSt.mean, 1)}${subj('Môn luận (hệ số 0,4)', s.luan, luanAvg)}${subj('KTTH (hệ số 0,6)', s.ktth, ktthAvg)}</div>
+  </div>
+  ${admCard}
+  ${ranks}
+  <div class="grid g2" style="margin-top:16px">
+    <div class="card"><h2>So sánh điểm xét tuyển</h2><p class="desc">Thang 0–10</p>
+      <div class="cmp">${cmpRows.map(r => `<div class="cmp-row"><span class="t2">${r[0]}</span><span class="tr"><span class="fl${r[2] ? ' me' : ''}" style="width:${10 * (r[1] || 0)}%"></span></span><b class="num">${f2(r[1])}</b></div>`).join('')}</div>
+    </div>
+    <div class="card"><h2>Vị trí trong ngành ${esc(majorName(s.major))}</h2><p class="desc">Phân bố điểm XT của ${fi(majP.length)} thí sinh đủ điểm trong ngành · cột cam là khoảng điểm của thí sinh</p>
+      ${columnChart(items, { height: 190, labelEvery: 2, minBar: 2 })}
+    </div>
+  </div>
+  ${near.length ? `<div class="card" style="margin-top:16px"><h2>Xung quanh trong bảng xếp hạng ngành</h2><p class="desc">Nhấn một dòng để xem thí sinh đó</p><div class="tbl-wrap"><table id="nearTbl"></table></div></div>` : ''}`;
+  if (near.length) {
+    const t = $('#nearTbl'); t.innerHTML = table(rankCols(['rMaj', 'rAll', 'sbd', 'name', 'luan', 'ktth', 'xt']), near, { onRow: 1 });
+    t.querySelectorAll('tr[data-row]').forEach(tr => { const x = near[+tr.dataset.row]; if (x === s) tr.style.background = 'var(--accent-soft)'; tr.onclick = () => openProfile(x); });
+  }
+}
+
+/* ---------- Xếp hạng ---------- */
+const RK = { col: null, dir: -1, page: 0, rows: [] };
+function initRanking() {
+  const opt = (arr, lbl) => arr.map((x, i) => [i, lbl(i)]).sort((a, b) => cmpText(a[1], b[1])).map(([i, l]) => `<option value="${i}">${esc(l)}</option>`).join('');
+  $('#rkMajor').insertAdjacentHTML('beforeend', opt(MAJORS, majorName));
+  $('#rkNganh').insertAdjacentHTML('beforeend', NGANH.map((n, i) => `<option value="${i}">${esc(n[0])}</option>`).join(''));
+  $('#rkPlace').insertAdjacentHTML('beforeend', opt(PLACES, placeName));
+  $('#rkRoom').insertAdjacentHTML('beforeend', ROOMS.map((r, i) => `<option value="${i}">${r}</option>`).join(''));
+  for (let v = 9; v >= 5; v -= .5) $('#rkMin').insertAdjacentHTML('beforeend', `<option value="${v}">Điểm XT ≥ ${f1(v)}</option>`);
+  ['rkSearch', 'rkNganh', 'rkAdm', 'rkMajor','rkGender', 'rkNN', 'rkPlace', 'rkRoom', 'rkMisc', 'rkMin'].forEach(id => $('#' + id).addEventListener('input', () => { RK.page = 0; drawRanking(); }));
+  $('#rkPageSize').onchange = () => { RK.page = 0; drawRanking(); };
+  $('#rkPrev').onclick = () => { RK.page--; drawRanking(); };
+  $('#rkNext').onclick = () => { RK.page++; drawRanking(); };
+  $('#rkReset').onclick = () => { document.querySelectorAll('#tab-ranking .filters input, #tab-ranking .filters select').forEach(e => e.value = ''); RK.page = 0; RK.col = null; drawRanking(); };
+  $('#rkExport').onclick = exportCSV;
+}
+const RK_COLS = rankCols(['rFilter', 'rAll', 'rMaj', 'sbd', 'mdk', 'name', 'gender', 'dob', 'place', 'major', 'room', 'nn', 'luan', 'ktth', 'xt', 'rNg', 'adm']);
+const RK_XT = RK_COLS.indexOf(COLS.xt);
+function filteredRanking() {
+  const q = $('#rkSearch').value, terms = strip(q.trim()).split(/\s+/).filter(Boolean);
+  const v = id => $('#' + id).value;
+  const misc = v('rkMisc'), min = v('rkMin');
+  const rows = S.filter(s =>
+    (!terms.length || terms.every(t => s.key.includes(t))) &&
+    (v('rkMajor') === '' || s.major === +v('rkMajor')) &&
+    (v('rkNganh') === '' || s.ng === +v('rkNganh')) &&
+    (v('rkAdm') === '' || (v('rkAdm') === 'yes' ? s.adm : v('rkAdm') === 'no' ? !s.adm && !s.why : !!s.why)) &&
+    (v('rkGender') === '' || s.female === +v('rkGender')) &&
+    (v('rkNN') === '' || s.mien === +v('rkNN')) &&
+    (v('rkPlace') === '' || s.place === +v('rkPlace')) &&
+    (v('rkRoom') === '' || s.room === +v('rkRoom')) &&
+    (misc !== 'prio' || s.prio) && (misc !== 'full' || s.full) && (misc !== 'absent' || !s.full) &&
+    (min === '' || (s.full && s.xt >= +min)));
+  // Hạng trong nhóm lọc
+  const fr = rows.filter(s => s.full).sort((a, b) => b.xt - a.xt);
+  rows.forEach(s => s._rf = null);
+  fr.forEach((s, i) => s._rf = i > 0 && fr[i - 1].xt === s.xt ? fr[i - 1]._rf : i + 1);
+  // Mặc định: điểm XT giảm dần, đồng điểm xếp theo tên
+  const c = RK.col == null ? null : RK_COLS[RK.col];
+  rows.sort(c ? (a, b) => RK.dir * c.sort(a, b) || cmpName(a, b) : (a, b) => (b.full - a.full) || b.xt - a.xt || cmpName(a, b));
+  return rows;
+}
+function drawRanking() {
+  const rows = RK.rows = filteredRanking();
+  const size = +$('#rkPageSize').value, pages = Math.max(1, Math.ceil(rows.length / size));
+  RK.page = Math.min(Math.max(0, RK.page), pages - 1);
+  const pageRows = rows.slice(RK.page * size, RK.page * size + size);
+  const t = $('#rkTable');
+  t.innerHTML = table(RK_COLS, pageRows, { onRow: 1, sortState: { col: RK.col ?? RK_XT, dir: RK.col == null ? -1 : RK.dir } });
+  t.querySelectorAll('th.sortable').forEach(th => th.onclick = () => {
+    const i = +th.dataset.col;
+    if (RK.col === i) RK.dir = -RK.dir; else { RK.col = i; RK.dir = RK_COLS[i].defDir || 1; }
+    drawRanking();
+  });
+  t.querySelectorAll('tr[data-row]').forEach(tr => tr.onclick = () => openProfile(pageRows[+tr.dataset.row]));
+  const full = rows.filter(s => s.full), st = stats(full.map(s => s.xt));
+  $('#rkSummary').innerHTML = rows.length ? `<b>${fi(rows.length)}</b> thí sinh${full.length < rows.length ? ` (${fi(rows.length - full.length)} vắng/thiếu điểm)` : ''} · Điểm XT TB <b>${f2(st.mean)}</b> · trung vị ${f2(st.med)} · cao nhất ${f2(st.max)} · thấp nhất ${f2(st.min)}` : 'Không có thí sinh phù hợp';
+  $('#rkPageInfo').textContent = rows.length ? `Hiển thị ${fi(RK.page * size + 1)}–${fi(RK.page * size + pageRows.length)} / ${fi(rows.length)}` : '';
+  $('#rkPageNo').textContent = `Trang ${RK.page + 1}/${pages}`;
+  $('#rkPrev').disabled = RK.page === 0; $('#rkNext').disabled = RK.page >= pages - 1;
+}
+function exportCSV() {
+  const head = ['Hạng lọc', 'Hạng chung', 'Hạng ngành', 'SBD', 'Mã ĐK', 'Họ tên', 'Giới tính', 'Ngày sinh', 'Nơi sinh', 'Chuyên ngành', 'Phòng thi', 'Ngoại ngữ', 'Môn luận', 'KTTH', 'Điểm XT', 'Ghi chú', 'Ngành (chỉ tiêu)', 'Hạng xét tuyển', 'Dự kiến', 'Lý do'];
+  const q = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
+  const lines = [head.map(q).join(',')].concat(RK.rows.map(s => [s._rf, s.rAll, s.rMaj, s.sbd, s.mdk, s.name, genderName(s), s.dob, PLACES[s.place], majorName(s.major), roomName(s.room), s.mien ? 'Miễn NN' : 'Thi đạt NN', s.luan.toFixed(2), s.ktth == null ? '---' : s.ktth.toFixed(2), s.xt.toFixed(2), s.prio ? 'Ưu tiên' : '', NGANH[s.ng][0], s.rNg, s.adm ? 'Trúng tuyển' : s.why ? 'Không đủ điều kiện' : 'Không trúng tuyển', s.why].map(q).join(',')));
+  const blob = new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'XepHang_CaoHoc_K35.csv'; a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+function gotoRanking(filters) {
+  if (!rendered.ranking) { RENDER.ranking(); rendered.ranking = true; }
+  document.querySelectorAll('#tab-ranking .filters input, #tab-ranking .filters select').forEach(e => { if (e.id !== 'rkPageSize') e.value = ''; });
+  for (const [k, v] of Object.entries(filters)) $('#' + k).value = v;
+  RK.page = 0; RK.col = null; drawRanking(); showTab('ranking');
+}
+
+/* ---------- Trúng tuyển dự kiến ---------- */
+const openNg = new Set();
+function initAdmit() {
+  const ids = { admFloor: 'floor', admTie: 'tie', admBonus: 'bonus' };
+  for (const [id, k] of Object.entries(ids)) { $('#' + id).value = ADM[k]; $('#' + id).onchange = () => { ADM[k] = $('#' + id).value; admChanged(); }; }
+  $('#admReset').onclick = () => {
+    Object.assign(ADM, ADM_DEFAULT, { map: MAJORS.map(m => Math.max(0, NGANH.findIndex(n => n[0] === DEFAULT_MAP[m]))), quota: NGANH.map(n => n[1]) });
+    for (const [id, k] of Object.entries(ids)) $('#' + id).value = ADM[k];
+    admChanged();
+  };
+  renderAdmit();
+}
+/* Đổi điều kiện → tính lại và vẽ lại mọi nơi có dùng kết quả */
+function admChanged() {
+  saveAdm(); predict(); renderAdmit();
+  if (rendered.ranking) drawRanking();
+  if (CUR && $('#tab-lookup').classList.contains('active')) openProfile(CUR);
+}
+function renderAdmit() {
+  const totQ = sum(NG.map(g => g.q)), totAdm = sum(NG.map(g => g.adm.length)), totElig = sum(NG.map(g => g.elig.length));
+  const cuts = NG.filter(g => g.cutoff != null).map(g => g.cutoff);
+  const short = NG.filter(g => g.adm.length < g.q), over = NG.filter(g => g.adm.length > g.q);
+  $('#admKpis').innerHTML = [
+    ['Tổng chỉ tiêu', fi(totQ), `${NG.length} ngành`],
+    ['Dự kiến trúng tuyển', fi(totAdm), `${pct(totAdm, totQ)} chỉ tiêu · ${pct(totAdm, S.length)} thí sinh dự thi`],
+    ['Đủ điều kiện xét', fi(totElig), `${fi(S.length - totElig)} không đủ điều kiện`],
+    ['Tỷ lệ chọi chung', totQ ? '1 : ' + f2(S.length / totQ) : '—', 'Số dự thi / chỉ tiêu'],
+    ['Điểm chuẩn dự kiến', cuts.length ? `${f2(Math.min(...cuts))} – ${f2(Math.max(...cuts))}` : '—', 'Thấp nhất – cao nhất giữa các ngành'],
+    ['Ngành thiếu / vượt', `${short.length} / ${over.length}`, `Thiếu ${fi(sum(short.map(g => g.q - g.adm.length)))} · vượt ${fi(sum(over.map(g => g.adm.length - g.q)))} chỉ tiêu`],
+  ].map(k => `<div class="card kpi"><div class="lbl">${k[0]}</div><div class="val">${k[1]}</div><div class="note">${k[2]}</div></div>`).join('');
+
+  // Bảng theo ngành, mở rộng ra chuyên ngành
+  const head = ['Ngành', 'Chỉ tiêu', 'Dự thi', 'Đủ ĐK', 'Trúng tuyển', 'Tỷ lệ chọi', 'Điểm chuẩn', 'TB trúng tuyển', 'Cao nhất', ''];
+  let body = '';
+  for (const g of NG) {
+    const diff = g.adm.length - g.q;
+    const state = !g.q ? '' : diff > 0 ? `<span class="badge" style="color:var(--warn)" title="Do đồng điểm ở ngưỡng">+${diff} vượt</span>` : diff < 0 ? `<span class="badge bad" title="Không đủ thí sinh đủ điều kiện">thiếu ${-diff}</span>` : '<span class="badge good">đủ</span>';
+    const scores = g.adm.map(s => s.score);
+    body += `<tr class="clickable" data-ng="${g.i}"><td><span class="muted">${openNg.has(g.i) ? '▾' : '▸'}</span> <b>${esc(g.name)}</b></td><td class="num">${fi(g.q)}</td><td class="num">${fi(g.reg.length)}</td><td class="num">${fi(g.elig.length)}</td>
+      <td class="num"><b>${fi(g.adm.length)}</b> ${state}</td><td class="num">${g.q ? '1 : ' + f2(g.reg.length / g.q) : '—'}</td>
+      <td class="num"><b style="color:var(--accent);font-size:15px">${f2(g.cutoff)}</b></td><td class="num">${f2(mean(scores))}</td><td class="num">${scores.length ? f2(Math.max(...scores)) : '—'}</td>
+      <td><a href="#" data-list="${g.i}">Danh sách</a></td></tr>`;
+    if (openNg.has(g.i)) {
+      const subs = [...groupBy(g.reg, s => s.major)].sort((a, b) => b[1].length - a[1].length);
+      for (const [m, arr] of subs) {
+        const a = arr.filter(s => s.adm), e = arr.filter(s => !s.why);
+        body += `<tr class="sub"><td>${esc(majorName(m))}</td><td class="num muted">—</td><td class="num">${fi(arr.length)}</td><td class="num">${fi(e.length)}</td><td class="num"><b>${fi(a.length)}</b> <span class="muted">(${pct(a.length, arr.length)})</span></td><td></td>
+          <td class="num t2" title="Điểm thấp nhất trúng tuyển của chuyên ngành">${a.length ? f2(Math.min(...a.map(s => s.score))) : '—'}</td><td class="num">${f2(mean(a.map(s => s.score)))}</td><td class="num">${a.length ? f2(Math.max(...a.map(s => s.score))) : '—'}</td><td></td></tr>`;
+      }
+    }
+  }
+  body += `<tr><td><b>Tổng</b></td><td class="num"><b>${fi(totQ)}</b></td><td class="num"><b>${fi(S.length)}</b></td><td class="num"><b>${fi(totElig)}</b></td><td class="num"><b>${fi(totAdm)}</b></td><td class="num">1 : ${f2(S.length / (totQ || 1))}</td><td colspan="4"></td></tr>`;
+  const t = $('#admTable');
+  t.innerHTML = `<thead><tr>${head.map((h, i) => `<th class="${i && i < 9 ? 'num' : ''}">${h}</th>`).join('')}</tr></thead><tbody>${body}</tbody>`;
+  t.querySelectorAll('tr[data-ng]').forEach(tr => tr.onclick = e => {
+    const i = +tr.dataset.ng;
+    if (e.target.dataset.list != null) { e.preventDefault(); gotoRanking({ rkNganh: i }); return; }
+    openNg.has(i) ? openNg.delete(i) : openNg.add(i); renderAdmit();
+  });
+
+  // Biểu đồ điểm chuẩn
+  const withCut = NG.filter(g => g.cutoff != null).sort((a, b) => b.cutoff - a.cutoff);
+  $('#admCutChart').innerHTML = `<div class="hbars">${withCut.map(g => `<div class="hbar" data-tip="<b>${esc(g.name)}</b><br>Điểm chuẩn dự kiến ${f2(g.cutoff)}<br>${fi(g.adm.length)}/${fi(g.q)} chỉ tiêu"><span class="nm">${esc(g.name)}</span><span class="tr"><span class="fl" style="width:${10 * g.cutoff}%"></span></span><span class="v"><b>${f2(g.cutoff)}</b></span></div>`).join('')}</div>` +
+    (NG.length > withCut.length ? `<p class="muted" style="font-size:12px;margin:8px 0 0">Không có thí sinh đủ điều kiện: ${NG.filter(g => g.cutoff == null).map(g => esc(g.name)).join(', ')}</p>` : '');
+  const maxQ = Math.max(...NG.map(g => Math.max(g.q, g.adm.length)));
+  $('#admFillChart').innerHTML = `<div class="legend"><span><i style="background:var(--s1)"></i>Trúng tuyển dự kiến</span><span><i style="background:var(--surface-2);border:1px solid var(--border)"></i>Chỉ tiêu</span></div><div class="hbars">${NG.slice().sort((a, b) => b.q - a.q).map(g => `
+    <div class="hbar" data-tip="<b>${esc(g.name)}</b><br>${fi(g.adm.length)} trúng tuyển / ${fi(g.q)} chỉ tiêu<br>${fi(g.elig.length)} đủ điều kiện · ${fi(g.reg.length)} dự thi">
+      <span class="nm">${esc(g.name)}</span>
+      <span class="tr" style="width:${100 * Math.max(g.q, g.adm.length) / maxQ}%"><span class="fl" style="width:${100 * g.adm.length / Math.max(g.q, g.adm.length, 1)}%"></span></span>
+      <span class="v">${fi(g.adm.length)}<span class="muted">/${fi(g.q)}</span></span>
+    </div>`).join('')}</div>`;
+
+  // Gán chuyên ngành → ngành; chỉ tiêu
+  const ngOpts = sel => NGANH.map((n, i) => `<option value="${i}"${i === sel ? ' selected' : ''}>${esc(n[0])}</option>`).join('');
+  const mt = $('#admMapTable');
+  const majorsSorted = MAJORS.map((m, i) => i).sort((a, b) => cmpText(MAJORS[a], MAJORS[b]));
+  mt.innerHTML = `<thead><tr><th>Chuyên ngành</th><th class="num">Số TS</th><th>Ngành chỉ tiêu</th></tr></thead><tbody>${majorsSorted.map(i => {
+    const changed = NGANH[ADM.map[i]][0] !== DEFAULT_MAP[MAJORS[i]];
+    return `<tr><td>${esc(MAJORS[i])}${changed ? ' <span class="badge acc">đã sửa</span>' : ''}</td><td class="num">${fi(S.filter(s => s.major === i).length)}</td><td><select data-m="${i}" class="btn" style="max-width:220px">${ngOpts(ADM.map[i])}</select></td></tr>`;
+  }).join('')}</tbody>`;
+  mt.querySelectorAll('select[data-m]').forEach(sel => sel.onchange = () => { ADM.map[+sel.dataset.m] = +sel.value; admChanged(); });
+  const qt = $('#admQuotaTable');
+  qt.innerHTML = `<thead><tr><th>Ngành</th><th class="num">Chỉ tiêu</th><th class="num">Dự thi</th></tr></thead><tbody>${NG.map(g => `<tr><td>${esc(g.name)}${g.q !== NGANH[g.i][1] ? ` <span class="badge acc" title="Gốc: ${NGANH[g.i][1]}">đã sửa</span>` : ''}</td><td class="num"><input type="number" min="0" step="1" value="${g.q}" data-q="${g.i}" class="btn" style="width:80px;text-align:right"></td><td class="num">${fi(g.reg.length)}</td></tr>`).join('')}</tbody>`;
+  qt.querySelectorAll('input[data-q]').forEach(inp => inp.onchange = () => { ADM.quota[+inp.dataset.q] = Math.max(0, Math.round(+inp.value || 0)); admChanged(); });
+}
+
+/* ---------- Chuyên ngành ---------- */
+function majorStats() {
+  return MAJORS.map((m, i) => {
+    const all = S.filter(s => s.major === i), P = pool(all), st = stats(P.map(s => s.xt));
+    return { i, name: m, total: all.length, full: all.filter(s => s.full).length, female: all.filter(s => s.female).length, mien: all.filter(s => s.mien).length,
+      ge7: P.filter(s => s.xt >= 7).length, ge8: P.filter(s => s.xt >= 8).length, n: P.length, luan: mean(P.map(s => s.luan)), ktth: mean(all.filter(s => s.full).map(s => s.ktth)), ...st };
+  });
+}
+let drawMajorTable;
+function renderMajors() {
+  const M = majorStats().filter(m => m.n);
+  const sorted = M.slice().sort((a, b) => b.med - a.med || b.mean - a.mean);
+  const lo = Math.floor(Math.min(...sorted.map(m => m.min))), hi = 10;
+  const X = v => 100 * (v - lo) / (hi - lo);
+  const ticks = []; for (let t = lo; t <= hi; t++) ticks.push(t);
+  $('#boxplot').innerHTML = `<div class="box-rows">${sorted.map(m => `
+    <div class="box-row" data-i="${m.i}" data-tip="<b>${esc(m.name)}</b><br>${fi(m.n)} thí sinh<br>TB ${f2(m.mean)} · Trung vị ${f2(m.med)}<br>25%–75%: ${f2(m.q1)} – ${f2(m.q3)}<br>Thấp nhất ${f2(m.min)} · Cao nhất ${f2(m.max)}">
+      <span class="nm"><b>${esc(m.name)}</b> <span class="muted">(${m.n})</span></span>
+      <span class="box"><span class="wh" style="left:${X(m.min)}%;width:${X(m.max) - X(m.min)}%"></span><span class="bx" style="left:${X(m.q1)}%;width:${Math.max(.5, X(m.q3) - X(m.q1))}%"></span><span class="md" style="left:${X(m.med)}%"></span><span class="mn" style="left:${X(m.mean)}%"></span></span>
+    </div>`).join('')}</div>
+    <div class="box-axis"><span></span><span class="ticks">${ticks.map(t => `<span style="left:${X(t)}%">${t}</span>`).join('')}</span></div>`;
+  $('#boxplot').querySelectorAll('.box-row').forEach(r => r.onclick = () => gotoRanking({ rkMajor: r.dataset.i }));
+
+  const cut = $('#cutoff');
+  const drawCut = () => {
+    const c = +cut.value; $('#cutoffVal').textContent = f2(c);
+    const rows = MAJORS.map((m, i) => { const P = FULL.filter(s => s.major === i); return { i, name: m, tot: P.length, ok: P.filter(s => s.xt >= c).length }; }).filter(r => r.tot).sort((a, b) => b.ok - a.ok || b.tot - a.tot);
+    const tot = sum(rows.map(r => r.ok)), maxT = Math.max(...rows.map(r => r.tot));
+    $('#cutoffSum').innerHTML = `<b>${fi(tot)}</b> / ${fi(FULL.length)} thí sinh đạt (${pct(tot, FULL.length)})`;
+    $('#cutoffBars').innerHTML = `<div class="legend"><span><i style="background:var(--s1)"></i>Đạt ngưỡng</span><span><i style="background:var(--surface-2);border:1px solid var(--border)"></i>Tổng số TS đủ điểm</span></div><div class="hbars">${rows.map(r => `
+      <div class="hbar" data-tip="<b>${esc(r.name)}</b><br>${fi(r.ok)}/${fi(r.tot)} đạt ngưỡng ${f2(c)} (${pct(r.ok, r.tot)})">
+        <span class="nm">${esc(r.name)}</span>
+        <span class="tr" style="width:${100 * r.tot / maxT}%"><span class="fl" style="width:${100 * r.ok / r.tot}%"></span></span>
+        <span class="v">${fi(r.ok)}<span class="muted">/${fi(r.tot)}</span></span>
+      </div>`).join('')}</div>`;
+  };
+  cut.oninput = drawCut; drawCut();
+
+  drawMajorTable = sortableTable($('#majorTable'), [
+    { h: 'Chuyên ngành', v: m => `<b>${esc(m.name)}</b>`, sort: byText(m => m.name) },
+    { h: 'Số TS', num: 1, v: m => fi(m.total), sort: byNum(m => m.total), defDir: -1 },
+    { h: 'Đủ điểm', num: 1, v: m => fi(m.full), sort: byNum(m => m.full), defDir: -1 },
+    { h: 'Nữ', num: 1, cls: 'hide-sm', v: m => pct(m.female, m.total), sort: byNum(m => m.female / m.total), defDir: -1 },
+    { h: 'Miễn NN', num: 1, cls: 'hide-sm', v: m => pct(m.mien, m.total), sort: byNum(m => m.mien / m.total), defDir: -1 },
+    { h: 'TB Luận', num: 1, cls: 'hide-sm', v: m => f2(m.luan), sort: byNum(m => m.luan), defDir: -1 },
+    { h: 'TB KTTH', num: 1, cls: 'hide-sm', v: m => f2(m.ktth), sort: byNum(m => m.ktth), defDir: -1 },
+    { h: 'TB XT', num: 1, v: m => `<b>${f2(m.mean)}</b>`, sort: byNum(m => m.mean), defDir: -1 },
+    { h: 'Trung vị', num: 1, v: m => f2(m.med), sort: byNum(m => m.med), defDir: -1 },
+    { h: 'ĐLC', num: 1, cls: 'hide-sm', title: 'Độ lệch chuẩn', v: m => f2(m.sd), sort: byNum(m => m.sd), defDir: -1 },
+    { h: 'Cao nhất', num: 1, v: m => f2(m.max), sort: byNum(m => m.max), defDir: -1 },
+    { h: 'Thấp nhất', num: 1, v: m => f2(m.min), sort: byNum(m => m.min), defDir: -1 },
+    { h: '≥ 7', num: 1, v: m => `${fi(m.ge7)} <span class="muted">(${pct(m.ge7, m.n)})</span>`, sort: byNum(m => m.ge7 / m.n), defDir: -1 },
+    { h: '≥ 8', num: 1, v: m => `${fi(m.ge8)} <span class="muted">(${pct(m.ge8, m.n)})</span>`, sort: byNum(m => m.ge8 / m.n), defDir: -1 },
+  ], () => majorStats(), { initial: { col: 1, dir: -1 }, onRow: m => gotoRanking({ rkMajor: m.i }) });
+}
+
+/* ---------- Phân tích ---------- */
+const BANDS = [['<5', 0, 5], ['5–6', 5, 6], ['6–7', 6, 7], ['7–8', 7, 8], ['8–10', 8, 10.01]];
+function compareGroups(groups) {
+  const series = groups.map(g => ({ name: g.name, color: g.color, cnt: BANDS.map(b => g.P.filter(s => s.xt >= b[1] && s.xt < b[2]).length) }));
+  series.forEach((s, i) => s.vals = s.cnt.map(c => 100 * c / (groups[i].P.length || 1)));
+  const legend = `<div class="legend">${groups.map(g => `<span><i style="background:${g.color}"></i>${g.name}</span>`).join('')}</div>`;
+  const rows = groups.map(g => ({ name: g.name, color: g.color, ...stats(g.P.map(s => s.xt)), luan: mean(g.P.map(s => s.luan)), ktth: mean(g.P.filter(s => s.full).map(s => s.ktth)), ge7: g.P.filter(s => s.xt >= 7).length }));
+  return legend + groupedChart(BANDS.map(b => b[0]), series, { height: 200 }) + `<div class="tbl-wrap" style="margin-top:10px"><table>${table([
+    { h: 'Nhóm', v: r => `<i style="display:inline-block;width:10px;height:10px;border-radius:3px;background:${r.color};margin-right:6px"></i>${r.name}` },
+    { h: 'Số TS', num: 1, v: r => fi(r.n) }, { h: 'TB Luận', num: 1, v: r => f2(r.luan) }, { h: 'TB KTTH', num: 1, v: r => f2(r.ktth) },
+    { h: 'TB XT', num: 1, v: r => `<b>${f2(r.mean)}</b>` }, { h: 'Trung vị', num: 1, v: r => f2(r.med) }, { h: '≥ 7', num: 1, v: r => pct(r.ge7, r.n) },
+  ], rows)}</table></div>`;
+}
+let drawPlaceTable;
+function renderAnalysis() {
+  const P = pool();
+  $('#genderCmp').innerHTML = compareGroups([{ name: 'Nữ', color: 'var(--s1)', P: P.filter(s => s.female) }, { name: 'Nam', color: 'var(--s2)', P: P.filter(s => !s.female) }]);
+  $('#nnCmp').innerHTML = compareGroups([{ name: 'Miễn NN', color: 'var(--s1)', P: P.filter(s => s.mien) }, { name: 'Thi đạt NN', color: 'var(--s2)', P: P.filter(s => !s.mien) }]);
+
+  // Heatmap: cột = Môn luận, hàng = KTTH (giảm dần)
+  const F = FULL;
+  const lv = [...new Set(F.map(s => s.luan))].sort((a, b) => a - b);
+  const kmin = Math.min(...F.map(s => s.ktth)), kmax = Math.max(...F.map(s => s.ktth));
+  const lvals = []; for (let v = lv[0]; v <= lv[lv.length - 1] + 1e-9; v += .5) lvals.push(v);
+  const kvals = []; for (let v = Math.floor(kmin * 2) / 2; v <= kmax + 1e-9; v += .5) kvals.push(v);
+  const cell = new Map(); let maxC = 0;
+  for (const s of F) { const k = Math.floor(s.ktth * 2) / 2; const key = s.luan + '|' + k; const c = (cell.get(key) || 0) + 1; cell.set(key, c); maxC = Math.max(maxC, c); }
+  const shade = c => !c ? 'var(--seq-0)' : `var(--seq-${Math.min(7, 1 + Math.floor(6.999 * Math.sqrt(c / maxC)))})`;
+  let h = `<div class="heat" style="grid-template-columns:34px repeat(${lvals.length}, 1fr)">`;
+  for (const k of kvals.slice().reverse()) {
+    h += `<span class="lab">${f1(k)}</span>`;
+    for (const l of lvals) { const c = cell.get(l + '|' + k) || 0; h += `<span class="c" style="background:${shade(c)}" data-tip="Môn luận <b>${f2(l)}</b> · KTTH <b>${f2(k)}–${f2(k + .25)}</b><br>${fi(c)} thí sinh"></span>`; }
+  }
+  h += `<span></span>${lvals.map((l, i) => `<span class="lab">${i % 2 ? '' : String(l).replace('.', ',')}</span>`).join('')}</div>`;
+  const xs = F.map(s => s.luan), ys = F.map(s => s.ktth), mx = mean(xs), my = mean(ys);
+  const r = sum(xs.map((x, i) => (x - mx) * (ys[i] - my))) / Math.sqrt(sum(xs.map(x => (x - mx) ** 2)) * sum(ys.map(y => (y - my) ** 2)));
+  const luanHigher = F.filter(s => s.luan > s.ktth).length;
+  $('#heat').innerHTML = h + `<div class="t2" style="display:flex;justify-content:space-between;font-size:12px;margin-top:4px"><span>↑ KTTH</span><span>Môn luận →</span></div>
+    <p class="t2" style="margin:10px 0 0">Hệ số tương quan Pearson: <b>${r.toLocaleString('vi-VN', { maximumFractionDigits: 3 })}</b>. ${fi(luanHigher)} TS (${pct(luanHigher, F.length)}) có điểm Môn luận cao hơn KTTH.</p>`;
+
+  // Năm sinh
+  const yrs = [...new Set(P.map(s => s.year))].sort();
+  $('#yearChart').innerHTML = columnChart(yrs.map(y => { const g = P.filter(s => s.year === y); return { label: String(y).slice(2), v: g.length, tip: `<b>Sinh năm ${y}</b> (${2026 - y} tuổi)<br>${fi(g.length)} thí sinh<br>Điểm XT TB ${f2(mean(g.map(s => s.xt)))}` }; }), { height: 190, labelEvery: 2, minBar: 2 });
+  const ageG = [['Dưới 23 tuổi', 0, 23], ['23–25 tuổi', 23, 26], ['26–30 tuổi', 26, 31], ['31–35 tuổi', 31, 36], ['Trên 35 tuổi', 36, 99]];
+  $('#ageTable').innerHTML = `<div class="tbl-wrap"><table>${table([
+    { h: 'Nhóm tuổi', v: r => r.n }, { h: 'Số TS', num: 1, v: r => fi(r.g.length) }, { h: 'TB XT', num: 1, v: r => `<b>${f2(mean(r.g.map(s => s.xt)))}</b>` },
+    { h: 'Trung vị', num: 1, v: r => f2(stats(r.g.map(s => s.xt)).med) }, { h: '≥ 7', num: 1, v: r => pct(r.g.filter(s => s.xt >= 7).length, r.g.length) },
+  ], ageG.map(([n, a, b]) => ({ n, g: P.filter(s => 2026 - s.year >= a && 2026 - s.year < b) })).filter(r => r.g.length))}</table></div>`;
+
+  drawPlaceTable = sortableTable($('#placeTable'), [
+    { h: 'Nơi sinh', v: r => `<b>${esc(r.name)}</b>`, sort: byText(r => r.name) },
+    { h: 'Số TS', num: 1, v: r => fi(r.n), sort: byNum(r => r.n), defDir: -1 },
+    { h: 'Tỷ lệ', num: 1, cls: 'hide-sm', v: r => `<div style="display:flex;gap:8px;align-items:center;justify-content:flex-end"><span class="inbar" style="width:80px"><span style="width:${100 * r.n / r.maxN}%"></span></span>${pct(r.n, r.tot)}</div>`, sort: byNum(r => r.n), defDir: -1 },
+    { h: 'Nữ', num: 1, cls: 'hide-sm', v: r => pct(r.f, r.n), sort: byNum(r => r.f / r.n), defDir: -1 },
+    { h: 'TB XT', num: 1, v: r => `<b>${f2(r.mean)}</b>`, sort: byNum(r => r.mean), defDir: -1 },
+    { h: 'Trung vị', num: 1, v: r => f2(r.med), sort: byNum(r => r.med), defDir: -1 },
+    { h: 'Cao nhất', num: 1, v: r => f2(r.max), sort: byNum(r => r.max), defDir: -1 },
+    { h: '≥ 7', num: 1, v: r => pct(r.ge7, r.n), sort: byNum(r => r.ge7 / r.n), defDir: -1 },
+  ], () => {
+    const Q = pool(); const rows = PLACES.map((p, i) => { const g = Q.filter(s => s.place === i); return { i, name: placeName(i), n: g.length, f: g.filter(s => s.female).length, ge7: g.filter(s => s.xt >= 7).length, tot: Q.length, ...stats(g.map(s => s.xt)) }; }).filter(r => r.n);
+    const maxN = Math.max(...rows.map(r => r.n)); rows.forEach(r => r.maxN = maxN); return rows;
+  }, { initial: { col: 1, dir: -1 }, onRow: r => gotoRanking({ rkPlace: r.i }) });
+
+  const grp = [
+    ['Tất cả', S], ['Có đủ điểm', FULL], ['Diện ưu tiên', P.filter(s => s.prio)], ['Không ưu tiên', P.filter(s => !s.prio)],
+    ['Miễn NN', P.filter(s => s.mien)], ['Thi đạt NN', P.filter(s => !s.mien)], ['Vắng/thiếu điểm KTTH', S.filter(s => !s.full)],
+  ];
+  $('#groupTable').innerHTML = `<div class="tbl-wrap"><table>${table([
+    { h: 'Nhóm', v: r => r[0] }, { h: 'Số TS', num: 1, v: r => fi(r[1].length) },
+    { h: 'TB Luận', num: 1, v: r => f2(mean(r[1].map(s => s.luan))) }, { h: 'TB KTTH', num: 1, v: r => f2(mean(r[1].filter(s => s.full).map(s => s.ktth))) },
+    { h: 'TB XT', num: 1, v: r => `<b>${f2(mean(r[1].map(s => s.xt)))}</b>` }, { h: 'Cao nhất', num: 1, v: r => f2(Math.max(...r[1].map(s => s.xt))) },
+    { h: '≥ 7', num: 1, v: r => pct(r[1].filter(s => s.xt >= 7).length, r[1].length) },
+  ], grp)}</table></div>`;
+}
+
+/* ---------- Phòng thi ---------- */
+let drawRoomTable;
+function roomRows() {
+  return ROOMS.map((r, i) => { const all = S.filter(s => s.room === i), P = pool(all); return { i, name: r, total: all.length, absent: all.filter(s => !s.full).length, n: P.length, luan: mean(P.map(s => s.luan)), ktth: mean(all.filter(s => s.full).map(s => s.ktth)), ge7: P.filter(s => s.xt >= 7).length, ...stats(P.map(s => s.xt)) }; });
+}
+function renderRooms() {
+  const R = roomRows(), avg = mean(pool().map(s => s.xt));
+  $('#roomChart').innerHTML = columnChart(R.map(r => ({ label: r.name.slice(0, 2), v: r.mean, tip: `<b>Phòng ${r.name}</b><br>${fi(r.total)} TS · ${fi(r.absent)} vắng/thiếu<br>TB XT ${f2(r.mean)} · Cao nhất ${f2(r.max)}` })), { height: 220, labelEvery: 2, refLine: avg, refLabel: 'TB chung ' + f2(avg), yFmt: v => f1(v) });
+  drawRoomTable = sortableTable($('#roomTable'), [
+    { h: 'Phòng', v: r => `<b>${r.name}</b>`, sort: byText(r => r.name) },
+    { h: 'Số TS', num: 1, v: r => fi(r.total), sort: byNum(r => r.total), defDir: -1 },
+    { h: 'Vắng/thiếu', num: 1, v: r => r.absent ? `<span style="color:var(--bad)">${r.absent}</span>` : '0', sort: byNum(r => r.absent), defDir: -1 },
+    { h: 'TB Luận', num: 1, cls: 'hide-sm', v: r => f2(r.luan), sort: byNum(r => r.luan), defDir: -1 },
+    { h: 'TB KTTH', num: 1, cls: 'hide-sm', v: r => f2(r.ktth), sort: byNum(r => r.ktth), defDir: -1 },
+    { h: 'TB XT', num: 1, v: r => `<b>${f2(r.mean)}</b>`, sort: byNum(r => r.mean), defDir: -1 },
+    { h: 'Trung vị', num: 1, v: r => f2(r.med), sort: byNum(r => r.med), defDir: -1 },
+    { h: 'Cao nhất', num: 1, v: r => f2(r.max), sort: byNum(r => r.max), defDir: -1 },
+    { h: 'Thấp nhất', num: 1, v: r => f2(r.min), sort: byNum(r => r.min), defDir: -1 },
+    { h: '≥ 7', num: 1, v: r => pct(r.ge7, r.n), sort: byNum(r => r.ge7 / r.n), defDir: -1 },
+  ], roomRows, { onRow: r => gotoRanking({ rkRoom: r.i }) });
+}
+
+const RENDER = {
+  overview: renderOverview,
+  lookup: initLookup,
+  ranking: () => { initRanking(); drawRanking(); },
+  admit: initAdmit,
+  majors: renderMajors,
+  analysis: renderAnalysis,
+  rooms: renderRooms,
+};
+
+/* Bật/tắt bỏ qua TS vắng: vẽ lại các tab thống kê */
+$('#exclAbsent').onchange = () => {
+  for (const k of ['overview', 'majors', 'analysis', 'rooms']) if (rendered[k]) RENDER[k]();
+};
+
+/* Giao diện sáng/tối */
+(function () {
+  const root = document.documentElement;
+  let saved = null; try { saved = localStorage.getItem('theme'); } catch (e) {}
+  if (saved) root.dataset.theme = saved;
+  $('#themeBtn').onclick = () => {
+    const dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+    root.dataset.theme = dark ? 'light' : 'dark';
+    try { localStorage.setItem('theme', root.dataset.theme); } catch (e) {}
+  };
+})();
+
+/* Khởi động theo hash */
+(function () {
+  const h = decodeURIComponent(location.hash.slice(1));
+  if (h.startsWith('sbd=')) { const s = S.find(x => x.sbd === h.slice(4).toUpperCase()); if (s) { RENDER.overview(); rendered.overview = true; openProfile(s); return; } }
+  showTab(RENDER[h] ? h : 'overview', false);
+})();
+</script>
+</body>
+</html>
