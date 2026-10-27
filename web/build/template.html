@@ -318,7 +318,6 @@ footer { color: var(--muted); font-size: 12px; padding: 24px 0; border-top: 1px 
         <select id="rkMajor"><option value="">Tất cả chuyên ngành</option></select>
         <select id="rkAdm"><option value="">Kết quả dự kiến</option><option value="yes">Trúng tuyển</option><option value="no">Không trúng tuyển</option><option value="inel">Không đủ điều kiện</option></select>
         <select id="rkGender"><option value="">Giới tính</option><option value="1">Nữ</option><option value="0">Nam</option></select>
-        <select id="rkNN"><option value="">Ngoại ngữ</option><option value="1">Miễn NN</option><option value="0">Thi đạt NN</option></select>
         <select id="rkPlace"><option value="">Tất cả nơi sinh</option></select>
         <select id="rkRoom"><option value="">Tất cả phòng</option></select>
         <select id="rkMisc"><option value="">Tất cả</option><option value="prio">Diện ưu tiên</option><option value="full">Có đủ điểm</option><option value="absent">Vắng/thiếu điểm</option></select>
@@ -800,7 +799,6 @@ const COLS = {
   place: { h: 'Nơi sinh', cls: 'hide-sm', v: s => esc(placeName(s.place)), sort: byText(s => placeName(s.place)) },
   major: { h: 'Chuyên ngành', v: s => esc(majorName(s.major)), sort: byText(s => majorName(s.major)) },
   room: { h: 'Phòng', cls: 'hide-sm', v: s => roomName(s.room), sort: byText(s => roomName(s.room)) },
-  nn: { h: 'Ngoại ngữ', cls: 'hide-sm', v: s => s.mien ? '<span class="badge good">Miễn NN</span>' : '<span class="badge" title="Không được miễn, đã thi đạt ngoại ngữ">Thi đạt NN</span>', sort: byNum(s => s.mien) },
   luan: { h: 'Môn luận', num: 1, v: s => scoreCell(s.luan), sort: byNum(s => s.luan), defDir: -1 },
   ktth: { h: 'KTTH', num: 1, v: s => scoreCell(s.ktth), sort: byNum(s => s.ktth), defDir: -1 },
   xt: { h: 'Điểm XT', num: 1, v: s => s.full ? `<b>${f2(s.xt)}</b>` : `<span class="muted" title="Vắng/thiếu điểm">${f2(s.xt)}</span>`, sort: byNum(s => s.full ? s.xt : -1 + s.xt / 100), defDir: -1 },
@@ -911,7 +909,6 @@ function openProfile(s) {
       <div><div class="k">Nơi sinh</div>${esc(PLACES[s.place])}</div>
       <div><div class="k">Chuyên ngành</div>${esc(majorName(s.major))}</div>
       <div><div class="k">Phòng thi</div>${roomName(s.room)}</div>
-      <div><div class="k">Ngoại ngữ</div>${s.mien ? 'Miễn NN' : 'Thi đạt NN (không được miễn)'}</div>
     </div>
   </div>
   <div class="card" style="margin-top:16px"><h2>Điểm thi</h2><p class="desc">Điểm xét tuyển = 0,4 × Môn luận + 0,6 × KTTH</p>
@@ -943,7 +940,7 @@ function initRanking() {
   $('#rkPlace').insertAdjacentHTML('beforeend', opt(PLACES, placeName));
   $('#rkRoom').insertAdjacentHTML('beforeend', ROOMS.map((r, i) => `<option value="${i}">${r}</option>`).join(''));
   for (let v = 9; v >= 5; v -= .5) $('#rkMin').insertAdjacentHTML('beforeend', `<option value="${v}">Điểm XT ≥ ${f1(v)}</option>`);
-  ['rkSearch', 'rkNganh', 'rkAdm', 'rkMajor','rkGender', 'rkNN', 'rkPlace', 'rkRoom', 'rkMisc', 'rkMin'].forEach(id => $('#' + id).addEventListener('input', () => { RK.page = 0; drawRanking(); }));
+  ['rkSearch', 'rkNganh', 'rkAdm', 'rkMajor','rkGender', 'rkPlace', 'rkRoom', 'rkMisc', 'rkMin'].forEach(id => $('#' + id).addEventListener('input', () => { RK.page = 0; drawRanking(); }));
   $('#rkPageSize').onchange = () => { RK.page = 0; drawRanking(); };
   $('#rkPrev').onclick = () => { RK.page--; drawRanking(); };
   $('#rkNext').onclick = () => { RK.page++; drawRanking(); };
@@ -962,7 +959,6 @@ function filteredRanking() {
     (v('rkNganh') === '' || s.ng === +v('rkNganh')) &&
     (v('rkAdm') === '' || (v('rkAdm') === 'yes' ? s.adm : v('rkAdm') === 'no' ? !s.adm && !s.why : !!s.why)) &&
     (v('rkGender') === '' || s.female === +v('rkGender')) &&
-    (v('rkNN') === '' || s.mien === +v('rkNN')) &&
     (v('rkPlace') === '' || s.place === +v('rkPlace')) &&
     (v('rkRoom') === '' || s.room === +v('rkRoom')) &&
     (misc !== 'prio' || s.prio) && (misc !== 'full' || s.full) && (misc !== 'absent' || !s.full) &&
