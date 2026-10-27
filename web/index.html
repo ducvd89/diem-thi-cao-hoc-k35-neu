@@ -951,7 +951,7 @@ function initRanking() {
   $('#rkReset').onclick = () => { document.querySelectorAll('#tab-ranking .filters input, #tab-ranking .filters select').forEach(e => e.value = ''); RK.page = 0; RK.col = null; drawRanking(); };
   $('#rkExport').onclick = exportCSV;
 }
-const RK_COLS = rankCols(['rFilter', 'rAll', 'rMaj', 'sbd', 'mdk', 'name', 'gender', 'dob', 'place', 'major', 'room', 'nn', 'luan', 'ktth', 'xt', 'rNg', 'adm']);
+const RK_COLS = rankCols(['rFilter', 'rAll', 'rMaj', 'sbd', 'name', 'gender', 'dob', 'place', 'major', 'luan', 'ktth', 'xt', 'rNg', 'adm']);
 const RK_XT = RK_COLS.indexOf(COLS.xt);
 function filteredRanking() {
   const q = $('#rkSearch').value, terms = strip(q.trim()).split(/\s+/).filter(Boolean);
@@ -997,9 +997,9 @@ function drawRanking() {
   $('#rkPrev').disabled = RK.page === 0; $('#rkNext').disabled = RK.page >= pages - 1;
 }
 function exportCSV() {
-  const head = ['Hạng lọc', 'Hạng chung', 'Hạng ngành', 'SBD', 'Mã ĐK', 'Họ tên', 'Giới tính', 'Ngày sinh', 'Nơi sinh', 'Chuyên ngành', 'Phòng thi', 'Ngoại ngữ', 'Môn luận', 'KTTH', 'Điểm XT', 'Ghi chú', 'Ngành (chỉ tiêu)', 'Hạng xét tuyển', 'Dự kiến', 'Lý do'];
+  const head = ['Hạng lọc', 'Hạng chung', 'Hạng ngành', 'SBD', 'Họ tên', 'Giới tính', 'Ngày sinh', 'Nơi sinh', 'Chuyên ngành', 'Môn luận', 'KTTH', 'Điểm XT', 'Ghi chú', 'Ngành (chỉ tiêu)', 'Hạng xét tuyển', 'Dự kiến', 'Lý do'];
   const q = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
-  const lines = [head.map(q).join(',')].concat(RK.rows.map(s => [s._rf, s.rAll, s.rMaj, s.sbd, s.mdk, s.name, genderName(s), s.dob, PLACES[s.place], majorName(s.major), roomName(s.room), s.mien ? 'Miễn NN' : 'Thi đạt NN', s.luan.toFixed(2), s.ktth == null ? '---' : s.ktth.toFixed(2), s.xt.toFixed(2), s.prio ? 'Ưu tiên' : '', NGANH[s.ng][0], s.rNg, s.adm ? 'Trúng tuyển' : s.why ? 'Không đủ điều kiện' : 'Không trúng tuyển', s.why].map(q).join(',')));
+  const lines = [head.map(q).join(',')].concat(RK.rows.map(s => [s._rf, s.rAll, s.rMaj, s.sbd, s.name, genderName(s), s.dob, PLACES[s.place], majorName(s.major), s.luan.toFixed(2), s.ktth == null ? '---' : s.ktth.toFixed(2), s.xt.toFixed(2), s.prio ? 'Ưu tiên' : '', NGANH[s.ng][0], s.rNg, s.adm ? 'Trúng tuyển' : s.why ? 'Không đủ điều kiện' : 'Không trúng tuyển', s.why].map(q).join(',')));
   const blob = new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
   const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'XepHang_CaoHoc_K35.csv'; a.click();
   setTimeout(() => URL.revokeObjectURL(a.href), 1000);
