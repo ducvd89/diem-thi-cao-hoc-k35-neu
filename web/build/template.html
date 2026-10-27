@@ -188,6 +188,8 @@ tr.clickable { cursor: pointer; }
 .range-row input[type=range] { flex: 1 1 200px; accent-color: var(--accent); }
 .range-row .big { font-size: 22px; font-weight: 700; color: var(--accent); min-width: 50px; }
 .notice { background: var(--accent-soft); border-color: transparent; line-height: 1.6; }
+.disclaimer { border: 1px solid var(--warn); border-left-width: 4px; background: var(--surface); color: var(--text); padding: 10px 14px; border-radius: 8px; line-height: 1.55; }
+.disclaimer::before { content: '⚠ '; color: var(--warn); font-weight: 700; }
 .filters label { display: inline-flex; flex-direction: column; gap: 2px; font-size: 12px; }
 details.card > summary { cursor: pointer; }
 .adm-yes { color: var(--good); border-color: currentColor; background: transparent; }
@@ -309,6 +311,7 @@ footer { color: var(--muted); font-size: 12px; padding: 24px 0; border-top: 1px 
     <div class="card">
       <h2>Bảng xếp hạng</h2>
       <p class="desc">Xếp hạng theo điểm xét tuyển, đồng điểm thì đồng hạng. “Hạng lọc” là thứ hạng trong nhóm đang lọc. Nhấn tiêu đề cột để sắp xếp; cột Họ tên sắp theo chuẩn tiếng Việt (Tên → Họ → Đệm).</p>
+      <div class="disclaimer" style="margin-bottom:12px;font-size:13px">Cột “Dự kiến” chỉ là <b>dự đoán dựa trên chỉ tiêu</b>, <b>không phải thông báo chính thức</b> của nhà trường.</div>
       <div class="filters">
         <input type="search" id="rkSearch" placeholder="Tìm SBD, mã ĐK, họ tên…">
         <select id="rkNganh"><option value="">Tất cả ngành (chỉ tiêu)</option></select>
@@ -339,8 +342,8 @@ footer { color: var(--muted); font-size: 12px; padding: 24px 0; border-top: 1px 
 
   <!-- TRÚNG TUYỂN DỰ KIẾN -->
   <section class="tab" id="tab-admit">
+    <div class="disclaimer" style="margin-bottom:12px">Kết quả trúng tuyển trên trang này chỉ là <b>dự đoán dựa trên chỉ tiêu</b>, <b>không phải thông báo chính thức</b> của nhà trường. Kết quả chính thức xem tại thông báo của ĐH Kinh tế Quốc dân.</div>
     <div class="card notice" style="margin-bottom:16px">
-      <b>Đây là kết quả mô phỏng, không phải kết quả chính thức.</b>
       Chỉ tiêu theo thông báo tuyển sinh thạc sĩ K35 đợt 2/2026 của ĐH Kinh tế Quốc dân (tổng 624). Chỉ tiêu tính theo <b>ngành</b>, còn danh sách điểm ghi theo <b>chuyên ngành</b>, nên mỗi chuyên ngành được gán vào một ngành (xem và sửa ở mục “Gán chuyên ngành → ngành” bên dưới).
       Trong mỗi ngành, thí sinh đủ điều kiện được xếp theo điểm xét tuyển từ cao xuống thấp cho đến hết chỉ tiêu.
       Điểm công bố đã cộng điểm ưu tiên (1 điểm môn cơ bản) và trừ điểm vi phạm quy chế.
@@ -462,7 +465,7 @@ footer { color: var(--muted); font-size: 12px; padding: 24px 0; border-top: 1px 
     </div>
   </section>
 </main>
-<footer><div class="wrap">Nguồn: DiemThi_CaoHoc_K35.csv (1.316 thí sinh). Trang chạy hoàn toàn trên máy, không gửi dữ liệu đi đâu.</div></footer>
+<footer><div class="wrap">Nguồn: DiemThi_CaoHoc_K35.csv (1.316 thí sinh). Trang chạy hoàn toàn trên máy, không gửi dữ liệu đi đâu.<br><b>Lưu ý:</b> kết quả trúng tuyển trên trang chỉ là dự đoán dựa trên chỉ tiêu, không phải thông báo chính thức của nhà trường. Trang không liên kết với ĐH Kinh tế Quốc dân.</div></footer>
 <div id="tip"></div>
 
 <script>
@@ -875,7 +878,8 @@ function openProfile(s) {
   const res = s.adm ? ['yes', '✓', 'Dự kiến TRÚNG TUYỂN', `Hạng xét tuyển ${fi(s.rNg)} trong ngành ${esc(G.name)} (chỉ tiêu ${fi(G.q)}) · điểm xét ${f2(s.score)} ≥ điểm chuẩn dự kiến ${f2(G.cutoff)}`]
     : s.why ? ['inel', '!', 'Không đủ điều kiện xét tuyển', esc(s.why) + ' (theo điều kiện đang chọn ở tab Trúng tuyển)']
     : ['no', '✕', 'Dự kiến không trúng tuyển', `Hạng xét tuyển ${fi(s.rNg)} / chỉ tiêu ${fi(G.q)} ngành ${esc(G.name)}` + (s.need != null ? ` · thiếu <b>${f2(s.need)}</b> điểm so với điểm chuẩn dự kiến ${f2(G.cutoff)}` : '')];
-  const admCard = `<div class="card" style="margin-top:16px"><h2>Xét tuyển theo chỉ tiêu (dự kiến)</h2><p class="desc">Mô phỏng theo chỉ tiêu ngành và điều kiện đang chọn — không phải kết quả chính thức</p>
+  const admCard = `<div class="card" style="margin-top:16px"><h2>Xét tuyển theo chỉ tiêu (dự kiến)</h2><p class="desc">Mô phỏng theo chỉ tiêu ngành và điều kiện đang chọn</p>
+    <div class="disclaimer" style="margin-bottom:12px">Kết quả trúng tuyển trên trang này chỉ là <b>dự đoán dựa trên chỉ tiêu</b>, <b>không phải thông báo chính thức</b> của nhà trường. Kết quả chính thức xem tại thông báo của ĐH Kinh tế Quốc dân.</div>
     <div class="result-banner ${res[0]}"><span class="ic">${res[1]}</span><div><div class="big">${res[2]}</div><div class="t2">${res[3]}</div></div></div>
     <div class="rank-tiles">
       <div class="rank-tile"><div class="t2">Ngành xét tuyển</div><div class="val" style="font-size:17px">${esc(G.name)}</div><div class="muted" style="font-size:12px">từ chuyên ngành ${esc(majorName(s.major))}</div></div>
@@ -997,7 +1001,7 @@ function drawRanking() {
   $('#rkPrev').disabled = RK.page === 0; $('#rkNext').disabled = RK.page >= pages - 1;
 }
 function exportCSV() {
-  const head = ['Hạng lọc', 'Hạng chung', 'Hạng ngành', 'SBD', 'Họ tên', 'Giới tính', 'Ngày sinh', 'Nơi sinh', 'Chuyên ngành', 'Môn luận', 'KTTH', 'Điểm XT', 'Ghi chú', 'Ngành (chỉ tiêu)', 'Hạng xét tuyển', 'Dự kiến', 'Lý do'];
+  const head = ['Hạng lọc', 'Hạng chung', 'Hạng ngành', 'SBD', 'Họ tên', 'Giới tính', 'Ngày sinh', 'Nơi sinh', 'Chuyên ngành', 'Môn luận', 'KTTH', 'Điểm XT', 'Ghi chú', 'Ngành (chỉ tiêu)', 'Hạng xét tuyển', 'Dự kiến (dự đoán theo chỉ tiêu, không chính thức)', 'Lý do'];
   const q = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
   const lines = [head.map(q).join(',')].concat(RK.rows.map(s => [s._rf, s.rAll, s.rMaj, s.sbd, s.name, genderName(s), s.dob, PLACES[s.place], majorName(s.major), s.luan.toFixed(2), s.ktth == null ? '---' : s.ktth.toFixed(2), s.xt.toFixed(2), s.prio ? 'Ưu tiên' : '', NGANH[s.ng][0], s.rNg, s.adm ? 'Trúng tuyển' : s.why ? 'Không đủ điều kiện' : 'Không trúng tuyển', s.why].map(q).join(',')));
   const blob = new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });

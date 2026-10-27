@@ -11,6 +11,10 @@ Dữ liệu tổng hợp từ cổng tra cứu [tuyensinhsdh.neu.edu.vn](https:/
 
 ## Trang web thống kê, tra cứu & xếp hạng
 
+> ⚠️ **Lưu ý:** kết quả trúng tuyển trên trang chỉ là **dự đoán dựa trên chỉ tiêu**, **không phải thông báo chính thức** của nhà trường. Kết quả chính thức xem tại thông báo của ĐH Kinh tế Quốc dân.
+
+Xem trực tuyến: https://ducvd89.github.io/diem-thi-cao-hoc-k35-neu/
+
 Mở [`web/index.html`](web/index.html) bằng trình duyệt (một file duy nhất, chạy không cần mạng). Trang có các tab:
 
 - **Tổng quan** — số liệu chính, phổ điểm xét tuyển / Môn luận / KTTH, phân vị, ngưỡng Top N, Top 20.
