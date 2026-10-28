@@ -132,6 +132,10 @@ tr.clickable { cursor: pointer; }
 .hbar .tr { height: 14px; background: var(--surface-2); border-radius: 4px; position: relative; overflow: hidden; }
 .hbar .fl { position: absolute; inset: 0 auto 0 0; background: var(--s1); border-radius: 0 4px 4px 0; }
 .hbar .v { text-align: right; }
+.stackbar { display: flex; gap: 2px; height: 18px; border-radius: 4px; overflow: hidden; background: var(--surface); }
+.stackbar > span { min-width: 3px; }
+.rank-tile.clickable { cursor: pointer; }
+.rank-tile.clickable:hover { border-color: var(--accent); }
 .inbar { position: relative; height: 8px; background: var(--surface-2); border-radius: 4px; min-width: 60px; }
 .inbar > span { position: absolute; inset: 0 auto 0 0; background: var(--s1); border-radius: 4px; }
 .box-rows { display: grid; gap: 4px; }
@@ -252,6 +256,11 @@ footer { color: var(--muted); font-size: 12px; padding: 24px 0; border-top: 1px 
   <!-- TỔNG QUAN -->
   <section class="tab active" id="tab-overview">
     <div class="kpis" id="kpis"></div>
+    <div class="card" style="margin-bottom:16px">
+      <h2>Kết quả xét tuyển</h2>
+      <p class="desc" id="admSumDesc"></p>
+      <div id="admSum"></div>
+    </div>
     <div class="grid g2">
       <div class="card">
         <h2>Phân bố điểm xét tuyển</h2>
@@ -720,6 +729,10 @@ const admBadge = s => s.adm ? '<span class="badge adm-yes">Trúng tuyển</span>
   : s.why ? `<span class="badge adm-inel" title="${esc(s.why)}">Không đủ ĐK</span>`
   : `<span class="badge adm-no" title="${s.need != null ? 'Thiếu ' + f2(s.need) + ' điểm' : ''}">Không trúng tuyển</span>`;
 predict();
+/* Số trúng tuyển trong một nhóm, kèm tỷ lệ */
+const admN = arr => arr.filter(s => s.adm).length;
+const admCell = (arr, n = arr.length) => { const a = admN(arr); return `${fi(a)} <span class="muted">(${pct(a, n)})</span>`; };
+const admTitle = () => `Số thí sinh trúng tuyển theo điểm chuẩn ${cutWord()} (tỷ lệ trên số thí sinh của nhóm)`;
 
 /* ---------- Tabs ---------- */
 const rendered = {};
@@ -739,8 +752,10 @@ function renderOverview() {
   const st = stats(P.map(s => s.xt));
   const fem = P.filter(s => s.female).length, prio = P.filter(s => s.prio);
   const ge7 = P.filter(s => s.xt >= 7).length, ge8 = P.filter(s => s.xt >= 8).length, lt5 = P.filter(s => s.xt < 5).length;
+  const nAdm = admN(S), nLiet = FULL.filter(s => s.liet).length, nFail = S.filter(s => !s.adm && !s.why).length;
   const kp = [
     ['Tổng số thí sinh', fi(S.length), `${fi(FULL.length)} đủ điểm · ${fi(absent)} vắng/thiếu`],
+    [isOff() ? 'Trúng tuyển' : 'Trúng tuyển (dự kiến)', fi(nAdm), `${pct(nAdm, S.length)} thí sinh dự thi · ${fi(sum(NG.map(g => g.q)))} chỉ tiêu`],
     ['Điểm XT trung bình', f2(st.mean), `Trung vị ${f2(st.med)} · ĐLC ${f2(st.sd)}`],
     ['Điểm XT cao nhất', f2(st.max), `Thấp nhất ${f2(st.min)}`],
     ['Đạt từ 7 điểm', pct(ge7, P.length), `${fi(ge7)} thí sinh`],
@@ -751,6 +766,19 @@ function renderOverview() {
     ['Diện ưu tiên', fi(prio.length), `${pct(prio.length, P.length)} · điểm XT TB ${f2(mean(prio.map(s => s.xt)))}`],
   ];
   $('#kpis').innerHTML = kp.map(k => `<div class="card kpi"><div class="lbl">${k[0]}</div><div class="val">${k[1]}</div><div class="note">${k[2]}</div></div>`).join('');
+
+  // Kết quả xét tuyển: chia toàn bộ thí sinh thành 4 nhóm
+  const parts = [
+    ['Trúng tuyển', nAdm, 'var(--good)', { rkAdm: 'yes' }],
+    ['Không đạt điểm chuẩn', nFail, 'var(--s1)', { rkAdm: 'no' }],
+    ['Bị điểm liệt', nLiet, 'var(--bad)', { rkMisc: 'liet' }],
+    ['Vắng/thiếu điểm KTTH', absent, 'var(--muted)', { rkMisc: 'absent' }],
+  ];
+  $('#admSumDesc').textContent = (isOff() ? `Theo điểm chuẩn chính thức công bố ngày ${OFFICIAL_DATE}` : 'Theo điểm chuẩn dự đoán từ chỉ tiêu')
+    + ' · tính trên toàn bộ thí sinh · nhấn một ô để xem danh sách · kết quả từng thí sinh do trang tự suy ra, không phải danh sách chính thức';
+  $('#admSum').innerHTML = `<div class="stackbar">${parts.filter(p => p[1]).map(p => `<span style="flex:${p[1]};background:${p[2]}" data-tip="<b>${p[0]}</b><br>${fi(p[1])} thí sinh (${pct(p[1], S.length)})"></span>`).join('')}</div>
+    <div class="rank-tiles" style="margin-top:12px">${parts.map((p, i) => `<div class="rank-tile clickable" data-part="${i}"><div class="t2"><i style="display:inline-block;width:10px;height:10px;border-radius:3px;background:${p[2]};margin-right:6px"></i>${p[0]}</div><div class="val">${fi(p[1])}</div><div class="muted" style="font-size:12px">${pct(p[1], S.length)} tổng số thí sinh</div></div>`).join('')}</div>`;
+  $('#admSum').querySelectorAll('[data-part]').forEach(el => el.onclick = () => gotoRanking(parts[+el.dataset.part][3]));
 
   // Histogram XT bin 0.5
   const bins = []; for (let b = 0; b < 10; b += .5) bins.push(b);
@@ -1040,6 +1068,7 @@ function initAdmit() {
 function admChanged() {
   saveAdm(); predict(); renderAdmit();
   if (rendered.ranking) drawRanking();
+  for (const k of ['overview', 'majors', 'analysis', 'rooms']) if (rendered[k]) RENDER[k]();
   if (CUR && $('#tab-lookup').classList.contains('active')) openProfile(CUR);
 }
 function renderAdmit() {
@@ -1125,7 +1154,7 @@ function majorStats() {
   return MAJORS.map((m, i) => {
     const all = S.filter(s => s.major === i), P = pool(all), st = stats(P.map(s => s.xt));
     return { i, name: m, total: all.length, full: all.filter(s => s.full).length, female: all.filter(s => s.female).length,
-      ge7: P.filter(s => s.xt >= 7).length, ge8: P.filter(s => s.xt >= 8).length, n: P.length, luan: mean(P.map(s => s.luan)), ktth: mean(all.filter(s => s.full).map(s => s.ktth)), ...st };
+      ge7: P.filter(s => s.xt >= 7).length, ge8: P.filter(s => s.xt >= 8).length, adm: admN(all), n: P.length, luan: mean(P.map(s => s.luan)), ktth: mean(all.filter(s => s.full).map(s => s.ktth)), ...st };
   });
 }
 let drawMajorTable;
@@ -1172,6 +1201,7 @@ function renderMajors() {
     { h: 'Thấp nhất', num: 1, v: m => f2(m.min), sort: byNum(m => m.min), defDir: -1 },
     { h: '≥ 7', num: 1, v: m => `${fi(m.ge7)} <span class="muted">(${pct(m.ge7, m.n)})</span>`, sort: byNum(m => m.ge7 / m.n), defDir: -1 },
     { h: '≥ 8', num: 1, v: m => `${fi(m.ge8)} <span class="muted">(${pct(m.ge8, m.n)})</span>`, sort: byNum(m => m.ge8 / m.n), defDir: -1 },
+    { h: 'Trúng tuyển', num: 1, title: admTitle(), v: m => `<b>${fi(m.adm)}</b> <span class="muted">(${pct(m.adm, m.total)})</span>`, sort: byNum(m => m.adm), defDir: -1 },
   ], () => majorStats(), { initial: { col: 1, dir: -1 }, onRow: m => gotoRanking({ rkMajor: m.i }) });
 }
 
@@ -1181,11 +1211,12 @@ function compareGroups(groups) {
   const series = groups.map(g => ({ name: g.name, color: g.color, cnt: BANDS.map(b => g.P.filter(s => s.xt >= b[1] && s.xt < b[2]).length) }));
   series.forEach((s, i) => s.vals = s.cnt.map(c => 100 * c / (groups[i].P.length || 1)));
   const legend = `<div class="legend">${groups.map(g => `<span><i style="background:${g.color}"></i>${g.name}</span>`).join('')}</div>`;
-  const rows = groups.map(g => ({ name: g.name, color: g.color, ...stats(g.P.map(s => s.xt)), luan: mean(g.P.map(s => s.luan)), ktth: mean(g.P.filter(s => s.full).map(s => s.ktth)), ge7: g.P.filter(s => s.xt >= 7).length }));
+  const rows = groups.map(g => ({ name: g.name, color: g.color, ...stats(g.P.map(s => s.xt)), luan: mean(g.P.map(s => s.luan)), ktth: mean(g.P.filter(s => s.full).map(s => s.ktth)), ge7: g.P.filter(s => s.xt >= 7).length, P: g.P }));
   return legend + groupedChart(BANDS.map(b => b[0]), series, { height: 200 }) + `<div class="tbl-wrap" style="margin-top:10px"><table>${table([
     { h: 'Nhóm', v: r => `<i style="display:inline-block;width:10px;height:10px;border-radius:3px;background:${r.color};margin-right:6px"></i>${r.name}` },
     { h: 'Số TS', num: 1, v: r => fi(r.n) }, { h: 'TB Luận', num: 1, v: r => f2(r.luan) }, { h: 'TB KTTH', num: 1, v: r => f2(r.ktth) },
     { h: 'TB XT', num: 1, v: r => `<b>${f2(r.mean)}</b>` }, { h: 'Trung vị', num: 1, v: r => f2(r.med) }, { h: '≥ 7', num: 1, v: r => pct(r.ge7, r.n) },
+    { h: 'Trúng tuyển', num: 1, title: admTitle(), v: r => admCell(r.P) },
   ], rows)}</table></div>`;
 }
 let drawPlaceTable;
@@ -1221,6 +1252,7 @@ function renderAnalysis() {
   $('#ageTable').innerHTML = `<div class="tbl-wrap"><table>${table([
     { h: 'Nhóm tuổi', v: r => r.n }, { h: 'Số TS', num: 1, v: r => fi(r.g.length) }, { h: 'TB XT', num: 1, v: r => `<b>${f2(mean(r.g.map(s => s.xt)))}</b>` },
     { h: 'Trung vị', num: 1, v: r => f2(stats(r.g.map(s => s.xt)).med) }, { h: '≥ 7', num: 1, v: r => pct(r.g.filter(s => s.xt >= 7).length, r.g.length) },
+    { h: 'Trúng tuyển', num: 1, title: admTitle(), v: r => admCell(r.g) },
   ], ageG.map(([n, a, b]) => ({ n, g: P.filter(s => 2026 - s.year >= a && 2026 - s.year < b) })).filter(r => r.g.length))}</table></div>`;
 
   drawPlaceTable = sortableTable($('#placeTable'), [
@@ -1232,8 +1264,9 @@ function renderAnalysis() {
     { h: 'Trung vị', num: 1, v: r => f2(r.med), sort: byNum(r => r.med), defDir: -1 },
     { h: 'Cao nhất', num: 1, v: r => f2(r.max), sort: byNum(r => r.max), defDir: -1 },
     { h: '≥ 7', num: 1, v: r => pct(r.ge7, r.n), sort: byNum(r => r.ge7 / r.n), defDir: -1 },
+    { h: 'Trúng tuyển', num: 1, title: admTitle(), v: r => `<b>${fi(r.adm)}</b> <span class="muted">(${pct(r.adm, r.n)})</span>`, sort: byNum(r => r.adm), defDir: -1 },
   ], () => {
-    const Q = pool(); const rows = PLACES.map((p, i) => { const g = Q.filter(s => s.place === i); return { i, name: placeName(i), n: g.length, f: g.filter(s => s.female).length, ge7: g.filter(s => s.xt >= 7).length, tot: Q.length, ...stats(g.map(s => s.xt)) }; }).filter(r => r.n);
+    const Q = pool(); const rows = PLACES.map((p, i) => { const g = Q.filter(s => s.place === i); return { i, name: placeName(i), n: g.length, f: g.filter(s => s.female).length, ge7: g.filter(s => s.xt >= 7).length, adm: admN(g), tot: Q.length, ...stats(g.map(s => s.xt)) }; }).filter(r => r.n);
     const maxN = Math.max(...rows.map(r => r.n)); rows.forEach(r => r.maxN = maxN); return rows;
   }, { initial: { col: 1, dir: -1 }, onRow: r => gotoRanking({ rkPlace: r.i }) });
 
@@ -1246,13 +1279,14 @@ function renderAnalysis() {
     { h: 'TB Luận', num: 1, v: r => f2(mean(r[1].map(s => s.luan))) }, { h: 'TB KTTH', num: 1, v: r => f2(mean(r[1].filter(s => s.full).map(s => s.ktth))) },
     { h: 'TB XT', num: 1, v: r => `<b>${f2(mean(r[1].map(s => s.xt)))}</b>` }, { h: 'Cao nhất', num: 1, v: r => f2(Math.max(...r[1].map(s => s.xt))) },
     { h: '≥ 7', num: 1, v: r => pct(r[1].filter(s => s.xt >= 7).length, r[1].length) },
+    { h: 'Trúng tuyển', num: 1, title: admTitle(), v: r => admCell(r[1]) },
   ], grp)}</table></div>`;
 }
 
 /* ---------- Phòng thi ---------- */
 let drawRoomTable;
 function roomRows() {
-  return ROOMS.map((r, i) => { const all = S.filter(s => s.room === i), P = pool(all); return { i, name: r, total: all.length, absent: all.filter(s => !s.full).length, n: P.length, luan: mean(P.map(s => s.luan)), ktth: mean(all.filter(s => s.full).map(s => s.ktth)), ge7: P.filter(s => s.xt >= 7).length, ...stats(P.map(s => s.xt)) }; });
+  return ROOMS.map((r, i) => { const all = S.filter(s => s.room === i), P = pool(all); return { i, name: r, total: all.length, absent: all.filter(s => !s.full).length, n: P.length, luan: mean(P.map(s => s.luan)), ktth: mean(all.filter(s => s.full).map(s => s.ktth)), ge7: P.filter(s => s.xt >= 7).length, adm: admN(all), ...stats(P.map(s => s.xt)) }; });
 }
 function renderRooms() {
   const R = roomRows(), avg = mean(pool().map(s => s.xt));
@@ -1268,6 +1302,7 @@ function renderRooms() {
     { h: 'Cao nhất', num: 1, v: r => f2(r.max), sort: byNum(r => r.max), defDir: -1 },
     { h: 'Thấp nhất', num: 1, v: r => f2(r.min), sort: byNum(r => r.min), defDir: -1 },
     { h: '≥ 7', num: 1, v: r => pct(r.ge7, r.n), sort: byNum(r => r.ge7 / r.n), defDir: -1 },
+    { h: 'Trúng tuyển', num: 1, title: admTitle(), v: r => `<b>${fi(r.adm)}</b> <span class="muted">(${pct(r.adm, r.total)})</span>`, sort: byNum(r => r.adm), defDir: -1 },
   ], roomRows, { onRow: r => gotoRanking({ rkRoom: r.i }) });
 }
 
