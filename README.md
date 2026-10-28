@@ -11,16 +11,16 @@ Dữ liệu tổng hợp từ cổng tra cứu [tuyensinhsdh.neu.edu.vn](https:/
 
 ## Trang web thống kê, tra cứu & xếp hạng
 
-> ⚠️ **Lưu ý:** kết quả trúng tuyển trên trang chỉ là **dự đoán dựa trên chỉ tiêu**, **không phải thông báo chính thức** của nhà trường. Kết quả chính thức xem tại thông báo của ĐH Kinh tế Quốc dân.
+> ⚠️ **Lưu ý:** điểm chuẩn chính thức lấy từ thông báo ngày 27/10/2026 của Viện Đào tạo Sau đại học. Kết quả của từng thí sinh do trang tự suy ra từ điểm chuẩn và cách gán chuyên ngành → ngành (hoặc dự đoán theo chỉ tiêu), **không phải danh sách trúng tuyển chính thức** của nhà trường. Kết quả chính thức xem tại thông báo của ĐH Kinh tế Quốc dân.
 
 Xem trực tuyến: https://ducvd89.github.io/diem-thi-cao-hoc-k35-neu/
 
 Mở [`web/index.html`](web/index.html) bằng trình duyệt (một file duy nhất, chạy không cần mạng). Trang có các tab:
 
 - **Tổng quan** — số liệu chính, phổ điểm xét tuyển / Môn luận / KTTH, phân vị, ngưỡng Top N, Top 20.
-- **Tra cứu** — tìm theo SBD, mã đăng ký hoặc họ tên (gõ không dấu được); hạng toàn khóa, trong ngành, trong phòng thi; kết quả xét tuyển dự kiến.
+- **Tra cứu** — tìm theo SBD, mã đăng ký hoặc họ tên (gõ không dấu được); hạng toàn khóa, trong ngành, trong phòng thi; kết quả xét tuyển theo điểm chuẩn.
 - **Xếp hạng** — lọc theo ngành, chuyên ngành, giới tính, nơi sinh, phòng thi…; sắp xếp mọi cột, tên sắp theo chuẩn tiếng Việt (Tên → Họ → Đệm); tải CSV.
-- **Trúng tuyển (dự kiến)** — mô phỏng theo chỉ tiêu 624 của 14 ngành; loại thí sinh bị điểm liệt (có môn dưới 5); chỉnh được cách xử lý đồng điểm và cách gán chuyên ngành → ngành. *Chỉ mang tính tham khảo, không phải kết quả chính thức.*
+- **Trúng tuyển** — mặc định dùng điểm chuẩn chính thức của 13 ngành (công bố 27/10/2026), so sánh với điểm chuẩn dự đoán theo chỉ tiêu 624 của 14 ngành; loại thí sinh bị điểm liệt (có môn dưới 5); chỉnh được cách gán chuyên ngành → ngành và các giả định của chế độ dự đoán. *Danh sách từng thí sinh chỉ mang tính tham khảo, không phải danh sách chính thức.*
 - **Chuyên ngành**, **Phân tích**, **Phòng thi** — thống kê chi tiết theo từng nhóm.
 
 Tạo lại trang khi dữ liệu thay đổi:

@@ -240,7 +240,7 @@ footer { color: var(--muted); font-size: 12px; padding: 24px 0; border-top: 1px 
       <button role="tab" data-tab="overview" aria-selected="true">Tổng quan</button>
       <button role="tab" data-tab="lookup">Tra cứu</button>
       <button role="tab" data-tab="ranking">Xếp hạng</button>
-      <button role="tab" data-tab="admit">Trúng tuyển (dự kiến)</button>
+      <button role="tab" data-tab="admit">Trúng tuyển</button>
       <button role="tab" data-tab="majors">Chuyên ngành</button>
       <button role="tab" data-tab="analysis">Phân tích</button>
       <button role="tab" data-tab="rooms">Phòng thi</button>
@@ -311,12 +311,12 @@ footer { color: var(--muted); font-size: 12px; padding: 24px 0; border-top: 1px 
     <div class="card">
       <h2>Bảng xếp hạng</h2>
       <p class="desc">Xếp hạng theo điểm xét tuyển, đồng điểm thì đồng hạng. “Hạng lọc” là thứ hạng trong nhóm đang lọc. Nhấn tiêu đề cột để sắp xếp; cột Họ tên sắp theo chuẩn tiếng Việt (Tên → Họ → Đệm).</p>
-      <div class="disclaimer" style="margin-bottom:12px;font-size:13px">Cột “Dự kiến” chỉ là <b>dự đoán dựa trên chỉ tiêu</b>, <b>không phải thông báo chính thức</b> của nhà trường.</div>
+      <div class="disclaimer" style="margin-bottom:12px;font-size:13px">Cột “Kết quả” do trang tự suy ra từ điểm chuẩn (chính thức hoặc dự đoán, theo lựa chọn ở tab Trúng tuyển) và cách gán chuyên ngành → ngành; <b>không phải danh sách trúng tuyển chính thức</b> của nhà trường.</div>
       <div class="filters">
         <input type="search" id="rkSearch" placeholder="Tìm SBD, mã ĐK, họ tên…">
         <select id="rkNganh"><option value="">Tất cả ngành (chỉ tiêu)</option></select>
         <select id="rkMajor"><option value="">Tất cả chuyên ngành</option></select>
-        <select id="rkAdm"><option value="">Kết quả dự kiến</option><option value="yes">Trúng tuyển</option><option value="no">Không trúng tuyển</option><option value="inel">Không đủ điều kiện</option></select>
+        <select id="rkAdm"><option value="">Kết quả xét tuyển</option><option value="yes">Trúng tuyển</option><option value="no">Không trúng tuyển</option><option value="inel">Không đủ điều kiện</option></select>
         <select id="rkGender"><option value="">Giới tính</option><option value="1">Nữ</option><option value="0">Nam</option></select>
         <select id="rkPlace"><option value="">Tất cả nơi sinh</option></select>
         <select id="rkRoom"><option value="">Tất cả phòng</option></select>
@@ -341,39 +341,36 @@ footer { color: var(--muted); font-size: 12px; padding: 24px 0; border-top: 1px 
 
   <!-- TRÚNG TUYỂN DỰ KIẾN -->
   <section class="tab" id="tab-admit">
-    <div class="disclaimer" style="margin-bottom:12px">Kết quả trúng tuyển trên trang này chỉ là <b>dự đoán dựa trên chỉ tiêu</b>, <b>không phải thông báo chính thức</b> của nhà trường. Kết quả chính thức xem tại thông báo của ĐH Kinh tế Quốc dân.</div>
-    <div class="card notice" style="margin-bottom:16px">
-      Chỉ tiêu theo thông báo tuyển sinh thạc sĩ K35 đợt 2/2026 của ĐH Kinh tế Quốc dân (tổng 624). Chỉ tiêu tính theo <b>ngành</b>, còn danh sách điểm ghi theo <b>chuyên ngành</b>, nên mỗi chuyên ngành được gán vào một ngành (xem và sửa ở mục “Gán chuyên ngành → ngành” bên dưới).
-      Trong mỗi ngành, thí sinh đủ điều kiện được xếp theo điểm xét tuyển từ cao xuống thấp cho đến hết chỉ tiêu.
-      Thí sinh vắng thi hoặc bị <b>điểm liệt</b> (có môn dưới 5 điểm) không được xét tuyển.
-      Điểm công bố đã cộng điểm ưu tiên (1 điểm môn cơ bản) và trừ điểm vi phạm quy chế.
-    </div>
+    <div class="disclaimer" style="margin-bottom:12px" id="admDisc"></div>
+    <div class="card notice" style="margin-bottom:16px" id="admNotice"></div>
     <div class="card" style="margin-bottom:16px">
-      <h2>Điều kiện xét tuyển</h2>
-      <p class="desc">Thay đổi để xem kết quả theo các giả định khác nhau; lựa chọn được lưu trên trình duyệt này</p>
+      <h2>Cách xác định điểm chuẩn</h2>
+      <p class="desc">Lựa chọn được lưu trên trình duyệt này</p>
       <div class="filters" style="margin-bottom:0">
-        <label class="t2">Đồng điểm ở cuối danh sách
+        <label class="t2">Điểm chuẩn
+          <select id="admMode"><option value="official">Chính thức (công bố 27/10/2026)</option><option value="quota">Dự đoán theo chỉ tiêu</option></select></label>
+        <label class="t2 adm-q">Đồng điểm ở cuối danh sách
           <select id="admTie"><option value="all">Lấy hết (có thể vượt chỉ tiêu)</option><option value="ktth">Ưu tiên KTTH, rồi Môn luận</option><option value="cut">Không lấy nhóm đồng điểm (không vượt)</option></select></label>
-        <label class="t2" title="Điểm công bố đã cộng điểm ưu tiên (1 điểm môn cơ bản); chỉ chọn nếu muốn thử cộng thêm">Cộng thêm cho diện ưu tiên
+        <label class="t2 adm-q" title="Điểm công bố đã cộng điểm ưu tiên (1 điểm môn cơ bản); chỉ chọn nếu muốn thử cộng thêm">Cộng thêm cho diện ưu tiên
           <select id="admBonus"><option value="0">Không (đã cộng sẵn)</option><option value="0.5">+0,5</option><option value="1">+1,0</option></select></label>
         <button class="btn" id="admReset" type="button">Khôi phục mặc định</button>
       </div>
     </div>
     <div class="kpis" id="admKpis"></div>
     <div class="card" style="margin-bottom:16px">
-      <h2>Điểm chuẩn dự kiến theo ngành</h2>
+      <h2>Điểm chuẩn <span class="adm-w"></span> theo ngành</h2>
       <p class="desc">Nhấn một dòng để xem chi tiết từng chuyên ngành; nhấn “Danh sách” để mở bảng xếp hạng của ngành</p>
       <div class="tbl-wrap"><table id="admTable"></table></div>
     </div>
     <div class="grid g2" style="margin-bottom:16px">
       <div class="card">
-        <h2>Điểm chuẩn dự kiến</h2>
-        <p class="desc">Thang 0–10 · ngành chưa đủ thí sinh để lấp chỉ tiêu thì điểm chuẩn là điểm thấp nhất của thí sinh đủ điều kiện</p>
+        <h2>Điểm chuẩn <span class="adm-w"></span></h2>
+        <p class="desc" id="admCutDesc"></p>
         <div id="admCutChart"></div>
       </div>
       <div class="card">
-        <h2>Chỉ tiêu và số trúng tuyển dự kiến</h2>
-        <p class="desc">Phần tô màu là số trúng tuyển dự kiến trên tổng chỉ tiêu</p>
+        <h2>Chỉ tiêu và số trúng tuyển</h2>
+        <p class="desc">Phần tô màu là số thí sinh trúng tuyển trên chỉ tiêu; thanh dài hơn chỉ tiêu là vượt chỉ tiêu</p>
         <div id="admFillChart"></div>
       </div>
     </div>
@@ -458,7 +455,7 @@ footer { color: var(--muted); font-size: 12px; padding: 24px 0; border-top: 1px 
     </div>
   </section>
 </main>
-<footer><div class="wrap">Nguồn: DiemThi_CaoHoc_K35.csv (1.316 thí sinh). Trang chạy hoàn toàn trên máy, không gửi dữ liệu đi đâu.<br><b>Lưu ý:</b> kết quả trúng tuyển trên trang chỉ là dự đoán dựa trên chỉ tiêu, không phải thông báo chính thức của nhà trường. Trang không liên kết với ĐH Kinh tế Quốc dân.</div></footer>
+<footer><div class="wrap">Nguồn: DiemThi_CaoHoc_K35.csv (1.316 thí sinh). Trang chạy hoàn toàn trên máy, không gửi dữ liệu đi đâu.<br><b>Lưu ý:</b> điểm chuẩn chính thức lấy từ thông báo ngày 27/10/2026 của Viện ĐT Sau đại học; kết quả từng thí sinh trên trang do trang tự suy ra (hoặc dự đoán theo chỉ tiêu), không phải danh sách trúng tuyển chính thức của nhà trường. Trang không liên kết với ĐH Kinh tế Quốc dân.</div></footer>
 <div id="tip"></div>
 
 <script>
@@ -657,7 +654,14 @@ const DEFAULT_MAP = {
   'Tài chính - Ngân hàng': 'Tài chính - Ngân hàng', 'Kế toán, kiểm toán và phân tích': 'Kế toán', 'Quản trị nhân lực': 'Quản trị nhân lực',
   'Hệ thống thông tin quản lý': 'Hệ thống thông tin quản lý', 'Luật kinh tế': 'Luật kinh tế', 'Quản trị kinh doanh nông nghiệp': 'Kinh tế Nông nghiệp',
 };
-const ADM_DEFAULT = { tie: 'all', bonus: '0' };
+/* Điểm trúng tuyển chính thức theo ngành — thông báo của Viện ĐT Sau đại học ngày 27/10/2026 (không có Kinh tế Nông nghiệp) */
+const OFFICIAL_DATE = '27/10/2026';
+const OFFICIAL = {
+  'Kinh tế học': 6.55, 'Kinh tế chính trị': 6.70, 'Kinh tế đầu tư': 6.55, 'Kinh tế phát triển': 6.40, 'Kinh tế quốc tế': 5.20,
+  'Quản lý kinh tế': 5.65, 'Quản trị kinh doanh': 7.25, 'Kinh doanh thương mại': 7.65, 'Tài chính - Ngân hàng': 7.15, 'Kế toán': 7.25,
+  'Quản trị nhân lực': 7.20, 'Hệ thống thông tin quản lý': 7.45, 'Luật kinh tế': 6.25,
+};
+const ADM_DEFAULT = { mode: 'official', tie: 'all', bonus: '0' };
 const ADM = { ...ADM_DEFAULT, map: MAJORS.map(m => Math.max(0, NGANH.findIndex(n => n[0] === DEFAULT_MAP[m]))), quota: NGANH.map(n => n[1]) };
 try {
   const sv = JSON.parse(localStorage.getItem('adm-k35') || 'null');
@@ -669,14 +673,17 @@ try {
 } catch (e) {}
 function saveAdm() {
   try {
-    localStorage.setItem('adm-k35', JSON.stringify({ tie: ADM.tie, bonus: ADM.bonus,
+    localStorage.setItem('adm-k35', JSON.stringify({ mode: ADM.mode, tie: ADM.tie, bonus: ADM.bonus,
       map: Object.fromEntries(MAJORS.map((m, i) => [m, NGANH[ADM.map[i]][0]])), quota: Object.fromEntries(NGANH.map((n, i) => [n[0], ADM.quota[i]])) }));
   } catch (e) {}
 }
 let NG = [];
-const admScore = s => s.xt + (s.prio ? +ADM.bonus : 0);
+const isOff = () => ADM.mode === 'official';
+/* Chữ đi kèm "điểm chuẩn" / kết quả theo chế độ đang chọn */
+const cutWord = () => isOff() ? 'chính thức' : 'dự kiến';
+const admScore = s => s.xt + (!isOff() && s.prio ? +ADM.bonus : 0);
 function predict() {
-  NG = NGANH.map((n, i) => ({ i, name: n[0], q: ADM.quota[i], reg: [], elig: [], adm: [], cutoff: null }));
+  NG = NGANH.map((n, i) => ({ i, name: n[0], q: ADM.quota[i], reg: [], elig: [], adm: [], cutoff: null, qCut: null }));
   for (const s of S) {
     s.ng = ADM.map[s.major]; s.adm = false; s.rNg = null; s.need = null; s.score = admScore(s);
     s.why = !s.full ? 'Vắng/thiếu điểm KTTH'
@@ -698,7 +705,14 @@ function predict() {
     g.adm.forEach(s => s.adm = true);
     // Điểm chuẩn: điểm thấp nhất trong nhóm trúng tuyển; nếu không lấy ai (đồng điểm) thì là điểm ngay trên nhóm đồng điểm
     g.cutoff = g.adm.length ? g.adm[g.adm.length - 1].score : null;
-    g.firstOut = E.find(s => !s.adm) || null;
+    g.qCut = g.cutoff;
+  }
+  // Chế độ chính thức: trúng tuyển khi điểm xét ≥ điểm chuẩn công bố của ngành; ngành không công bố điểm chuẩn thì không ai trúng tuyển
+  if (isOff()) for (const g of NG) {
+    g.elig.forEach(s => s.adm = false);
+    g.cutoff = OFFICIAL[g.name] ?? null;
+    g.adm = g.cutoff == null ? [] : g.elig.filter(s => s.score >= g.cutoff - 1e-9);
+    g.adm.forEach(s => s.adm = true);
   }
   for (const g of NG) for (const s of g.elig) if (!s.adm) s.need = g.cutoff != null ? g.cutoff - s.score : null;
 }
@@ -805,7 +819,7 @@ const COLS = {
   xt: { h: 'Điểm XT', num: 1, v: s => s.full ? `<b>${f2(s.xt)}</b>` : `<span class="muted" title="Vắng/thiếu điểm">${f2(s.xt)}</span>`, sort: byNum(s => s.full ? s.xt : -1 + s.xt / 100), defDir: -1 },
   nganh: { h: 'Ngành', cls: 'hide-sm', v: s => esc(NGANH[s.ng][0]), sort: byText(s => NGANH[s.ng][0]) },
   rNg: { h: 'Hạng xét', num: 1, title: 'Thứ hạng xét tuyển trong ngành (chỉ thí sinh đủ điều kiện)', v: s => s.rNg ? `${s.rNg}<span class="muted">/${NG[s.ng].q}</span>` : '<span class="muted">—</span>', sort: byNum(s => s.rNg ?? 1e9) },
-  adm: { h: 'Dự kiến', v: admBadge, sort: byNum(s => s.adm ? 2 : s.why ? 0 : 1), defDir: -1 },
+  adm: { h: 'Kết quả', v: admBadge, sort: byNum(s => s.adm ? 2 : s.why ? 0 : 1), defDir: -1 },
 };
 const rankCols = keys => keys.map(k => COLS[k]);
 
@@ -866,19 +880,19 @@ function openProfile(s) {
         <div class="rank-tile"><div class="t2">Cao hơn</div><div class="val">${f1(pctBetter)}%</div><div class="muted" style="font-size:12px">${fi(s.below)} thí sinh điểm thấp hơn · ${fi(sameXT - 1)} người cùng điểm</div></div>
       </div></div>`;
   }
-  // Kết quả xét tuyển dự kiến
+  // Kết quả xét tuyển
   CUR = s;
-  const G = NG[s.ng];
-  const res = s.adm ? ['yes', '✓', 'Dự kiến TRÚNG TUYỂN', `Hạng xét tuyển ${fi(s.rNg)} trong ngành ${esc(G.name)} (chỉ tiêu ${fi(G.q)}) · điểm xét ${f2(s.score)} ≥ điểm chuẩn dự kiến ${f2(G.cutoff)}`]
+  const G = NG[s.ng], off = isOff(), pre = off ? '' : 'Dự kiến ';
+  const res = s.adm ? ['yes', '✓', off ? 'TRÚNG TUYỂN' : 'Dự kiến TRÚNG TUYỂN', `Hạng xét tuyển ${fi(s.rNg)} trong ngành ${esc(G.name)} (chỉ tiêu ${fi(G.q)}) · điểm xét ${f2(s.score)} ≥ điểm chuẩn ${cutWord()} ${f2(G.cutoff)}`]
     : s.why ? ['inel', '!', 'Không đủ điều kiện xét tuyển', esc(s.why)]
-    : ['no', '✕', 'Dự kiến không trúng tuyển', `Hạng xét tuyển ${fi(s.rNg)} / chỉ tiêu ${fi(G.q)} ngành ${esc(G.name)}` + (s.need != null ? ` · thiếu <b>${f2(s.need)}</b> điểm so với điểm chuẩn dự kiến ${f2(G.cutoff)}` : '')];
-  const admCard = `<div class="card" style="margin-top:16px"><h2>Xét tuyển theo chỉ tiêu (dự kiến)</h2><p class="desc">Mô phỏng theo chỉ tiêu ngành và điều kiện đang chọn</p>
-    <div class="disclaimer" style="margin-bottom:12px">Kết quả trúng tuyển trên trang này chỉ là <b>dự đoán dựa trên chỉ tiêu</b>, <b>không phải thông báo chính thức</b> của nhà trường. Kết quả chính thức xem tại thông báo của ĐH Kinh tế Quốc dân.</div>
+    : ['no', '✕', pre + (off ? 'Không trúng tuyển' : 'không trúng tuyển'), `Hạng xét tuyển ${fi(s.rNg)} / chỉ tiêu ${fi(G.q)} ngành ${esc(G.name)}` + (s.need != null ? ` · thiếu <b>${f2(s.need)}</b> điểm so với điểm chuẩn ${cutWord()} ${f2(G.cutoff)}` : G.cutoff == null && off ? ' · ngành không có trong danh sách điểm chuẩn công bố' : '')];
+  const admCard = `<div class="card" style="margin-top:16px"><h2>${off ? 'Xét tuyển theo điểm chuẩn chính thức' : 'Xét tuyển theo chỉ tiêu (dự kiến)'}</h2><p class="desc">${off ? `Điểm chuẩn theo thông báo ngày ${OFFICIAL_DATE}; đổi sang dự đoán theo chỉ tiêu ở tab Trúng tuyển` : 'Mô phỏng theo chỉ tiêu ngành và điều kiện đang chọn'}</p>
+    <div class="disclaimer" style="margin-bottom:12px">${admDiscText()}</div>
     <div class="result-banner ${res[0]}"><span class="ic">${res[1]}</span><div><div class="big">${res[2]}</div><div class="t2">${res[3]}</div></div></div>
     <div class="rank-tiles">
       <div class="rank-tile"><div class="t2">Ngành xét tuyển</div><div class="val" style="font-size:17px">${esc(G.name)}</div><div class="muted" style="font-size:12px">từ chuyên ngành ${esc(majorName(s.major))}</div></div>
       <div class="rank-tile"><div class="t2">Chỉ tiêu / đủ điều kiện</div><div class="val">${fi(G.q)} <small>/ ${fi(G.elig.length)} TS</small></div><div class="muted" style="font-size:12px">${fi(G.reg.length)} thí sinh dự thi</div></div>
-      <div class="rank-tile"><div class="t2">Điểm chuẩn dự kiến</div><div class="val">${f2(G.cutoff)}</div><div class="muted" style="font-size:12px">${fi(G.adm.length)} thí sinh trúng tuyển</div></div>
+      <div class="rank-tile"><div class="t2">Điểm chuẩn ${cutWord()}</div><div class="val">${f2(G.cutoff)}</div><div class="muted" style="font-size:12px">${fi(G.adm.length)} thí sinh trúng tuyển</div></div>
     </div></div>`;
   // Phân bố điểm ngành, tô cột của thí sinh
   const bins = []; for (let b = 0; b < 10; b += .5) bins.push(b);
@@ -993,7 +1007,7 @@ function drawRanking() {
   $('#rkPrev').disabled = RK.page === 0; $('#rkNext').disabled = RK.page >= pages - 1;
 }
 function exportCSV() {
-  const head = ['Hạng lọc', 'Hạng chung', 'Hạng ngành', 'SBD', 'Họ tên', 'Giới tính', 'Ngày sinh', 'Nơi sinh', 'Chuyên ngành', 'Môn luận', 'KTTH', 'Điểm XT', 'Ghi chú', 'Ngành (chỉ tiêu)', 'Hạng xét tuyển', 'Dự kiến (dự đoán theo chỉ tiêu, không chính thức)', 'Lý do'];
+  const head = ['Hạng lọc', 'Hạng chung', 'Hạng ngành', 'SBD', 'Họ tên', 'Giới tính', 'Ngày sinh', 'Nơi sinh', 'Chuyên ngành', 'Môn luận', 'KTTH', 'Điểm XT', 'Ghi chú', 'Ngành (chỉ tiêu)', 'Hạng xét tuyển', isOff() ? `Kết quả (theo điểm chuẩn chính thức ${OFFICIAL_DATE}, không phải danh sách chính thức)` : 'Kết quả (dự đoán theo chỉ tiêu, không chính thức)', 'Lý do'];
   const q = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
   const lines = [head.map(q).join(',')].concat(RK.rows.map(s => [s._rf, s.rAll, s.rMaj, s.sbd, s.name, genderName(s), s.dob, PLACES[s.place], majorName(s.major), s.luan.toFixed(2), s.ktth == null ? '---' : s.ktth.toFixed(2), s.xt.toFixed(2), s.prio ? 'Ưu tiên' : '', NGANH[s.ng][0], s.rNg, s.adm ? 'Trúng tuyển' : s.why ? 'Không đủ điều kiện' : 'Không trúng tuyển', s.why].map(q).join(',')));
   const blob = new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
@@ -1007,10 +1021,13 @@ function gotoRanking(filters) {
   RK.page = 0; RK.col = null; drawRanking(); showTab('ranking');
 }
 
-/* ---------- Trúng tuyển dự kiến ---------- */
+/* ---------- Trúng tuyển ---------- */
+const admDiscText = () => isOff()
+  ? `Điểm chuẩn lấy từ <b>thông báo chính thức ngày ${OFFICIAL_DATE}</b> của Viện Đào tạo Sau đại học. Kết quả của từng thí sinh do trang tự suy ra từ điểm chuẩn và cách gán chuyên ngành → ngành, <b>không phải danh sách trúng tuyển chính thức</b>. Kết quả chính thức xem tại thông báo của ĐH Kinh tế Quốc dân.`
+  : `Kết quả ở chế độ này chỉ là <b>dự đoán dựa trên chỉ tiêu</b>, <b>không phải thông báo chính thức</b> của nhà trường. Kết quả chính thức xem tại thông báo của ĐH Kinh tế Quốc dân.`;
 const openNg = new Set();
 function initAdmit() {
-  const ids = { admTie: 'tie', admBonus: 'bonus' };
+  const ids = { admMode: 'mode', admTie: 'tie', admBonus: 'bonus' };
   for (const [id, k] of Object.entries(ids)) { $('#' + id).value = ADM[k]; $('#' + id).onchange = () => { ADM[k] = $('#' + id).value; admChanged(); }; }
   $('#admReset').onclick = () => {
     Object.assign(ADM, ADM_DEFAULT, { map: MAJORS.map(m => Math.max(0, NGANH.findIndex(n => n[0] === DEFAULT_MAP[m]))), quota: NGANH.map(n => n[1]) });
@@ -1026,41 +1043,51 @@ function admChanged() {
   if (CUR && $('#tab-lookup').classList.contains('active')) openProfile(CUR);
 }
 function renderAdmit() {
+  const off = isOff();
+  document.querySelectorAll('#tab-admit .adm-w').forEach(e => e.textContent = cutWord());
+  document.querySelectorAll('#tab-admit .adm-q').forEach(e => e.style.display = off ? 'none' : '');
+  $('#admDisc').innerHTML = admDiscText();
+  $('#admNotice').innerHTML = (off
+    ? `Điểm chuẩn chính thức công bố theo <b>ngành</b> (13 ngành; không có Kinh tế Nông nghiệp), còn danh sách điểm ghi theo <b>chuyên ngành</b>, nên mỗi chuyên ngành được gán vào một ngành (xem và sửa ở mục “Gán chuyên ngành → ngành” bên dưới). Thí sinh trúng tuyển khi điểm xét tuyển ≥ điểm chuẩn của ngành. Cột “Dự đoán” là điểm chuẩn trang tính trước đó theo chỉ tiêu, để so sánh.`
+    : `Chỉ tiêu theo thông báo tuyển sinh thạc sĩ K35 đợt 2/2026 của ĐH Kinh tế Quốc dân (tổng 624). Chỉ tiêu tính theo <b>ngành</b>, còn danh sách điểm ghi theo <b>chuyên ngành</b>, nên mỗi chuyên ngành được gán vào một ngành (xem và sửa ở mục “Gán chuyên ngành → ngành” bên dưới). Trong mỗi ngành, thí sinh đủ điều kiện được xếp theo điểm xét tuyển từ cao xuống thấp cho đến hết chỉ tiêu.`)
+    + ` Thí sinh vắng thi hoặc bị <b>điểm liệt</b> (có môn dưới 5 điểm) không được xét tuyển. Điểm công bố đã cộng điểm ưu tiên (1 điểm môn cơ bản) và trừ điểm vi phạm quy chế.`;
+  $('#admCutDesc').textContent = off ? `Thang 0–10 · theo thông báo ngày ${OFFICIAL_DATE}` : 'Thang 0–10 · ngành chưa đủ thí sinh để lấp chỉ tiêu thì điểm chuẩn là điểm thấp nhất của thí sinh đủ điều kiện';
   const totQ = sum(NG.map(g => g.q)), totAdm = sum(NG.map(g => g.adm.length)), totElig = sum(NG.map(g => g.elig.length));
   const cuts = NG.filter(g => g.cutoff != null).map(g => g.cutoff);
   const short = NG.filter(g => g.adm.length < g.q), over = NG.filter(g => g.adm.length > g.q);
   $('#admKpis').innerHTML = [
     ['Tổng chỉ tiêu', fi(totQ), `${NG.length} ngành`],
-    ['Dự kiến trúng tuyển', fi(totAdm), `${pct(totAdm, totQ)} chỉ tiêu · ${pct(totAdm, S.length)} thí sinh dự thi`],
+    [off ? 'Trúng tuyển' : 'Dự kiến trúng tuyển', fi(totAdm), `${pct(totAdm, totQ)} chỉ tiêu · ${pct(totAdm, S.length)} thí sinh dự thi`],
     ['Đủ điều kiện xét', fi(totElig), `${fi(S.length - totElig)} không đủ điều kiện`],
     ['Tỷ lệ chọi chung', totQ ? '1 : ' + f2(S.length / totQ) : '—', 'Số dự thi / chỉ tiêu'],
-    ['Điểm chuẩn dự kiến', cuts.length ? `${f2(Math.min(...cuts))} – ${f2(Math.max(...cuts))}` : '—', 'Thấp nhất – cao nhất giữa các ngành'],
+    [`Điểm chuẩn ${cutWord()}`, cuts.length ? `${f2(Math.min(...cuts))} – ${f2(Math.max(...cuts))}` : '—', 'Thấp nhất – cao nhất giữa các ngành'],
     ['Ngành thiếu / vượt', `${short.length} / ${over.length}`, `Thiếu ${fi(sum(short.map(g => g.q - g.adm.length)))} · vượt ${fi(sum(over.map(g => g.adm.length - g.q)))} chỉ tiêu`],
   ].map(k => `<div class="card kpi"><div class="lbl">${k[0]}</div><div class="val">${k[1]}</div><div class="note">${k[2]}</div></div>`).join('');
 
   // Bảng theo ngành, mở rộng ra chuyên ngành
-  const head = ['Ngành', 'Chỉ tiêu', 'Dự thi', 'Đủ ĐK', 'Trúng tuyển', 'Tỷ lệ chọi', 'Điểm chuẩn', 'TB trúng tuyển', 'Cao nhất', ''];
+  const head = ['Ngành', 'Chỉ tiêu', 'Dự thi', 'Đủ ĐK', 'Trúng tuyển', 'Tỷ lệ chọi', 'Điểm chuẩn', ...(off ? ['Dự đoán'] : []), 'TB trúng tuyển', 'Cao nhất', ''];
+  const predTd = (v, cls = '') => off ? `<td class="num ${cls}" title="Điểm chuẩn dự đoán theo chỉ tiêu">${v}</td>` : '';
   let body = '';
   for (const g of NG) {
     const diff = g.adm.length - g.q;
-    const state = !g.q ? '' : diff > 0 ? `<span class="badge" style="color:var(--warn)" title="Do đồng điểm ở ngưỡng">+${diff} vượt</span>` : diff < 0 ? `<span class="badge bad" title="Không đủ thí sinh đủ điều kiện">thiếu ${-diff}</span>` : '<span class="badge good">đủ</span>';
+    const state = !g.q ? '' : diff > 0 ? `<span class="badge" style="color:var(--warn)" title="${off ? 'Số thí sinh đạt điểm chuẩn nhiều hơn chỉ tiêu' : 'Do đồng điểm ở ngưỡng'}">+${diff} vượt</span>` : diff < 0 ? `<span class="badge bad" title="Không đủ thí sinh đủ điều kiện">thiếu ${-diff}</span>` : '<span class="badge good">đủ</span>';
     const scores = g.adm.map(s => s.score);
     body += `<tr class="clickable" data-ng="${g.i}"><td><span class="muted">${openNg.has(g.i) ? '▾' : '▸'}</span> <b>${esc(g.name)}</b></td><td class="num">${fi(g.q)}</td><td class="num">${fi(g.reg.length)}</td><td class="num">${fi(g.elig.length)}</td>
       <td class="num"><b>${fi(g.adm.length)}</b> ${state}</td><td class="num">${g.q ? '1 : ' + f2(g.reg.length / g.q) : '—'}</td>
-      <td class="num"><b style="color:var(--accent);font-size:15px">${f2(g.cutoff)}</b></td><td class="num">${f2(mean(scores))}</td><td class="num">${scores.length ? f2(Math.max(...scores)) : '—'}</td>
+      <td class="num"><b style="color:var(--accent);font-size:15px">${g.cutoff == null && off ? '<span class="muted" style="font-size:13px;font-weight:400">không công bố</span>' : f2(g.cutoff)}</b></td>${predTd(g.qCut == null ? '—' : f2(g.qCut), 't2')}<td class="num">${f2(mean(scores))}</td><td class="num">${scores.length ? f2(Math.max(...scores)) : '—'}</td>
       <td><a href="#" data-list="${g.i}">Danh sách</a></td></tr>`;
     if (openNg.has(g.i)) {
       const subs = [...groupBy(g.reg, s => s.major)].sort((a, b) => b[1].length - a[1].length);
       for (const [m, arr] of subs) {
         const a = arr.filter(s => s.adm), e = arr.filter(s => !s.why);
         body += `<tr class="sub"><td>${esc(majorName(m))}</td><td class="num muted">—</td><td class="num">${fi(arr.length)}</td><td class="num">${fi(e.length)}</td><td class="num"><b>${fi(a.length)}</b> <span class="muted">(${pct(a.length, arr.length)})</span></td><td></td>
-          <td class="num t2" title="Điểm thấp nhất trúng tuyển của chuyên ngành">${a.length ? f2(Math.min(...a.map(s => s.score))) : '—'}</td><td class="num">${f2(mean(a.map(s => s.score)))}</td><td class="num">${a.length ? f2(Math.max(...a.map(s => s.score))) : '—'}</td><td></td></tr>`;
+          <td class="num t2" title="Điểm thấp nhất trúng tuyển của chuyên ngành">${a.length ? f2(Math.min(...a.map(s => s.score))) : '—'}</td>${predTd('')}<td class="num">${f2(mean(a.map(s => s.score)))}</td><td class="num">${a.length ? f2(Math.max(...a.map(s => s.score))) : '—'}</td><td></td></tr>`;
       }
     }
   }
-  body += `<tr><td><b>Tổng</b></td><td class="num"><b>${fi(totQ)}</b></td><td class="num"><b>${fi(S.length)}</b></td><td class="num"><b>${fi(totElig)}</b></td><td class="num"><b>${fi(totAdm)}</b></td><td class="num">1 : ${f2(S.length / (totQ || 1))}</td><td colspan="4"></td></tr>`;
+  body += `<tr><td><b>Tổng</b></td><td class="num"><b>${fi(totQ)}</b></td><td class="num"><b>${fi(S.length)}</b></td><td class="num"><b>${fi(totElig)}</b></td><td class="num"><b>${fi(totAdm)}</b></td><td class="num">1 : ${f2(S.length / (totQ || 1))}</td><td colspan="${off ? 5 : 4}"></td></tr>`;
   const t = $('#admTable');
-  t.innerHTML = `<thead><tr>${head.map((h, i) => `<th class="${i && i < 9 ? 'num' : ''}">${h}</th>`).join('')}</tr></thead><tbody>${body}</tbody>`;
+  t.innerHTML = `<thead><tr>${head.map((h, i) => `<th class="${i && i < head.length - 1 ? 'num' : ''}">${h}</th>`).join('')}</tr></thead><tbody>${body}</tbody>`;
   t.querySelectorAll('tr[data-ng]').forEach(tr => tr.onclick = e => {
     const i = +tr.dataset.ng;
     if (e.target.dataset.list != null) { e.preventDefault(); gotoRanking({ rkNganh: i }); return; }
@@ -1069,10 +1096,10 @@ function renderAdmit() {
 
   // Biểu đồ điểm chuẩn
   const withCut = NG.filter(g => g.cutoff != null).sort((a, b) => b.cutoff - a.cutoff);
-  $('#admCutChart').innerHTML = `<div class="hbars">${withCut.map(g => `<div class="hbar" data-tip="<b>${esc(g.name)}</b><br>Điểm chuẩn dự kiến ${f2(g.cutoff)}<br>${fi(g.adm.length)}/${fi(g.q)} chỉ tiêu"><span class="nm">${esc(g.name)}</span><span class="tr"><span class="fl" style="width:${10 * g.cutoff}%"></span></span><span class="v"><b>${f2(g.cutoff)}</b></span></div>`).join('')}</div>` +
-    (NG.length > withCut.length ? `<p class="muted" style="font-size:12px;margin:8px 0 0">Không có thí sinh đủ điều kiện: ${NG.filter(g => g.cutoff == null).map(g => esc(g.name)).join(', ')}</p>` : '');
+  $('#admCutChart').innerHTML = `<div class="hbars">${withCut.map(g => `<div class="hbar" data-tip="<b>${esc(g.name)}</b><br>Điểm chuẩn ${cutWord()} ${f2(g.cutoff)}${off && g.qCut != null ? `<br>Dự đoán theo chỉ tiêu ${f2(g.qCut)}` : ''}<br>${fi(g.adm.length)} trúng tuyển / ${fi(g.q)} chỉ tiêu"><span class="nm">${esc(g.name)}</span><span class="tr"><span class="fl" style="width:${10 * g.cutoff}%"></span></span><span class="v"><b>${f2(g.cutoff)}</b></span></div>`).join('')}</div>` +
+    (NG.length > withCut.length ? `<p class="muted" style="font-size:12px;margin:8px 0 0">${off ? 'Không công bố điểm chuẩn' : 'Không có thí sinh đủ điều kiện'}: ${NG.filter(g => g.cutoff == null).map(g => esc(g.name)).join(', ')}</p>` : '');
   const maxQ = Math.max(...NG.map(g => Math.max(g.q, g.adm.length)));
-  $('#admFillChart').innerHTML = `<div class="legend"><span><i style="background:var(--s1)"></i>Trúng tuyển dự kiến</span><span><i style="background:var(--surface-2);border:1px solid var(--border)"></i>Chỉ tiêu</span></div><div class="hbars">${NG.slice().sort((a, b) => b.q - a.q).map(g => `
+  $('#admFillChart').innerHTML = `<div class="legend"><span><i style="background:var(--s1)"></i>Trúng tuyển${off ? '' : ' dự kiến'}</span><span><i style="background:var(--surface-2);border:1px solid var(--border)"></i>Chỉ tiêu</span></div><div class="hbars">${NG.slice().sort((a, b) => b.q - a.q).map(g => `
     <div class="hbar" data-tip="<b>${esc(g.name)}</b><br>${fi(g.adm.length)} trúng tuyển / ${fi(g.q)} chỉ tiêu<br>${fi(g.elig.length)} đủ điều kiện · ${fi(g.reg.length)} dự thi">
       <span class="nm">${esc(g.name)}</span>
       <span class="tr" style="width:${100 * Math.max(g.q, g.adm.length) / maxQ}%"><span class="fl" style="width:${100 * g.adm.length / Math.max(g.q, g.adm.length, 1)}%"></span></span>
